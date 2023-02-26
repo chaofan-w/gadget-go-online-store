@@ -33,30 +33,42 @@ const ProductsPage = () => {
 
   React.useEffect(() => {
     async function fetchData() {
-      if (productsStatus === "idle") {
-        const response = await fetchProducts();
-        dispatch(response);
+      try {
+        if (productsStatus === "idle") {
+          const response = await fetchProducts();
+          dispatch(response);
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
     async function fetchCateData() {
-      if (categoriesStatus === "idle") {
-        const response = await fetchCategories();
-        dispatch(response);
+      try {
+        if (categoriesStatus === "idle") {
+          const response = await fetchCategories();
+          dispatch(response);
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
     async function fetchBodyData() {
-      if (bodyLocationsStatus === "idle") {
-        const response = await fetchBodyLocations();
-        dispatch(response);
+      try {
+        if (bodyLocationsStatus === "idle") {
+          const response = await fetchBodyLocations();
+          dispatch(response);
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
     const main = async () => {
-      await fetchData();
       await fetchCateData();
       await fetchBodyData();
+      await fetchData();
     };
     main();
-  }, []);
+  }, [dispatch, bodyLocationsStatus, categoriesStatus, productsStatus]);
 
   let content;
   if (productsStatus === "loading") {

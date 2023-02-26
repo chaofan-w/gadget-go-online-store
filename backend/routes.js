@@ -27,11 +27,11 @@ router.get(
   getMidWareGen({ collectionName: "categories" }),
   getAllDocsOfCollection
 );
-router.get(
-  "/api/categories/:id",
-  getMidWareGen({ collectionName: "categories" }),
-  getDocByIdFromCollection
-);
+// router.get(
+//   "/api/categories/:id",
+//   getMidWareGen({ collectionName: "categories" }),
+//   getDocByIdFromCollection
+// );
 // ################## bodyLocations ############################################
 // ################## bodyLocations ############################################
 // ################## bodyLocations ############################################
@@ -42,11 +42,11 @@ router.get(
   getMidWareGen({ collectionName: "body_locations" }),
   getAllDocsOfCollection
 );
-router.get(
-  "/api/bodylocations/:id",
-  getMidWareGen({ collectionName: "body_locations" }),
-  getDocByIdFromCollection
-);
+// router.get(
+//   "/api/bodylocations/:id",
+//   getMidWareGen({ collectionName: "body_locations" }),
+//   getDocByIdFromCollection
+// );
 
 // ################## products ##############################################
 // ################## products ##############################################
