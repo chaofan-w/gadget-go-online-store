@@ -17,6 +17,37 @@ router.get("/", (req, res) => {
   res.send({ status: 200, data: "testing the backend data" });
 });
 
+// ################## categories ##############################################
+// ################## categories ##############################################
+// ################## categories ##############################################
+// ################## categories ##############################################
+
+router.get(
+  "/api/categories",
+  getMidWareGen({ collectionName: "categories" }),
+  getAllDocsOfCollection
+);
+router.get(
+  "/api/categories/:id",
+  getMidWareGen({ collectionName: "categories" }),
+  getDocByIdFromCollection
+);
+// ################## bodyLocations ############################################
+// ################## bodyLocations ############################################
+// ################## bodyLocations ############################################
+// ################## bodyLocations ############################################
+
+router.get(
+  "/api/bodylocations",
+  getMidWareGen({ collectionName: "body_locations" }),
+  getAllDocsOfCollection
+);
+router.get(
+  "/api/bodylocations/:id",
+  getMidWareGen({ collectionName: "body_locations" }),
+  getDocByIdFromCollection
+);
+
 // ################## products ##############################################
 // ################## products ##############################################
 // ################## products ##############################################
