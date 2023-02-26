@@ -92,4 +92,4 @@ const importData = async () => {
   console.log(`${dbName} disconnected!`);
 };
 
-importData();
+// importData();

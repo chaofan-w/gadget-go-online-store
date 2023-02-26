@@ -33,12 +33,12 @@ const getAllDocsOfCollection = async (req, res) => {
       );
     }
 
-    client.close();
+    await client.close();
     console.log(`${dbName} disconnected`);
     return;
   } catch (err) {
     sendResponse(res, 402, null, err.message);
-    client.close();
+    await client.close();
     console.log(`${dbName} disconnected`);
     return;
   }

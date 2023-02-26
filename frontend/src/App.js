@@ -1,7 +1,12 @@
 import React from "react";
+import ProductsPage from "./components/ProductsPage";
 
 function App() {
-  return <div className="App">React Redux</div>;
+  return (
+    <div className="App">
+      <ProductsPage />
+    </div>
+  );
 }
 
 export default App;
