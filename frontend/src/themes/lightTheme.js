@@ -60,7 +60,7 @@ const lighttheme = createTheme({
       fontWeight: 700,
     },
     h6: {
-      fontFamily: "Raleway",
+      fontFamily: "Oswald",
       fontWeight: 700,
     },
   },

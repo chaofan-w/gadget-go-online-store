@@ -2,6 +2,7 @@ const { filterByCategory } = require("./filterCallbacks");
 const {
   getAllDocsOfCollection,
   getDocByIdFromCollection,
+  getDocByCustomerIdFromCollection,
 } = require("./routeCallbacks");
 
 const router = require("express").Router();
@@ -41,6 +42,27 @@ router.get(
   "/api/bodylocations",
   getMidWareGen({ collectionName: "body_locations" }),
   getAllDocsOfCollection
+);
+// router.get(
+//   "/api/bodylocations/:id",
+//   getMidWareGen({ collectionName: "body_locations" }),
+//   getDocByIdFromCollection
+// );
+// ################## carts ############################################
+// ################## carts ############################################
+// ################## carts ############################################
+// ################## carts ############################################
+
+router.get(
+  "/api/carts",
+  getMidWareGen({ collectionName: "carts" }),
+  getAllDocsOfCollection
+);
+
+router.get(
+  "/api/carts/:customerId",
+  getMidWareGen({ collectionName: "carts" }),
+  getDocByCustomerIdFromCollection
 );
 // router.get(
 //   "/api/bodylocations/:id",

@@ -11,8 +11,10 @@ export const fetchProducts = createAsyncThunk(
   async () => {
     const response = await fetch("/api/products");
     const productsData = await response.json();
-    console.log(productsData);
-    return productsData;
+    if (productsData.status === 200) {
+      return productsData;
+    }
+    // console.log(productsData);
   }
 );
 

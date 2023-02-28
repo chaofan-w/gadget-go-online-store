@@ -147,7 +147,7 @@ const reviewGenerator = async (randomCustomerId) => {
     orderedProductIds.forEach(async (productId) => {
       const startDate = new Date(2023, 0, 1);
       const endDate = new Date();
-      const rating = randomNum(0, 5) + 1;
+      const rating = randomNum(0, 4) + 1;
       insertReviews.push({
         customerId: randomCustomerId,
         date: new Date(

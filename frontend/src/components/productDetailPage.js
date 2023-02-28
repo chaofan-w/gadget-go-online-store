@@ -15,13 +15,25 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Stack } from "@mui/material";
+import { BiBody } from "react-icons/bi";
+import { GoTasklist } from "react-icons/go";
+import { BsBagPlusFill, BsFillBagDashFill } from "react-icons/bs";
+import AddToCartBtn from "./AddToCartBtn";
 
 export default function ProductDetailCard({
   product,
   categories,
   body_locations,
+  reviews,
+  carts,
 }) {
   const compareDate = new Date(2023, 1, 10);
+  const [quantity, setQuantity] = React.useState(0);
+
+  const reviewsByProduct = reviews.filter(
+    (review) => review.productId === product._id
+  );
+
   return (
     <Card
       sx={{
@@ -84,7 +96,6 @@ export default function ProductDetailCard({
               width: "100%",
               height: 60,
               overflow: "hidden",
-              // border: "1px solid red",
             }}
           >
             <Typography variant="h6" sx={{ lineHeight: 1 }}>
@@ -93,20 +104,42 @@ export default function ProductDetailCard({
           </Box>
         }
         subheader={
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} sx={{ pt: 1 }}>
             {/* <Typography variant="caption">{`Product Id: ${product._id}`}</Typography> */}
-            <Typography variant="caption">
-              {`Category: ${
+            <Typography
+              variant="caption"
+              fontWeight={"bold"}
+              sx={{
+                color: "secondary.main",
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <GoTasklist />{" "}
+              {
                 categories.find((category) => category._id === product.category)
                   .category
-              }`}
+              }
             </Typography>
-            <Typography variant="caption">
-              {`Body Location: ${
+            <Typography
+              variant="caption"
+              fontWeight={"bold"}
+              sx={{
+                color: "secondary.main",
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <BiBody />{" "}
+              {
                 body_locations.find(
                   (location) => location._id === product.body_location
                 ).body_location
-              }`}
+              }
             </Typography>
           </Stack>
         }
@@ -137,13 +170,54 @@ export default function ProductDetailCard({
           )}
         </Stack>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions
+        disableSpacing
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <Stack direction={"row"} alignItems="center">
+            <FavoriteIcon
+              sx={{
+                color: reviewsByProduct.length > 0 ? "secondary.main" : "grey",
+              }}
+            />
+            {reviewsByProduct.length > 0 && (
+              <React.Fragment>
+                <Typography
+                  variant="body2"
+                  fontWeight={"medium"}
+                  sx={{ mr: 1 }}
+                >
+                  {Math.round(
+                    reviewsByProduct.reduce(
+                      (accum, curr) => accum + curr.rating,
+                      0
+                    ) / reviewsByProduct.length,
+                    1
+                  )}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  fontWeight={"medium"}
+                >{`(${reviewsByProduct.length})`}</Typography>
+              </React.Fragment>
+            )}
+          </Stack>
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+
+        <Box width={100}>
+          <AddToCartBtn
+            carts={carts}
+            quantity={quantity}
+            setQuantity={setQuantity}
+            product={product}
+          />
+        </Box>
       </CardActions>
     </Card>
   );

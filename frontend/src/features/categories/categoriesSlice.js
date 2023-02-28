@@ -11,7 +11,7 @@ export const fetchCategories = createAsyncThunk(
   async () => {
     const response = await fetch("/api/categories");
     const categoriesData = await response.json();
-    console.log(categoriesData);
+    // console.log(categoriesData);
     return categoriesData;
   }
 );

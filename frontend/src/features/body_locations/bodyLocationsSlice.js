@@ -11,7 +11,7 @@ export const fetchBodyLocations = createAsyncThunk(
   async () => {
     const response = await fetch("/api/bodylocations");
     const bodyLocationsData = await response.json();
-    console.log(bodyLocationsData);
+    // console.log(bodyLocationsData);
     return bodyLocationsData;
   }
 );
