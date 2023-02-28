@@ -16,8 +16,13 @@ import MailIcon from "@mui/icons-material/Mail";
 import { ShoppingBag } from "@mui/icons-material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logoImg from "../assets/img/logo/gadget-go-icon-white.png";
-import { useSelector } from "react-redux";
-import { selectAllCarts } from "../features/carts/cartsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { cartCleared, selectAllCarts } from "../features/carts/cartsSlice";
+import {
+  customerLogout,
+  selectLoginCustomer,
+} from "../features/loginCustomer/loginCustomerSlice";
+import { useNavigate, Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -60,11 +65,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const carts = useSelector(selectAllCarts);
-  const cartsStatus = useSelector((state) => state.carts.status);
+  const loginCustomer = useSelector(selectLoginCustomer);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  console.log(carts);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -86,6 +92,7 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  // With Redux, you should be careful to avoid mutating state directly and instead use pure functions called reducers to update the state.
   const getCartAmount = () => {
     let item = 0;
     if (carts && carts.length > 0) {
@@ -113,6 +120,22 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {loginCustomer.length > 0 ? (
+        <MenuItem
+          onClick={async () => {
+            await dispatch(customerLogout());
+            await dispatch(cartCleared());
+            await localStorage.clear();
+            navigate("/");
+          }}
+        >
+          Logout
+        </MenuItem>
+      ) : (
+        <MenuItem>
+          <Link to={"/login"}>Login</Link>
+        </MenuItem>
+      )}
     </Menu>
   );
 

@@ -5,6 +5,7 @@ import categoriesReducer from "../features/categories/categoriesSlice";
 import bodyLocationsReducer from "../features/body_locations/bodyLocationsSlice";
 import reviewsReducer from "../features/reviews/reviewsSlice";
 import cartsReducer from "../features/carts/cartsSlice";
+import loginCustomerReducer from "../features/loginCustomer/loginCustomerSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export const store = configureStore({
     body_locations: bodyLocationsReducer,
     reviews: reviewsReducer,
     carts: cartsReducer,
+    loginCustomer: loginCustomerReducer,
   },
 });

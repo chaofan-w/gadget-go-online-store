@@ -1,4 +1,11 @@
-import React from "react";
+import * as React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Link,
+} from "react-router-dom";
 import PrimarySearchAppBar from "./components/Header";
 import ProductsPage from "./components/ProductsPage";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,8 +29,13 @@ import {
   selectAllReviews,
 } from "./features/reviews/reviewsSlice";
 import { selectAllCarts, fetchCarts } from "./features/carts/cartsSlice";
+import {
+  fetchLoginCustomer,
+  selectLoginCustomer,
+} from "./features/loginCustomer/loginCustomerSlice";
 // const loginUserId = "63f513109c55023b48edaed7";
-const loginUserId = "63f513109c55023b48edaee2";
+// const loginUserId = "63f513109c55023b48edaee2";
+import LoginForm from "./components/LoginForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +52,32 @@ function App() {
   const reviewsStatus = useSelector((state) => state.reviews.status);
   const carts = useSelector(selectAllCarts);
   const cartsStatus = useSelector((state) => state.carts.status);
+  const loginCustomerStatus = useSelector(
+    (state) => state.loginCustomer.status
+  );
+  const loginCustomer = useSelector(selectLoginCustomer);
+
+  React.useEffect(() => {
+    async function fetchLoginCustomerData() {
+      try {
+        const loginCustomerFromLocalStorage = await JSON.parse(
+          localStorage.getItem("loginCustomer")
+        );
+
+        if (loginCustomerFromLocalStorage) {
+          console.log(loginCustomerFromLocalStorage);
+          const response = await fetchLoginCustomer({
+            email: loginCustomerFromLocalStorage["email"],
+            password: loginCustomerFromLocalStorage["password"],
+          });
+          dispatch(response);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchLoginCustomerData();
+  }, []);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -99,10 +137,10 @@ function App() {
   React.useEffect(() => {
     async function fetchCartsData() {
       try {
-        if (cartsStatus === "idle") {
+        if (loginCustomer.length > 0 && cartsStatus === "idle") {
           //### in the carts asyncthunk, within the callback there is
           // the argument of customerId needed. so pass the argument here
-          const response = await fetchCarts(loginUserId);
+          const response = await fetchCarts(loginCustomer[0]._id);
           dispatch(response);
         }
       } catch (err) {
@@ -110,13 +148,16 @@ function App() {
       }
     }
     fetchCartsData();
-  }, [dispatch, cartsStatus]);
+  }, [dispatch, cartsStatus, loginCustomer]);
 
   return (
-    <Box>
+    <Router>
       <PrimarySearchAppBar />
-      <ProductsPage loginUserId={loginUserId} />
-    </Box>
+      <Routes>
+        <Route path="/" element={<ProductsPage />} />
+        <Route path="/login" element={<LoginForm />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -3,6 +3,7 @@ const {
   getAllDocsOfCollection,
   getDocByIdFromCollection,
   getDocByCustomerIdFromCollection,
+  getLoginCustomer,
 } = require("./routeCallbacks");
 
 const router = require("express").Router();
@@ -157,6 +158,12 @@ router.get(
   "/api/customers/country/:categoryValue",
   getMidWareGen({ collectionName: "customers", filterFieldName: "country" }),
   filterByCategory
+);
+
+router.get(
+  "/api/customers/login/:email/:password",
+  getMidWareGen({ collectionName: "customers" }),
+  getLoginCustomer
 );
 
 // ################## reviews ##############################################

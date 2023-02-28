@@ -10,7 +10,7 @@ import { selectAllBodyLocations } from "../features/body_locations/bodyLocations
 import { selectAllReviews } from "../features/reviews/reviewsSlice";
 import { selectAllCarts } from "../features/carts/cartsSlice";
 
-const ProductsPage = ({ loginUserId }) => {
+const ProductsPage = () => {
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
   const categories = useSelector(selectAllCategories);
