@@ -116,9 +116,44 @@ const getDocByCustomerIdFromCollection = async (req, res) => {
     console.log(`${dbName} disconnected`);
   }
 };
+const getLoginCustomer = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  await client.connect();
+  console.log(`${dbName} connected`);
+  const { collectionName } = req.inputArg;
+  const { email, password } = req.params;
+  try {
+    const allDocsOfCollection = await db
+      .collection(collectionName)
+      .find({ email: email, password: password })
+      .toArray();
+
+    if (allDocsOfCollection && allDocsOfCollection.length > 0) {
+      sendResponse(res, 200, allDocsOfCollection, "");
+    } else {
+      sendResponse(
+        res,
+        404,
+        null,
+        "We're sorry, but the login information you provided is incorrect. Please double-check your email and password and try again."
+      );
+    }
+
+    return;
+  } catch (err) {
+    sendResponse(res, 402, null, err.message);
+
+    return;
+  } finally {
+    client.close();
+    console.log(`${dbName} disconnected`);
+  }
+};
 
 module.exports = {
   getAllDocsOfCollection,
   getDocByIdFromCollection,
   getDocByCustomerIdFromCollection,
+  getLoginCustomer,
 };

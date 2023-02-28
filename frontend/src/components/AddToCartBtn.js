@@ -8,9 +8,10 @@ import {
   decrement,
   productAdded,
 } from "../features/carts/cartsSlice";
-
+import { selectLoginCustomer } from "../features/loginCustomer/loginCustomerSlice";
 const AddToCartBtn = ({ product }) => {
   const dispatch = useDispatch();
+  const loginCustomer = useSelector(selectLoginCustomer);
   //  use the useSelector hook to update the quantity, everytime the state updates, the quantity will updates accordingly and re-render in component
   const quantity = useSelector((state) => {
     if (state.carts.carts.length > 0) {
@@ -41,7 +42,12 @@ const AddToCartBtn = ({ product }) => {
           sx={{ width: "100%", height: "100%", p: 0 }}
           disabled={product.numInStock === 0}
           onClick={() => {
-            dispatch(productAdded({ product: product }));
+            //use action creator 'productAdded' to create action Object in dispatch
+            if (loginCustomer.length > 0) {
+              dispatch(productAdded({ product: product }));
+            } else {
+              console.log("please login first");
+            }
           }}
         >
           <Typography variant="caption">
@@ -49,7 +55,7 @@ const AddToCartBtn = ({ product }) => {
           </Typography>
         </Button>
       )}
-      {quantity > 0 && (
+      {quantity > 0 && loginCustomer.length > 0 && (
         <Stack
           direction="row"
           alignItems="center"
@@ -59,6 +65,7 @@ const AddToCartBtn = ({ product }) => {
           <IconButton
             sx={{ color: "secondary.main" }}
             onClick={() => {
+              //use action creator 'decrement' to create action Object in dispatch
               dispatch(decrement({ product: product }));
             }}
           >
@@ -71,6 +78,7 @@ const AddToCartBtn = ({ product }) => {
           <IconButton
             sx={{ color: "secondary.main" }}
             onClick={() => {
+              //directly writeout the dispatch action object
               dispatch({
                 type: "carts/increment",
                 payload: { product: product },
