@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import { ShoppingBag } from "@mui/icons-material";
+import { ShoppingBag, Login, Logout } from "@mui/icons-material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logoImg from "../assets/img/logo/gadget-go-icon-white.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -190,6 +190,43 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      {loginCustomer.length > 0 ? (
+        <MenuItem
+          onClick={async () => {
+            await dispatch(customerLogout());
+            await dispatch(cartCleared());
+            await localStorage.clear();
+            navigate("/");
+          }}
+        >
+          <IconButton
+            size="large"
+            aria-label="logout"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <Logout />
+          </IconButton>
+          <p>Logout</p>
+        </MenuItem>
+      ) : (
+        <Link to={"/login"} style={{ textDecoration: "none" }}>
+          <MenuItem>
+            <IconButton
+              size="large"
+              aria-label="login"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <Login />
+            </IconButton>
+            <p>Login</p>
+            {/* </Link> */}
+          </MenuItem>
+        </Link>
+      )}
     </Menu>
   );
 

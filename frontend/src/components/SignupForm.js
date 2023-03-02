@@ -54,6 +54,21 @@ export default function SignupForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  async function handleNotification({ text, severity }) {
+    await dispatch(
+      notificationDisplayed({
+        notification: {
+          text: text,
+          severity: severity,
+        },
+      })
+    );
+
+    setTimeout(function () {
+      dispatch(notificationClosed());
+    }, 3000);
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -70,26 +85,18 @@ export default function SignupForm() {
         password: password,
       });
 
-      await dispatch(response).then((result) => {
+      await dispatch(response).then(async (result) => {
         if (result.payload.status === 200) {
-          dispatch(
-            notificationDisplayed({
-              notification: {
-                text: result.payload.message,
-                severity: "success",
-              },
-            })
-          );
+          await handleNotification({
+            text: result.payload.message,
+            severity: "success",
+          });
           navigate("/login");
         } else {
-          dispatch(
-            notificationDisplayed({
-              notification: {
-                text: result.payload.message,
-                severity: "error",
-              },
-            })
-          );
+          await handleNotification({
+            text: result.payload.message,
+            severity: "error",
+          });
         }
       });
     }

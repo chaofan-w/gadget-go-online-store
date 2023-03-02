@@ -130,7 +130,12 @@ const getLoginCustomer = async (req, res) => {
       .toArray();
 
     if (allDocsOfCollection && allDocsOfCollection.length > 0) {
-      sendResponse(res, 200, allDocsOfCollection, "");
+      sendResponse(
+        res,
+        200,
+        allDocsOfCollection,
+        `Welcome back, ${allDocsOfCollection[0].firstName} `
+      );
     } else {
       sendResponse(
         res,

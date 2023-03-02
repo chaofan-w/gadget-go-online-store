@@ -9,7 +9,10 @@ import {
   productAdded,
 } from "../features/carts/cartsSlice";
 import { selectLoginCustomer } from "../features/loginCustomer/loginCustomerSlice";
-import { notificationDisplayed } from "../features/notifications/notificationsSlice";
+import {
+  notificationClosed,
+  notificationDisplayed,
+} from "../features/notifications/notificationsSlice";
 const AddToCartBtn = ({ product }) => {
   const dispatch = useDispatch();
   const loginCustomer = useSelector(selectLoginCustomer);
@@ -27,9 +30,9 @@ const AddToCartBtn = ({ product }) => {
     return 0;
   });
 
-  React.useEffect(() => {
-    if (quantity === product.numInStock) {
-      dispatch(
+  const handleNotification = async () => {
+    if (product.numInStock && quantity === product.numInStock) {
+      await dispatch(
         notificationDisplayed({
           notification: {
             text: "you have reached the number of stock for this product",
@@ -37,8 +40,25 @@ const AddToCartBtn = ({ product }) => {
           },
         })
       );
+
+      setTimeout(function () {
+        dispatch(notificationClosed());
+      }, 3000);
     }
-  }, [quantity]);
+  };
+
+  // React.useEffect(() => {
+  //   if (product.numInStock && quantity === product.numInStock) {
+  //     dispatch(
+  //       notificationDisplayed({
+  //         notification: {
+  //           text: "you have reached the number of stock for this product",
+  //           severity: "warning",
+  //         },
+  //       })
+  //     );
+  //   }
+  // }, [quantity]);
 
   return (
     <Box
@@ -64,7 +84,7 @@ const AddToCartBtn = ({ product }) => {
               await dispatch(
                 notificationDisplayed({
                   notification: {
-                    text: "please login first",
+                    text: "Please login to add items to cart.",
                     severity: "warning",
                   },
                 })
@@ -99,12 +119,27 @@ const AddToCartBtn = ({ product }) => {
 
           <IconButton
             sx={{ color: "secondary.main" }}
-            onClick={() => {
+            // disabled={quantity === product.numInStock}
+            onClick={async () => {
               //directly writeout the dispatch action object
-              dispatch({
+              await dispatch({
                 type: "carts/increment",
                 payload: { product: product },
               });
+              // always use pure function to handle the state change
+              // directly compare quantity and numInStock like below example won't trigger everytime the quantity changes
+              // if (product.numInStock && quantity === product.numInStock) {
+              //   dispatch(
+              //     notificationDisplayed({
+              //       notification: {
+              //         text: "you have reached the number of stock for this product",
+              //         severity: "warning",
+              //       },
+              //     })
+              //   );
+              // }
+              await handleNotification();
+              // setTimeout(handleCloseNotification(), 6000);
             }}
           >
             <AddBox />
