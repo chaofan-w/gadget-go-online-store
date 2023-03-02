@@ -38,7 +38,7 @@ const lighttheme = createTheme({
       fontFamily: "Lato",
     },
     body2: {
-      fontFamily: "Open Sans",
+      fontFamily: "Roboto",
     },
     body1: {
       fontFamily: "Lato",
@@ -48,7 +48,7 @@ const lighttheme = createTheme({
       fontWeight: 600,
     },
     subtitle1: {
-      fontFamily: "Raleway",
+      fontFamily: "Oswald",
       fontWeight: 600,
     },
     h4: {
