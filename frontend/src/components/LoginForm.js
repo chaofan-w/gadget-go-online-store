@@ -20,6 +20,10 @@ import {
   selectLoginCustomer,
 } from "../features/loginCustomer/loginCustomerSlice";
 import logoImg from "../assets/img/logo/gadget-go-icon.png";
+import {
+  notificationDisplayed,
+  notificationClosed,
+} from "../features/notifications/notificationsSlice";
 
 function Copyright(props) {
   return (
@@ -39,6 +43,21 @@ export default function LoginForm() {
   const dispatch = useDispatch();
   const loginCustomer = useSelector(selectLoginCustomer);
 
+  async function handleNotification({ text, severity }) {
+    await dispatch(
+      notificationDisplayed({
+        notification: {
+          text: text,
+          severity: severity,
+        },
+      })
+    );
+
+    setTimeout(function () {
+      dispatch(notificationClosed());
+    }, 3000);
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,7 +69,20 @@ export default function LoginForm() {
         email: email,
         password: password,
       });
-      await dispatch(response);
+      await dispatch(response).then(async (result) => {
+        if (result.payload.status === 200) {
+          await handleNotification({
+            text: result.payload.message,
+            severity: "success",
+          });
+          navigate("/");
+        } else {
+          await handleNotification({
+            text: result.payload.message,
+            severity: "error",
+          });
+        }
+      });
     }
   };
 
