@@ -4,6 +4,7 @@ const {
   getDocByIdFromCollection,
   getDocByCustomerIdFromCollection,
   getLoginCustomer,
+  postNewCustomer,
 } = require("./routeCallbacks");
 
 const router = require("express").Router();
@@ -165,6 +166,8 @@ router.get(
   getMidWareGen({ collectionName: "customers" }),
   getLoginCustomer
 );
+
+router.post("/api/customers", postNewCustomer);
 
 // ################## reviews ##############################################
 // ################## reviews ##############################################

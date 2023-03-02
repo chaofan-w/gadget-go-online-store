@@ -14,10 +14,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
+import { StyledTextField, StyledFormControlLabel } from "./SignupForm";
 import {
   fetchLoginCustomer,
   selectLoginCustomer,
 } from "../features/loginCustomer/loginCustomerSlice";
+import logoImg from "../assets/img/logo/gadget-go-icon.png";
 
 function Copyright(props) {
   return (
@@ -89,9 +91,11 @@ export default function LoginForm() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img
+            src={logoImg}
+            alt="Gadget-go logo"
+            style={{ width: 40, height: 35, marginBottom: 10 }}
+          />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -101,7 +105,7 @@ export default function LoginForm() {
             onSubmit={handleSubmit}
             sx={{ mt: 1 }}
           >
-            <TextField
+            <StyledTextField
               margin="normal"
               required
               fullWidth
@@ -111,7 +115,7 @@ export default function LoginForm() {
               autoComplete="email"
               autoFocus
             />
-            <TextField
+            <StyledTextField
               margin="normal"
               required
               fullWidth
@@ -121,7 +125,7 @@ export default function LoginForm() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            <StyledFormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label={<Typography variant="subtitle2">Remember Me</Typography>}
             />
@@ -140,7 +144,7 @@ export default function LoginForm() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

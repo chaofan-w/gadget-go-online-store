@@ -36,6 +36,7 @@ import {
 // const loginUserId = "63f513109c55023b48edaed7";
 // const loginUserId = "63f513109c55023b48edaee2";
 import LoginForm from "./components/LoginForm";
+import SignupForm from "./components/SignupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -156,6 +157,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ProductsPage />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignupForm />} />
       </Routes>
     </Router>
   );

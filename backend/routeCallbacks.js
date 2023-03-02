@@ -151,9 +151,71 @@ const getLoginCustomer = async (req, res) => {
   }
 };
 
+const postNewCustomer = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  await client.connect();
+  console.log(`${dbName} connected`);
+
+  try {
+    const { firstName, lastName, email, password } = req.body;
+    const allDocsOfCollection = await db
+      .collection("customers")
+      .find({ email: email })
+      .toArray();
+
+    if (allDocsOfCollection.length > 0) {
+      sendResponse(
+        res,
+        400,
+        null,
+        `The email: ${email} is already exists, please login use the email or change another email for sign up`
+      );
+    } else {
+      const addNewCustomer = await db.collection("customers").insertOne({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        address: "",
+        city: "",
+        state: "",
+        country: "",
+        phone: "",
+      });
+      // when a new customer created, a new empty cart can be created at the same time, use the ObjectId of returned by 'insertedId', need to convert it toString first, then use it as the customerId in carts document
+      if (addNewCustomer.acknowledged) {
+        const createNewCart = await db.collection("carts").insertOne({
+          customerId: addNewCustomer.insertedId.toString(),
+          products: [],
+        });
+        sendResponse(
+          res,
+          200,
+          addNewCustomer.insertedId,
+          "Your account is registered successfully, you can login now"
+        );
+      } else {
+        sendResponse(
+          res,
+          400,
+          null,
+          "Sorry, server error ocurred, please try again later."
+        );
+      }
+    }
+  } catch (err) {
+    sendResponse(res, 402, null, err.message);
+  } finally {
+    client.close();
+    console.log(`${dbName} disconnected`);
+  }
+};
+
 module.exports = {
   getAllDocsOfCollection,
   getDocByIdFromCollection,
   getDocByCustomerIdFromCollection,
   getLoginCustomer,
+  postNewCustomer,
 };
