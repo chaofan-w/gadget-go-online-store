@@ -9,7 +9,17 @@ import {
 import PrimarySearchAppBar from "./components/Header";
 import ProductsPage from "./components/ProductsPage";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Stack, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Paper,
+  Typography,
+  Snackbar,
+  Alert,
+  IconButton,
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
+import MuiAlert from "@mui/material/Alert";
 import {
   selectAllProducts,
   fetchProducts,
@@ -33,8 +43,13 @@ import {
   fetchLoginCustomer,
   selectLoginCustomer,
 } from "./features/loginCustomer/loginCustomerSlice";
-// const loginUserId = "63f513109c55023b48edaed7";
-// const loginUserId = "63f513109c55023b48edaee2";
+
+import {
+  selectNotifications,
+  notificationClosed,
+  notificationDisplayed,
+} from "./features/notifications/notificationsSlice";
+
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 
@@ -57,6 +72,25 @@ function App() {
     (state) => state.loginCustomer.status
   );
   const loginCustomer = useSelector(selectLoginCustomer);
+
+  // const [displayAlert, setDisplayAlert] = React.useState(false);
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return (
+      <MuiAlert
+        elevation={6}
+        ref={ref}
+        variant="filled"
+        sx={{ zIndex: 10, width: "50%", minWidth: 360 }}
+        {...props}
+      />
+    );
+  });
+  const notification = useSelector(selectNotifications);
+  const notificationsStatus = useSelector(
+    (state) => state.notifications.status
+  );
+
+  // console.log(notification);
 
   React.useEffect(() => {
     async function fetchLoginCustomerData() {
@@ -159,6 +193,56 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
       </Routes>
+      {notification && notification.text && (
+        <Snackbar
+          open={notification.text.length > 0}
+          // autoHideDuration={3000}
+          // onClose={(e, reason) => {
+          //   if (reason === "clickaway") {
+          //     return;
+          //   }
+          //   dispatch(notificationClosed);
+          // }}
+          sx={{
+            width: "50%",
+            color: (theme) => theme.palette.white,
+            zIndex: 200,
+          }}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          action={
+            <IconButton
+              size="small"
+              color="inherit"
+              onClick={() => {
+                const response = dispatch(notificationClosed);
+                return response;
+              }}
+            >
+              <Close fontSize="small" />
+            </IconButton>
+          }
+        >
+          <Alert
+            variant="filled"
+            severity={notification.severity}
+            onClose={(e, reason) => {
+              if (reason === "clickaway") {
+                return;
+              }
+              dispatch(notificationClosed());
+            }}
+            sx={{
+              width: "100%",
+              color: (theme) => theme.palette.white,
+            }}
+          >
+            {notification.text}
+          </Alert>
+        </Snackbar>
+      )}
     </Router>
   );
 }

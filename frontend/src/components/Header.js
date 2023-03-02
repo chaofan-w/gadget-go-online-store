@@ -133,7 +133,9 @@ export default function PrimarySearchAppBar() {
         </MenuItem>
       ) : (
         <MenuItem>
-          <Link to={"/login"}>Login</Link>
+          <Link to={"/login"} style={{ textDecoration: "none" }}>
+            Login
+          </Link>
         </MenuItem>
       )}
     </Menu>
@@ -204,16 +206,18 @@ export default function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <IconButton disableRipple>
-            <img
-              src={logoImg}
-              alt="Gadget Go Logo"
-              style={{ width: 35, height: 30 }}
-            />
-            <Typography variant="h6" sx={{ ml: 1, color: "white" }}>
-              Gadget Go!
-            </Typography>
-          </IconButton>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <IconButton disableRipple>
+              <img
+                src={logoImg}
+                alt="Gadget Go Logo"
+                style={{ width: 35, height: 30 }}
+              />
+              <Typography variant="h6" sx={{ ml: 1, color: "white" }}>
+                Gadget Go!
+              </Typography>
+            </IconButton>
+          </Link>
 
           <Search>
             <SearchIconWrapper>

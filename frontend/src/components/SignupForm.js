@@ -26,6 +26,10 @@ import {
   selectLoginCustomer,
 } from "../features/loginCustomer/loginCustomerSlice";
 import styled from "styled-components";
+import {
+  notificationClosed,
+  notificationDisplayed,
+} from "../features/notifications/notificationsSlice";
 
 const formTheme = createTheme({
   typography: {
@@ -68,10 +72,24 @@ export default function SignupForm() {
 
       await dispatch(response).then((result) => {
         if (result.payload.status === 200) {
-          console.log(result.payload.message);
+          dispatch(
+            notificationDisplayed({
+              notification: {
+                text: result.payload.message,
+                severity: "success",
+              },
+            })
+          );
           navigate("/login");
         } else {
-          console.log(result.payload.message);
+          dispatch(
+            notificationDisplayed({
+              notification: {
+                text: result.payload.message,
+                severity: "error",
+              },
+            })
+          );
         }
       });
     }
