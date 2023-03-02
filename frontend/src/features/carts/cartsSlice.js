@@ -34,6 +34,9 @@ const cartsSlice = createSlice({
       );
       if (updatedProduct && updatedProduct.quantity < product.numInStock) {
         updatedProduct.quantity++;
+        state.error = "";
+      } else {
+        state.error = "you have reached our number of stock for this product";
       }
     },
     decrement: (state, action) => {
@@ -60,6 +63,9 @@ const cartsSlice = createSlice({
     cartCleared: (state, action) => {
       state.carts = [];
     },
+    errorCleared: (state, action) => {
+      state.error = null;
+    },
   },
   extraReducers(builder) {
     builder
@@ -78,7 +84,7 @@ const cartsSlice = createSlice({
   },
 });
 
-export const { increment, decrement, productAdded, cartCleared } =
+export const { increment, decrement, productAdded, cartCleared, errorCleared } =
   cartsSlice.actions;
 export default cartsSlice.reducer;
 export const selectAllCarts = (state) => state.carts.carts;

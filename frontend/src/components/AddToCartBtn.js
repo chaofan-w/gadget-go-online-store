@@ -9,10 +9,12 @@ import {
   productAdded,
 } from "../features/carts/cartsSlice";
 import { selectLoginCustomer } from "../features/loginCustomer/loginCustomerSlice";
+import { notificationDisplayed } from "../features/notifications/notificationsSlice";
 const AddToCartBtn = ({ product }) => {
   const dispatch = useDispatch();
   const loginCustomer = useSelector(selectLoginCustomer);
   //  use the useSelector hook to update the quantity, everytime the state updates, the quantity will updates accordingly and re-render in component
+  const error = useSelector((state) => state.carts.error);
   const quantity = useSelector((state) => {
     if (state.carts.carts.length > 0) {
       const itemInCart = state.carts.carts[0].products.find(
@@ -24,6 +26,19 @@ const AddToCartBtn = ({ product }) => {
     }
     return 0;
   });
+
+  React.useEffect(() => {
+    if (quantity === product.numInStock) {
+      dispatch(
+        notificationDisplayed({
+          notification: {
+            text: "you have reached the number of stock for this product",
+            severity: "warning",
+          },
+        })
+      );
+    }
+  }, [quantity]);
 
   return (
     <Box
@@ -41,12 +56,19 @@ const AddToCartBtn = ({ product }) => {
           variant="contained"
           sx={{ width: "100%", height: "100%", p: 0 }}
           disabled={product.numInStock === 0}
-          onClick={() => {
+          onClick={async () => {
             //use action creator 'productAdded' to create action Object in dispatch
             if (loginCustomer.length > 0) {
-              dispatch(productAdded({ product: product }));
+              await dispatch(productAdded({ product: product }));
             } else {
-              console.log("please login first");
+              await dispatch(
+                notificationDisplayed({
+                  notification: {
+                    text: "please login first",
+                    severity: "warning",
+                  },
+                })
+              );
             }
           }}
         >
