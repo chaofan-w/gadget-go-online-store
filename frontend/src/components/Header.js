@@ -171,6 +171,7 @@ export default function PrimarySearchAppBar() {
           size="large"
           aria-label="show num of items in carts"
           color="inherit"
+          onClick={() => navigate("/checkout")}
         >
           <Badge badgeContent={getCartAmount()} color="error">
             <ShoppingBag />
@@ -280,6 +281,7 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show num of items in cart"
               color="inherit"
+              onClick={() => navigate("/checkout")}
             >
               <Badge badgeContent={getCartAmount()} color="error">
                 <ShoppingBag />
