@@ -72,11 +72,17 @@ const CartSummary = () => {
     }, 3000);
   }
 
+  React.useEffect(() => {
+    setTotal(
+      cart[0].products.reduce(
+        (accum, curr) => accum + curr.price * curr.quantity,
+        0
+      ) * discount
+    );
+  }, [discount, cart]);
+
   return (
-    <Grid
-      container
-      sx={{ border: "1px solid green", width: "100%", minWidth: 360 }}
-    >
+    <Grid container sx={{ width: "100%", minWidth: 360 }}>
       <Grid item xs={12} md={8} sx={{ height: "auto" }}>
         {productsInCart &&
           productsInCart.map((product) => (
@@ -238,6 +244,7 @@ const CartSummary = () => {
           justifyContent={"flex-start"}
           spacing={2}
           sx={{
+            height: "50vh",
             boxShadow:
               "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
             borderRadius: 1,
@@ -258,23 +265,25 @@ const CartSummary = () => {
           >
             <Typography variant="body2">Total:</Typography>
             <Typography variant="body2">
-              {`$ ${(
+              {`$${total.toFixed(2)}`}
+              {/* {`$ ${(
                 cart[0].products.reduce(
                   (accum, curr) => accum + curr.price * curr.quantity,
                   0
                 ) * discount
-              ).toFixed(2)}`}
+              ).toFixed(2)}`} */}
               {discount < 1 && (
                 <Typography
                   variant="caption"
                   sx={{ textDecoration: "line-through", color: "red", ml: 1 }}
                 >
-                  {cart[0].products
+                  {/* {cart[0].products
                     .reduce(
                       (accum, curr) => accum + curr.price * curr.quantity,
                       0
                     )
-                    .toFixed(2)}
+                    .toFixed(2)} */}
+                  {`$${(total / discount).toFixed(2)}`}
                 </Typography>
               )}
             </Typography>
@@ -289,6 +298,7 @@ const CartSummary = () => {
           <Button
             fullWidth
             variant="outlined"
+            disabled={!voucherCode}
             onClick={async (e) => {
               e.preventDefault();
               if (discount < 1) {
@@ -299,7 +309,7 @@ const CartSummary = () => {
                 setVoucherCode("");
                 return;
               }
-              if (voucherCode.length > 0) {
+              if (voucherCode) {
                 const applicableVoucher = voucherCodeList.find(
                   (voucher) => voucher.code === voucherCode.toUpperCase()
                 );
@@ -317,6 +327,47 @@ const CartSummary = () => {
           >
             Apply Voucher
           </Button>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{
+              width: "100%",
+              height: "fit-content",
+              py: 1,
+              borderBottom: `1px solid lightgrey`,
+              borderTop: `1px solid lightgrey`,
+            }}
+          >
+            <Typography variant="body2">Tax:</Typography>
+            <Stack
+              direction="column"
+              sx={{
+                width: "60%",
+              }}
+            >
+              <Typography variant="body2">{`QST(9.975%): $${(
+                total * 0.0975
+              ).toFixed(2)}`}</Typography>
+              <Typography variant="body2">{`GST(5%): $${(total * 0.05).toFixed(
+                2
+              )}`}</Typography>
+            </Stack>
+          </Stack>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{
+              width: "100%",
+              height: 40,
+              py: 1,
+              borderBottom: `1px solid lightgrey`,
+            }}
+          >
+            <Typography variant="body2">Grand Total:</Typography>
+            <Typography variant="subtitle1" fontWeight={"medium"}>{`$${(
+              total * 1.14975
+            ).toFixed(2)}`}</Typography>
+          </Stack>
         </Stack>
       </Grid>
     </Grid>
