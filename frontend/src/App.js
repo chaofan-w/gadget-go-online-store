@@ -50,8 +50,16 @@ import {
   notificationDisplayed,
 } from "./features/notifications/notificationsSlice";
 
+import CheckoutMain from "./pages/checkout/CheckoutNavBar";
+import CartSummary from "./pages/checkout/CartSummary";
+import Checkout from "./pages/checkout/Checkout";
+import Payment from "./pages/checkout/Payment";
+import OrderReview from "./pages/checkout/Review";
+import Confirmation from "./pages/checkout/Confirmation";
+
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
+import CheckoutNavBar from "./pages/checkout/CheckoutNavBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -192,17 +200,17 @@ function App() {
         <Route path="/" element={<ProductsPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/checkout" element={<CheckoutNavBar />}>
+          <Route path="summary" element={<CartSummary />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="payment" element={<Payment />} />
+          <Route path="orderreview" element={<OrderReview />} />
+          <Route path="confirmation" element={<Confirmation />} />
+        </Route>
       </Routes>
       {notification && notification.text && (
         <Snackbar
           open={notification.text.length > 0}
-          // autoHideDuration={3000}
-          // onClose={(e, reason) => {
-          //   if (reason === "clickaway") {
-          //     return;
-          //   }
-          //   dispatch(notificationClosed);
-          // }}
           sx={{
             width: "50%",
             color: (theme) => theme.palette.white,

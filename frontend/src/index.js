@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import lighttheme from "./themes/lightTheme";
 import darktheme from "./themes/darkTheme";
+import GlobalStyles from "./GlobalStyle";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
