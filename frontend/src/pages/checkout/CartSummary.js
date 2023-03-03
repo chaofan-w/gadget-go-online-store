@@ -12,6 +12,7 @@ import {
 } from "../../features/notifications/notificationsSlice";
 import { selectAllProducts } from "../../features/products/productsSlice";
 import { selectAllCarts, fetchCarts } from "../../features/carts/cartsSlice";
+
 import {
   Box,
   Typography,
@@ -24,15 +25,28 @@ import {
   CardActions,
   Grid,
   Paper,
+  Divider,
+  TextField,
+  Button,
 } from "@mui/material";
 import { BiBody } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Close } from "@mui/icons-material";
 import AddToCartBtn from "../../components/AddToCartBtn";
+const voucherCodeList = [
+  { code: "SPRING15", discount: 0.85 },
+  { code: "SUMMER25", discount: 0.75 },
+  { code: "FALL30", discount: 0.7 },
+  { code: "BLACKFRIDAY40", discount: 0.6 },
+];
 
 const CartSummary = () => {
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = React.useState(0);
+  const [total, setTotal] = React.useState(0);
+  const [voucherCode, setVoucherCode] = React.useState("");
+  const [discount, setDiscount] = React.useState(1);
   const loginCustomer = useSelector(selectLoginCustomer);
   const cart = useSelector(selectAllCarts);
   const allCartItemIds = cart[0].products.reduce(
@@ -43,153 +57,269 @@ const CartSummary = () => {
   const productsInCart = products.filter((item) =>
     allCartItemIds.includes(item._id)
   );
+  async function handleNotification({ text, severity }) {
+    await dispatch(
+      notificationDisplayed({
+        notification: {
+          text: text,
+          severity: severity,
+        },
+      })
+    );
+
+    setTimeout(function () {
+      dispatch(notificationClosed());
+    }, 3000);
+  }
+
   return (
-    <Box sx={{ height: "auto" }}>
-      {productsInCart &&
-        productsInCart.map((product) => (
-          <Grid
-            container
-            key={`cartItem-${product._id}`}
-            sx={{
-              height: "fit-content",
-              width: "100%",
-              minWidth: 300,
-              p: 0,
-              boxShadow:
-                "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-              borderRadius: 2,
-              mb: 3,
-              position: "relative",
-            }}
-          >
+    <Grid
+      container
+      sx={{ border: "1px solid green", width: "100%", minWidth: 360 }}
+    >
+      <Grid item xs={12} md={8} sx={{ height: "auto" }}>
+        {productsInCart &&
+          productsInCart.map((product) => (
             <Grid
-              item
-              xs={3}
-              sm={3}
-              md={2}
+              container
+              key={`cartItem-${product._id}`}
               sx={{
-                height: "100%",
-                // border: "1px solid green",
+                height: "fit-content",
+                width: "100%",
+                minWidth: 300,
                 p: 0,
-                minWidth: 120,
+                boxShadow:
+                  "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                borderRadius: 2,
+                mb: 3,
+                position: "relative",
               }}
             >
-              <Box
+              <Grid
+                item
+                xs={3}
+                sm={3}
+                md={2}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  height: "100%",
-                }}
-              >
-                <img
-                  src={product.imageSrc}
-                  alt={`Id: ${product._id}`}
-                  style={{ width: 100, height: 100 }}
-                />
-              </Box>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              sm={4}
-              md={3}
-              sx={{
-                height: 100,
-                // border: "1px solid green",
-                p: 0,
-              }}
-            >
-              <Typography
-                variant="body1"
-                sx={{
-                  lineHeight: 1.5,
-                  display: "flex",
-                  alignItems: "center",
                   height: "100%",
                   // border: "1px solid green",
+                  p: 0,
+                  minWidth: 120,
                 }}
               >
-                {product.name}
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-              sm={4}
-              md={3}
-              sx={{
-                height: 100,
-                // border: "1px solid green",
-                p: 0,
-              }}
-            >
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent={"space-between"}
-                sx={{ height: "100%" }}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    height: "100%",
+                  }}
+                >
+                  <img
+                    src={product.imageSrc}
+                    alt={`Id: ${product._id}`}
+                    style={{ width: 100, height: 100 }}
+                  />
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sm={4}
+                md={3}
+                sx={{
+                  height: 100,
+                  // border: "1px solid green",
+                  p: 0,
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    lineHeight: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    height: "100%",
+                    // border: "1px solid green",
+                  }}
+                >
+                  {product.name}
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={8}
+                sm={4}
+                md={3}
+                sx={{
+                  height: 100,
+                  // border: "1px solid green",
+                  p: 0,
+                }}
               >
                 <Stack
-                  direction="column"
-                  alignItems="flex-start"
-                  justifyContent="flex-start"
+                  direction="row"
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                  sx={{ height: "100%" }}
                 >
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    sx={{ ml: 2 }}
+                  <Stack
+                    direction="column"
+                    alignItems="flex-start"
+                    justifyContent="flex-start"
                   >
-                    {`$ ${
-                      product.promotionPrice
-                        ? product.promotionPrice
-                        : product.price
-                    } x ${
-                      cart[0].products.find(
-                        (item) => item.productId === product._id
-                      ).quantity
-                    }
+                    <Typography
+                      variant="subtitle2"
+                      color="text.secondary"
+                      sx={{ ml: 2 }}
+                    >
+                      {`$ ${
+                        product.promotionPrice
+                          ? product.promotionPrice
+                          : product.price
+                      } x ${
+                        cart[0].products.find(
+                          (item) => item.productId === product._id
+                        ).quantity
+                      }
                 `}
-                  </Typography>
-                  <Box sx={{ width: "50%" }}>
-                    <AddToCartBtn
-                      carts={cart}
-                      quantity={quantity}
-                      setQuantity={setQuantity}
-                      product={product}
-                    />
-                  </Box>
+                    </Typography>
+                    <Box sx={{ width: "50%" }}>
+                      <AddToCartBtn
+                        carts={cart}
+                        quantity={quantity}
+                        setQuantity={setQuantity}
+                        product={product}
+                      />
+                    </Box>
+                  </Stack>
+                  <Stack direction={"column"}>
+                    <Typography variant="caption" sx={{ mr: 2 }}>
+                      subtotal
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      {`$ ${
+                        (product.promotionPrice
+                          ? product.promotionPrice
+                          : product.price) *
+                        cart[0].products.find(
+                          (item) => item.productId === product._id
+                        ).quantity
+                      }`}
+                    </Typography>
+                  </Stack>
                 </Stack>
-                <Stack direction={"column"}>
-                  <Typography variant="caption" sx={{ mr: 2 }}>
-                    subtotal
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    {`$ ${
-                      (product.promotionPrice
-                        ? product.promotionPrice
-                        : product.price) *
-                      cart[0].products.find(
-                        (item) => item.productId === product._id
-                      ).quantity
-                    }`}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </Grid>
+              </Grid>
 
-            <IconButton
-              sx={{
-                position: "absolute",
-                top: 2,
-                right: 2,
-              }}
-            >
-              <Close />
-            </IconButton>
-          </Grid>
-        ))}
-    </Box>
+              <IconButton
+                sx={{
+                  position: "absolute",
+                  top: 2,
+                  right: 2,
+                }}
+              >
+                <Close />
+              </IconButton>
+            </Grid>
+          ))}
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        md={4}
+        sx={{
+          height: "fit-content",
+          px: { xs: 0, md: 2 },
+        }}
+      >
+        <Stack
+          direction="column"
+          alignItems={"flex-start"}
+          justifyContent={"flex-start"}
+          spacing={2}
+          sx={{
+            boxShadow:
+              "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+            borderRadius: 1,
+            mb: 3,
+            // border: "1px solid red",
+            px: 2,
+          }}
+        >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{
+              width: "100%",
+              height: 40,
+              py: 1,
+              borderBottom: `1px solid lightgrey`,
+            }}
+          >
+            <Typography variant="body2">Total:</Typography>
+            <Typography variant="body2">
+              {`$ ${(
+                cart[0].products.reduce(
+                  (accum, curr) => accum + curr.price * curr.quantity,
+                  0
+                ) * discount
+              ).toFixed(2)}`}
+              {discount < 1 && (
+                <Typography
+                  variant="caption"
+                  sx={{ textDecoration: "line-through", color: "red", ml: 1 }}
+                >
+                  {cart[0].products
+                    .reduce(
+                      (accum, curr) => accum + curr.price * curr.quantity,
+                      0
+                    )
+                    .toFixed(2)}
+                </Typography>
+              )}
+            </Typography>
+          </Stack>
+          <TextField
+            size="small"
+            label={<Typography variant="body2">Voucher</Typography>}
+            sx={{ width: "100%" }}
+            value={voucherCode}
+            onChange={(e) => setVoucherCode(e.currentTarget.value)}
+          />
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={async (e) => {
+              e.preventDefault();
+              if (discount < 1) {
+                await handleNotification({
+                  text: "Voucher can only be used once per order",
+                  severity: "warning",
+                });
+                setVoucherCode("");
+                return;
+              }
+              if (voucherCode.length > 0) {
+                const applicableVoucher = voucherCodeList.find(
+                  (voucher) => voucher.code === voucherCode.toUpperCase()
+                );
+                if (applicableVoucher) {
+                  setDiscount(applicableVoucher.discount);
+                } else {
+                  await handleNotification({
+                    text: "Sorry, incorrect voucher code",
+                    severity: "warning",
+                  });
+                }
+              }
+              setVoucherCode("");
+            }}
+          >
+            Apply Voucher
+          </Button>
+        </Stack>
+      </Grid>
+    </Grid>
   );
 };
 
