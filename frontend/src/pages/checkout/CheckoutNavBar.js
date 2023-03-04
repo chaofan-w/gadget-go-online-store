@@ -1,5 +1,16 @@
 import * as React from "react";
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchLoginCustomer,
+  selectLoginCustomer,
+} from "../../features/loginCustomer/loginCustomerSlice";
+import {
+  selectNotifications,
+  notificationClosed,
+  notificationDisplayed,
+} from "../../features/notifications/notificationsSlice";
+import { selectAllProducts } from "../../features/products/productsSlice";
+import { selectAllCarts, fetchCarts } from "../../features/carts/cartsSlice";
 // https://dev.to/tywenk/how-to-use-nested-routes-in-react-router-6-4jhd
 //React Router provides a component called Outlet that renders a route's child component. <Outlet /> behaves a bit like props.children in standard React. <Outlet /> is the placeholder location for where the nested children routes will be rendered.
 import { Outlet } from "react-router-dom";
@@ -58,14 +69,120 @@ const CheckoutNavBar = () => {
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = React.useState(0);
+  const [total, setTotal] = React.useState(0);
+  const [discount, setDiscount] = React.useState(1);
+  const loginCustomer = useSelector(selectLoginCustomer);
+  const cart = useSelector(selectAllCarts);
+  const allCartItemIds = cart[0].products.reduce(
+    (accum, curr) => accum.concat(curr.productId),
+    []
+  );
+  const products = useSelector(selectAllProducts);
+  const productsInCart = products.filter((item) =>
+    allCartItemIds.includes(item._id)
+  );
+
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [address1, setAddress1] = React.useState("");
+  const [address2, setAddress2] = React.useState("");
+  const [city, setCity] = React.useState("");
+  const [state, setState] = React.useState("");
+  const [postCode, setPostCode] = React.useState("");
+  const [country, setCountry] = React.useState("");
+
+  const [cardName, setCardName] = React.useState("");
+  const [cardNumber, setCardNumber] = React.useState("");
+  const [expDate, setExpDate] = React.useState("");
+  const [cvv, setCvv] = React.useState("");
+
+  async function handleNotification({ text, severity }) {
+    await dispatch(
+      notificationDisplayed({
+        notification: {
+          text: text,
+          severity: severity,
+        },
+      })
+    );
+
+    setTimeout(function () {
+      dispatch(notificationClosed());
+    }, 3000);
+  }
   const tablist = [
-    { tab: "Cart", page: <CartSummary /> },
-    { tab: "Checkout", page: <Checkout /> },
-    { tab: "Payment", page: <Payment /> },
+    {
+      tab: "Cart",
+      page: (
+        <CartSummary
+          dispatch={dispatch}
+          quantity={quantity}
+          setQuantity={setQuantity}
+          total={total}
+          setTotal={setTotal}
+          discount={discount}
+          setDiscount={setDiscount}
+          cart={cart}
+          products={products}
+          allCartItemIds={allCartItemIds}
+          productsInCart={productsInCart}
+          handleNotification={handleNotification}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        />
+      ),
+    },
+    {
+      tab: "Shipping",
+      page: (
+        <Checkout
+          firstName={firstName}
+          setFirstName={setFirstName}
+          lastName={lastName}
+          setLastName={setLastName}
+          phone={phone}
+          setPhone={setPhone}
+          address1={address1}
+          setAddress1={setAddress1}
+          address2={address2}
+          setAddress2={setAddress2}
+          city={city}
+          setCity={setCity}
+          state={state}
+          setState={setState}
+          postCode={postCode}
+          setPostCode={setPostCode}
+          country={country}
+          setCountry={setCountry}
+          handleNotification={handleNotification}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        />
+      ),
+    },
+    {
+      tab: "Payment",
+      page: (
+        <Payment
+          cardName={cardName}
+          setCardName={setCardName}
+          cardNumber={cardNumber}
+          setCardNumber={setCardNumber}
+          expDate={expDate}
+          setExpDate={setExpDate}
+          cvv={cvv}
+          setCvv={setCvv}
+          handleNotification={handleNotification}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        />
+      ),
+    },
     { tab: "Order", page: <OrderReview /> },
   ];
-
-  // const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
@@ -78,6 +195,7 @@ const CheckoutNavBar = () => {
           height: "fit-content",
           pt: 5,
           minWidth: 50,
+          m: 0,
         }}
       >
         <StyledTabs
@@ -113,9 +231,9 @@ const CheckoutNavBar = () => {
                 value={selectedTab}
                 index={index}
                 sx={{
-                  width: { sx: "100%", sm: "90%" },
-                  height: "auto",
-                  minHeight: "95%",
+                  width: { xs: "100%", sm: "90%" },
+                  height: { xs: "auto", md: "100vh" },
+                  // minHeight: "95%",
                   mx: "auto",
                 }}
               >

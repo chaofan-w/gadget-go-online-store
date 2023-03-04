@@ -61,6 +61,8 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import CheckoutNavBar from "./pages/checkout/CheckoutNavBar";
 
+import { CheckoutContextProvider } from "./pages/checkout/CheckoutContext";
+
 function App() {
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
@@ -200,13 +202,13 @@ function App() {
         <Route path="/" element={<ProductsPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
-        <Route path="/checkout" element={<CheckoutNavBar />}>
-          <Route path="summary" element={<CartSummary />} />
+        <Route path="/checkout" element={<CheckoutNavBar />} />
+        {/* <Route path="summary" element={<CartSummary />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="payment" element={<Payment />} />
           <Route path="orderreview" element={<OrderReview />} />
-          <Route path="confirmation" element={<Confirmation />} />
-        </Route>
+          <Route path="confirmation" element={<Confirmation />} /> */}
+        {/* </Route> */}
       </Routes>
       {notification && notification.text && (
         <Snackbar
