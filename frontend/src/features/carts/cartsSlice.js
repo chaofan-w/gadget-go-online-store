@@ -68,7 +68,7 @@ const cartsSlice = createSlice({
       state.carts[0].products = updatedProducts;
     },
     cartCleared: (state, action) => {
-      state.carts = [];
+      state.carts[0].products = [];
     },
     errorCleared: (state, action) => {
       state.error = null;

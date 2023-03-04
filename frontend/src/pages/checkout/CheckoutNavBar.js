@@ -190,7 +190,30 @@ const CheckoutNavBar = () => {
         />
       ),
     },
-    { tab: "Order", page: <OrderReview /> },
+    {
+      tab: "Order",
+      page: (
+        <OrderReview
+          dispatch={dispatch}
+          total={total}
+          discount={discount}
+          cart={cart}
+          products={products}
+          handleNotification={handleNotification}
+          firstName={firstName}
+          lastName={lastName}
+          phone={phone}
+          address1={address1}
+          address2={address2}
+          city={city}
+          state={state}
+          postCode={postCode}
+          country={country}
+          cardName={cardName}
+          cardNumber={cardNumber}
+        />
+      ),
+    },
   ];
 
   return (
