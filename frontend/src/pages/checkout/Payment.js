@@ -22,7 +22,11 @@ export default function Payment({
   discount,
 }) {
   return (
-    <Grid container sx={{ width: "100%", minWidth: 360 }} spacing={2}>
+    <Grid
+      container
+      sx={{ width: "100%", minWidth: 360, minHeight: "90vh" }}
+      spacing={2}
+    >
       <Grid item xs={12} md={8} sx={{ height: "auto" }}>
         <Grid
           container
@@ -39,7 +43,7 @@ export default function Payment({
             px: 3,
           }}
         >
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ height: "fit-content" }}>
             <TextField
               required
               id="cardName"
@@ -51,7 +55,7 @@ export default function Payment({
               onChange={(e) => setCardName(e.currentTarget.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ height: "fit-content" }}>
             <TextField
               required
               id="cardNumber"
@@ -63,7 +67,7 @@ export default function Payment({
               onChange={(e) => setCardNumber(e.currentTarget.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ height: "fit-content" }}>
             <TextField
               required
               id="expDate"
