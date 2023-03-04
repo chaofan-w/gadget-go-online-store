@@ -10,7 +10,11 @@ import {
   notificationDisplayed,
 } from "../../features/notifications/notificationsSlice";
 import { selectAllProducts } from "../../features/products/productsSlice";
-import { selectAllCarts, fetchCarts } from "../../features/carts/cartsSlice";
+import {
+  selectAllCarts,
+  fetchCarts,
+  productRemoved,
+} from "../../features/carts/cartsSlice";
 // https://dev.to/tywenk/how-to-use-nested-routes-in-react-router-6-4jhd
 //React Router provides a component called Outlet that renders a route's child component. <Outlet /> behaves a bit like props.children in standard React. <Outlet /> is the placeholder location for where the nested children routes will be rendered.
 import { Outlet } from "react-router-dom";
@@ -132,6 +136,7 @@ const CheckoutNavBar = () => {
           handleNotification={handleNotification}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
+          productRemoved={productRemoved}
         />
       ),
     },
@@ -160,6 +165,8 @@ const CheckoutNavBar = () => {
           handleNotification={handleNotification}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
+          total={total}
+          discount={discount}
         />
       ),
     },
@@ -178,6 +185,8 @@ const CheckoutNavBar = () => {
           handleNotification={handleNotification}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
+          total={total}
+          discount={discount}
         />
       ),
     },
@@ -211,6 +220,7 @@ const CheckoutNavBar = () => {
           {tablist &&
             tablist.map((tab, index) => (
               <Tab
+                disabled={selectedTab < index}
                 key={`tab-${tab.tab}`}
                 label={tab.tab}
                 sx={{

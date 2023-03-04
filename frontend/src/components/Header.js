@@ -168,6 +168,7 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
       <MenuItem>
         <IconButton
+          disabled={carts.length === 0 || carts[0].products.length === 0}
           size="large"
           aria-label="show num of items in carts"
           color="inherit"
@@ -278,6 +279,7 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
             <IconButton
+              disabled={carts.length === 0 || carts[0].products.length === 0}
               size="large"
               aria-label="show num of items in cart"
               color="inherit"
