@@ -41,36 +41,51 @@ const voucherCodeList = [
   { code: "BLACKFRIDAY40", discount: 0.6 },
 ];
 
-const CartSummary = () => {
-  const dispatch = useDispatch();
-  const [quantity, setQuantity] = React.useState(0);
-  const [total, setTotal] = React.useState(0);
+const CartSummary = ({
+  dispatch,
+  quantity,
+  setQuantity,
+  total,
+  setTotal,
+  discount,
+  setDiscount,
+  cart,
+  products,
+  allCartItemIds,
+  productsInCart,
+  selectedTab,
+  setSelectedTab,
+  handleNotification,
+}) => {
+  // const dispatch = useDispatch();
+  // const [quantity, setQuantity] = React.useState(0);
+  // const [total, setTotal] = React.useState(0);
   const [voucherCode, setVoucherCode] = React.useState("");
-  const [discount, setDiscount] = React.useState(1);
-  const loginCustomer = useSelector(selectLoginCustomer);
-  const cart = useSelector(selectAllCarts);
-  const allCartItemIds = cart[0].products.reduce(
-    (accum, curr) => accum.concat(curr.productId),
-    []
-  );
-  const products = useSelector(selectAllProducts);
-  const productsInCart = products.filter((item) =>
-    allCartItemIds.includes(item._id)
-  );
-  async function handleNotification({ text, severity }) {
-    await dispatch(
-      notificationDisplayed({
-        notification: {
-          text: text,
-          severity: severity,
-        },
-      })
-    );
+  // const [discount, setDiscount] = React.useState(1);
+  // const loginCustomer = useSelector(selectLoginCustomer);
+  // const cart = useSelector(selectAllCarts);
+  // const allCartItemIds = cart[0].products.reduce(
+  //   (accum, curr) => accum.concat(curr.productId),
+  //   []
+  // );
+  // const products = useSelector(selectAllProducts);
+  // const productsInCart = products.filter((item) =>
+  //   allCartItemIds.includes(item._id)
+  // );
+  // async function handleNotification({ text, severity }) {
+  //   await dispatch(
+  //     notificationDisplayed({
+  //       notification: {
+  //         text: text,
+  //         severity: severity,
+  //       },
+  //     })
+  //   );
 
-    setTimeout(function () {
-      dispatch(notificationClosed());
-    }, 3000);
-  }
+  //   setTimeout(function () {
+  //     dispatch(notificationClosed());
+  //   }, 3000);
+  // }
 
   React.useEffect(() => {
     setTotal(
@@ -244,13 +259,14 @@ const CartSummary = () => {
           justifyContent={"flex-start"}
           spacing={2}
           sx={{
-            height: "50vh",
+            height: "fit-content",
             boxShadow:
               "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
             borderRadius: 1,
             mb: 3,
             // border: "1px solid red",
             px: 2,
+            py: 3,
           }}
         >
           <Stack
@@ -345,12 +361,13 @@ const CartSummary = () => {
                 width: "60%",
               }}
             >
-              <Typography variant="body2">{`QST(9.975%): $${(
-                total * 0.0975
+              <Typography
+                variant="body2"
+                textAlign={"right"}
+              >{`QST(9.975%): $${(total * 0.0975).toFixed(2)}`}</Typography>
+              <Typography variant="body2" textAlign={"right"}>{`GST(5%): $${(
+                total * 0.05
               ).toFixed(2)}`}</Typography>
-              <Typography variant="body2">{`GST(5%): $${(total * 0.05).toFixed(
-                2
-              )}`}</Typography>
             </Stack>
           </Stack>
           <Stack
@@ -368,6 +385,13 @@ const CartSummary = () => {
               total * 1.14975
             ).toFixed(2)}`}</Typography>
           </Stack>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => setSelectedTab(selectedTab + 1)}
+          >
+            Procced To Shipping
+          </Button>
         </Stack>
       </Grid>
     </Grid>
