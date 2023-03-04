@@ -1,18 +1,18 @@
 import * as React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
-import {
-  fetchLoginCustomer,
-  selectLoginCustomer,
-} from "../../features/loginCustomer/loginCustomerSlice";
-import {
-  selectNotifications,
-  notificationClosed,
-  notificationDisplayed,
-} from "../../features/notifications/notificationsSlice";
-import { selectAllProducts } from "../../features/products/productsSlice";
-import { selectAllCarts, fetchCarts } from "../../features/carts/cartsSlice";
-
+// import { useSelector, useDispatch } from "react-redux";
+// import styled from "styled-components";
+// import {
+//   fetchLoginCustomer,
+//   selectLoginCustomer,
+// } from "../../features/loginCustomer/loginCustomerSlice";
+// import {
+//   selectNotifications,
+//   notificationClosed,
+//   notificationDisplayed,
+// } from "../../features/notifications/notificationsSlice";
+// import { selectAllProducts } from "../../features/products/productsSlice";
+// import { selectAllCarts, fetchCarts } from "../../features/carts/cartsSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -56,11 +56,13 @@ const CartSummary = ({
   selectedTab,
   setSelectedTab,
   handleNotification,
+  productRemoved,
 }) => {
   // const dispatch = useDispatch();
   // const [quantity, setQuantity] = React.useState(0);
   // const [total, setTotal] = React.useState(0);
   const [voucherCode, setVoucherCode] = React.useState("");
+  const navigate = useNavigate();
   // const [discount, setDiscount] = React.useState(1);
   // const loginCustomer = useSelector(selectLoginCustomer);
   // const cart = useSelector(selectAllCarts);
@@ -98,7 +100,7 @@ const CartSummary = ({
 
   return (
     <Grid container sx={{ width: "100%", minWidth: 360 }}>
-      <Grid item xs={12} md={8} sx={{ height: "auto" }}>
+      <Grid item xs={12} md={8}>
         {productsInCart &&
           productsInCart.map((product) => (
             <Grid
@@ -237,6 +239,14 @@ const CartSummary = ({
                   position: "absolute",
                   top: 2,
                   right: 2,
+                }}
+                onClick={async () => {
+                  if (cart[0].products.length > 1) {
+                    await dispatch(productRemoved({ product: product }));
+                  } else {
+                    await dispatch(productRemoved({ product: product }));
+                    navigate("/");
+                  }
                 }}
               >
                 <Close />
