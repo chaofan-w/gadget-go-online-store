@@ -217,10 +217,74 @@ const postNewCustomer = async (req, res) => {
   }
 };
 
+const postNewOrder = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  await client.connect();
+  console.log(`${dbName} connected`);
+
+  try {
+    const {
+      customerId,
+      products,
+      firstName,
+      lastName,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      postCode,
+      country,
+      cardName,
+      cardNumber,
+      discount,
+      total,
+    } = req.body;
+
+    const addNewOrder = await db.collection("orders").insertOne({
+      customerId: customerId,
+      products: products,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      address1: address1,
+      address2: address2 || "",
+      city: city,
+      state: state || "",
+      postCode: postCode,
+      country: country,
+      cardName: cardName,
+      cardNumber: cardNumber,
+      discount: discount,
+      total: total,
+      status: "confirmed",
+      date: new Date(),
+    });
+
+    if (addNewOrder.acknowledged) {
+      sendResponse(res, 200, addNewOrder.insertedId, "Your order confirmed!");
+    } else {
+      sendResponse(
+        res,
+        400,
+        null,
+        "Sorry, server error ocurred, please try again later."
+      );
+    }
+  } catch (err) {
+    sendResponse(res, 402, null, err.message);
+  } finally {
+    client.close();
+    console.log(`${dbName} disconnected`);
+  }
+};
+
 module.exports = {
   getAllDocsOfCollection,
   getDocByIdFromCollection,
   getDocByCustomerIdFromCollection,
   getLoginCustomer,
   postNewCustomer,
+  postNewOrder,
 };

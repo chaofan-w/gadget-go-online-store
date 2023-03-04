@@ -39,7 +39,7 @@ const customersSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(postNewCustomer, (state, action) => {
+      .addCase(postNewCustomer.pending, (state, action) => {
         state.status = "loading";
       })
       .addCase(postNewCustomer.fulfilled, (state, action) => {
