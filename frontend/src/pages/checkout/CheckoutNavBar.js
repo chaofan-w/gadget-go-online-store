@@ -211,6 +211,8 @@ const CheckoutNavBar = () => {
           country={country}
           cardName={cardName}
           cardNumber={cardNumber}
+          productsInCart={productsInCart}
+          productRemoved={productRemoved}
         />
       ),
     },
@@ -224,7 +226,8 @@ const CheckoutNavBar = () => {
           bgcolor: "background.paper",
           display: "flex",
           flexDirection: { xs: "row", sm: "column" },
-          height: "fit-content",
+          //min-height is set to 150vh, which will ensure that the background color covers a length greater than 100vh.
+          // minHeight: "150vh",
           pt: 5,
           minWidth: 50,
           m: 0,
@@ -256,7 +259,12 @@ const CheckoutNavBar = () => {
               />
             ))}
         </StyledTabs>
-        <Box sx={{ flex: { xs: 1 } }}>
+        <Box
+          sx={{
+            flex: { xs: 1 },
+            // height: "100%",
+          }}
+        >
           {tablist &&
             tablist.map((tab, index) => (
               <TabPanel
@@ -265,8 +273,7 @@ const CheckoutNavBar = () => {
                 index={index}
                 sx={{
                   width: { xs: "100%", sm: "90%" },
-                  height: { xs: "auto", md: "100vh" },
-                  // minHeight: "95%",
+                  height: { xs: "auto", md: "fit-content" },
                   mx: "auto",
                 }}
               >
