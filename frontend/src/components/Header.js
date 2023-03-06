@@ -13,7 +13,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import { ShoppingBag, Login, Logout } from "@mui/icons-material";
+import { CssBaseline } from "@mui/material";
+import { ShoppingBag, Login, Logout, LocalShipping } from "@mui/icons-material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logoImg from "../assets/img/logo/gadget-go-icon-white.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +24,33 @@ import {
   selectLoginCustomer,
 } from "../features/loginCustomer/loginCustomerSlice";
 import { useNavigate, Link } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ordersCleared } from "../features/orders/ordersSlice";
+const theme = createTheme({
+  typography: {
+    fontFamily: ["Lato", "Oswald", "Roboto"],
+  },
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#6e5b98",
+      light: "#cec2dc",
+      dark: "#2b2839",
+    },
+    secondary: {
+      main: "#a9729b",
+      dark: "#844881",
+      light: "#f3d0ea",
+    },
+    background: {
+      default: "rgba(255,255,255,0.8)",
+      paper: "#f3f0f9",
+    },
+    info: {
+      main: "#5a21f3",
+    },
+  },
+});
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -118,26 +146,69 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Typography variant="body2" color="primary">
+          Account
+        </Typography>
+      </MenuItem>
+
+      <Link to="/orders" style={{ textDecoration: "none" }}>
+        <MenuItem onClick={handleMenuClose}>
+          <Typography variant="body2" color="primary">
+            Orders
+          </Typography>
+        </MenuItem>
+      </Link>
       {loginCustomer.length > 0 ? (
         <MenuItem
           onClick={async () => {
-            await dispatch(customerLogout());
+            await dispatch(ordersCleared());
             await dispatch(cartCleared());
             await localStorage.clear();
+            await dispatch(customerLogout());
             navigate("/");
+            handleMenuClose();
           }}
         >
-          Logout
+          <Typography variant="body2" color="primary">
+            Logout
+          </Typography>
         </MenuItem>
       ) : (
-        <MenuItem>
+        <MenuItem onClick={handleMenuClose}>
           <Link to={"/login"} style={{ textDecoration: "none" }}>
-            Login
+            <Typography variant="body2" color="primary">
+              Login
+            </Typography>
           </Link>
         </MenuItem>
       )}
+    </Menu>
+  );
+
+  const renderMenuLoggedOut = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>
+        <Link to={"/login"} style={{ textDecoration: "none" }}>
+          <Typography variant="body2" color="primary">
+            Login
+          </Typography>
+        </Link>
+      </MenuItem>
     </Menu>
   );
 
@@ -158,165 +229,263 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+      <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
+        <IconButton
+          size="medium"
+          aria-label="show 4 new mails"
+          color="secondary"
+        >
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <Typography variant="body2" color="primary">
+          Messages
+        </Typography>
       </MenuItem>
-      <MenuItem>
+      <Link to="/checkout" style={{ textDecoration: "none" }}>
+        <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
+          <IconButton
+            disabled={carts.length === 0 || carts[0].products.length === 0}
+            size="medium"
+            aria-label="show num of items in carts"
+            color="secondary"
+            // onClick={() => navigate("/checkout")}
+          >
+            <Badge badgeContent={getCartAmount()} color="error">
+              <ShoppingBag />
+            </Badge>
+          </IconButton>
+          <Typography variant="body2" color="primary">
+            Cart
+          </Typography>
+        </MenuItem>
+      </Link>
+      <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
         <IconButton
-          disabled={carts.length === 0 || carts[0].products.length === 0}
-          size="large"
-          aria-label="show num of items in carts"
-          color="inherit"
-          onClick={() => navigate("/checkout")}
-        >
-          <Badge badgeContent={getCartAmount()} color="error">
-            <ShoppingBag />
-          </Badge>
-        </IconButton>
-        <p>Cart</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
+          size="medium"
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
-          color="inherit"
+          color="secondary"
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <Typography variant="body2" color="primary">
+          Account
+        </Typography>
       </MenuItem>
+      <Link to="/orders" style={{ textDecoration: "none" }}>
+        <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
+          <IconButton
+            size="medium"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="secondary"
+          >
+            <LocalShipping />
+          </IconButton>
+          <Typography variant="body2" color="primary">
+            Orders
+          </Typography>
+        </MenuItem>
+      </Link>
       {loginCustomer.length > 0 ? (
         <MenuItem
           onClick={async () => {
-            await dispatch(customerLogout());
+            await dispatch(ordersCleared());
             await dispatch(cartCleared());
             await localStorage.clear();
+            await dispatch(customerLogout());
             navigate("/");
+            handleMobileMenuClose();
           }}
+          sx={{ py: 0 }}
         >
           <IconButton
-            size="large"
+            size="medium"
             aria-label="logout"
             aria-controls="primary-search-account-menu"
             aria-haspopup="true"
-            color="inherit"
+            color="secondary"
           >
             <Logout />
           </IconButton>
-          <p>Logout</p>
+          <Typography variant="body2" color="primary">
+            Logout
+          </Typography>
         </MenuItem>
       ) : (
-        <Link to={"/login"} style={{ textDecoration: "none" }}>
-          <MenuItem>
+        <Link
+          to={"/login"}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
             <IconButton
               size="large"
               aria-label="login"
               aria-controls="primary-search-account-menu"
               aria-haspopup="true"
-              color="inherit"
+              color="secondary"
             >
               <Login />
             </IconButton>
-            <p>Login</p>
+            <Typography variant="body2" color="primary">
+              Login
+            </Typography>
             {/* </Link> */}
           </MenuItem>
         </Link>
       )}
     </Menu>
   );
-
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+  const renderMobileMenuLoggedOut = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <Link
+        to={"/login"}
+        style={{
+          textDecoration: "none",
+        }}
+      >
+        <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
           <IconButton
             size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
+            aria-label="login"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="secondary"
           >
-            <MenuIcon />
+            <Login />
           </IconButton>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <IconButton disableRipple>
-              <img
-                src={logoImg}
-                alt="Gadget Go Logo"
-                style={{ width: 35, height: 30 }}
-              />
-              <Typography variant="h6" sx={{ ml: 1, color: "white" }}>
-                Gadget Go!
-              </Typography>
-            </IconButton>
-          </Link>
+          <Typography variant="body2" color="primary">
+            Login
+          </Typography>
+          {/* </Link> */}
+        </MenuItem>
+      </Link>
+    </Menu>
+  );
 
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            {/* <IconButton
               size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
+              edge="start"
+              aria-label="open drawer"
+              sx={{ mr: 2, color: "secondary.light" }}
             >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              disabled={carts.length === 0 || carts[0].products.length === 0}
-              size="large"
-              aria-label="show num of items in cart"
-              color="inherit"
-              onClick={() => navigate("/checkout")}
-            >
-              <Badge badgeContent={getCartAmount()} color="error">
-                <ShoppingBag />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box>
+              <MenuIcon />
+            </IconButton> */}
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <IconButton disableRipple>
+                <img
+                  src={logoImg}
+                  alt="Gadget Go Logo"
+                  style={{ width: 35, height: 30 }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    ml: 1,
+                    color: "white",
+                    display: { xs: "none", sm: "block" },
+                  }}
+                >
+                  Gadget Go!
+                </Typography>
+              </IconButton>
+            </Link>
+
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {loginCustomer.length > 0 && (
+                <>
+                  <IconButton
+                    size="large"
+                    aria-label="show 4 new mails"
+                    // color="secondary"
+                    sx={{ color: "secondary.light" }}
+                  >
+                    <Badge badgeContent={4} color="error">
+                      <MailIcon />
+                    </Badge>
+                  </IconButton>
+                  <IconButton
+                    disabled={
+                      carts.length === 0 || carts[0].products.length === 0
+                    }
+                    size="large"
+                    aria-label="show num of items in cart"
+                    sx={{ color: "secondary.light" }}
+                    onClick={() => navigate("/checkout")}
+                  >
+                    <Badge badgeContent={getCartAmount()} color="error">
+                      <ShoppingBag />
+                    </Badge>
+                  </IconButton>
+                </>
+              )}
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                sx={{ color: "secondary.light" }}
+              >
+                {loginCustomer.length > 0 ? <AccountCircle /> : <Login />}
+              </IconButton>
+            </Box>
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                sx={{ color: "secondary.light" }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        {loginCustomer.length > 0
+          ? renderMobileMenu
+          : renderMobileMenuLoggedOut}
+        {loginCustomer.length > 0 ? renderMenu : renderMenuLoggedOut}
+      </Box>
+    </ThemeProvider>
   );
 }

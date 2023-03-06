@@ -1,7 +1,10 @@
 import * as React from "react";
 import { postNewOrder } from "../../features/orders/ordersSlice";
 import { useNavigate } from "react-router-dom";
-import { cartCleared } from "../../features/carts/cartsSlice";
+import {
+  cartCleared,
+  cartProductsCleared,
+} from "../../features/carts/cartsSlice";
 import {
   Box,
   Typography,
@@ -84,7 +87,7 @@ const Review = ({
           text: result.payload.message,
           severity: "success",
         });
-        await dispatch(cartCleared());
+        await dispatch(cartProductsCleared());
         navigate("/");
       } else {
         await handleNotification({
