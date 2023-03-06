@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import PrimarySearchAppBar from "./components/Header";
 import ProductsPage from "./components/ProductsPage";
+import OrdersPage from "./pages/orders/OrdersPage";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
@@ -193,7 +194,7 @@ function App() {
       }
     }
     fetchCartsData();
-  }, [dispatch, cartsStatus, loginCustomer]);
+  }, [dispatch, loginCustomer]);
 
   return (
     <Router>
@@ -203,12 +204,7 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/checkout" element={<CheckoutNavBar />} />
-        {/* <Route path="summary" element={<CartSummary />} />
-          <Route path="checkout" element={<Checkout />} />
-          <Route path="payment" element={<Payment />} />
-          <Route path="orderreview" element={<OrderReview />} />
-          <Route path="confirmation" element={<Confirmation />} /> */}
-        {/* </Route> */}
+        <Route path="/orders" element={<OrdersPage />} />
       </Routes>
       {notification && notification.text && (
         <Snackbar

@@ -21,6 +21,8 @@ const loginCustomerSlice = createSlice({
   reducers: {
     customerLogout: (state, action) => {
       state.loginCustomer = [];
+      state.status = "idle";
+      state.error = null;
     },
   },
   extraReducers(builder) {

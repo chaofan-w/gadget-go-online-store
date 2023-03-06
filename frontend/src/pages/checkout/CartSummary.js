@@ -91,10 +91,12 @@ const CartSummary = ({
 
   React.useEffect(() => {
     setTotal(
-      cart[0].products.reduce(
-        (accum, curr) => accum + curr.price * curr.quantity,
-        0
-      ) * discount
+      cart.length > 0
+        ? cart[0].products.reduce(
+            (accum, curr) => accum + curr.price * curr.quantity,
+            0
+          ) * discount
+        : 0
     );
   }, [discount, cart]);
 

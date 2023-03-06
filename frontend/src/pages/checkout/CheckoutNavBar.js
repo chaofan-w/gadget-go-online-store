@@ -79,10 +79,13 @@ const CheckoutNavBar = () => {
   const [discount, setDiscount] = React.useState(1);
   const loginCustomer = useSelector(selectLoginCustomer);
   const cart = useSelector(selectAllCarts);
-  const allCartItemIds = cart[0].products.reduce(
-    (accum, curr) => accum.concat(curr.productId),
-    []
-  );
+  const allCartItemIds =
+    cart.length > 0
+      ? cart[0].products.reduce(
+          (accum, curr) => accum.concat(curr.productId),
+          []
+        )
+      : [];
   const products = useSelector(selectAllProducts);
   const productsInCart = products.filter((item) =>
     allCartItemIds.includes(item._id)

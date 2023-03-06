@@ -60,26 +60,54 @@ export const postNewOrder = createAsyncThunk(
   }
 );
 
+export const getOrdersByCustomerId = createAsyncThunk(
+  "orders/getOrdersByCustomerId",
+  async (customerId) => {
+    const response = await fetch(`/api/orders/customer/${customerId}`);
+    const ordersData = await response.json();
+    return ordersData;
+  }
+);
+
 const ordersSlice = createSlice({
   name: "orders",
   initialState,
-  reducers: {},
+  reducers: {
+    ordersCleared: (state, action) => {
+      state.orders = [];
+      state.status = "idle";
+      state.error = null;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(postNewOrder.pending, (state, action) => {
         state.status = "loading";
       })
       .addCase(postNewOrder.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.status = "idle";
         state.error = action.payload.message;
       })
       .addCase(postNewOrder.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload.message;
+      })
+      .addCase(getOrdersByCustomerId.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getOrdersByCustomerId.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.orders =
+          action.payload.status === 200 ? action.payload.data : null;
+        state.error = action.payload.message && action.payload.message;
+      })
+      .addCase(getOrdersByCustomerId.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = "server error, please try again later";
       });
   },
 });
 
-export const {} = ordersSlice.actions;
+export const { ordersCleared } = ordersSlice.actions;
 export default ordersSlice.reducer;
 export const selectAllOrders = (state) => state.orders.orders;

@@ -68,7 +68,14 @@ const cartsSlice = createSlice({
       state.carts[0].products = updatedProducts;
     },
     cartCleared: (state, action) => {
+      state.carts = [];
+      state.status = "idle";
+      state.error = null;
+    },
+    cartProductsCleared: (state, action) => {
       state.carts[0].products = [];
+      state.status = "idle";
+      state.error = null;
     },
     errorCleared: (state, action) => {
       state.error = null;
@@ -98,6 +105,7 @@ export const {
   cartCleared,
   errorCleared,
   productRemoved,
+  cartProductsCleared,
 } = cartsSlice.actions;
 export default cartsSlice.reducer;
 export const selectAllCarts = (state) => state.carts.carts;
