@@ -18,9 +18,15 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { Link } from "react-router-dom";
+import OrderDetailDrawer from "./OrderDetailDrawer";
 
 import {
   getOrdersByCustomerId,
@@ -28,6 +34,7 @@ import {
 } from "../../features/orders/ordersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectLoginCustomer } from "../../features/loginCustomer/loginCustomerSlice";
+import { style } from "@mui/system";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -97,6 +104,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "Status",
+  },
+  {
+    id: "detail",
+    numeric: false,
+    disablePadding: false,
+    label: "Details",
   },
 ];
 
@@ -226,6 +239,7 @@ export default function OrdersPage() {
   const ordersStatus = useSelector((state) => state.orders.status);
   const error = useSelector((state) => state.orders.error);
   const loginCustomer = useSelector(selectLoginCustomer);
+  const [reviewOrderId, setReviewOrderId] = React.useState(null);
   React.useEffect(() => {
     async function fetchData() {
       try {
@@ -262,8 +276,17 @@ export default function OrdersPage() {
         ).toFixed(2)
       ),
       status: item.status,
+      detail: (
+        <Button variant="text" onClick={() => setReviewOrderId(item._id)}>
+          <Typography variant="body2" color={"primary"}>
+            review details
+          </Typography>
+        </Button>
+      ),
     };
   });
+
+  console.log(reviewOrderId);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("date");
@@ -271,8 +294,6 @@ export default function OrdersPage() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  console.log(`order: ${order}, orderBy: ${orderBy}`);
 
   const handleRequestSort = (event, property) => {
     console.log(property);
@@ -331,6 +352,22 @@ export default function OrdersPage() {
       ? Math.max(0, (1 + page) * rowsPerPage - orders.length)
       : 0;
 
+  const [drawerState, setDrawerState] = React.useState({
+    right: false,
+  });
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setDrawerState({ ...drawerState, [anchor]: open });
+  };
+  const anchor = "right";
+  // console.log(orders);
   return (
     <Box sx={{ width: "100%", p: 3 }}>
       {rows && rows.length > 0 ? (
@@ -413,6 +450,7 @@ export default function OrdersPage() {
                             ).toFixed(2)} */}
                           </TableCell>
                           <TableCell align="left">{item.status}</TableCell>
+                          <TableCell align="left">{item.detail}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -445,6 +483,22 @@ export default function OrdersPage() {
         </>
       ) : (
         <Typography>No Orders</Typography>
+      )}
+      {reviewOrderId && (
+        <SwipeableDrawer
+          anchor={anchor}
+          open={reviewOrderId ? true : false}
+          onClose={() => setReviewOrderId(null)}
+          onOpen={toggleDrawer(anchor, true)}
+        >
+          <Box sx={{ width: "40vw", height: "100vh", p: 3 }}>
+            <OrderDetailDrawer
+              order={orders.find((i) => i._id === reviewOrderId) || {}}
+              orderId={reviewOrderId}
+            />
+            {/* drawer page */}
+          </Box>
+        </SwipeableDrawer>
       )}
     </Box>
   );
