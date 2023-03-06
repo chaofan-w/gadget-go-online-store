@@ -78,7 +78,7 @@ const headCells = [
     id: "products",
     numeric: true,
     disablePadding: false,
-    label: "Number of Items",
+    label: "Quantity",
   },
   {
     id: "discount",
@@ -123,7 +123,7 @@ function EnhancedTableHead(props) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              "aria-label": "select all orders",
             }}
           />
         </TableCell>
@@ -229,7 +229,7 @@ export default function OrdersPage() {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        if (ordersStatus === "idle") {
+        if (ordersStatus === "idle" && loginCustomer.length > 0) {
           const response = await getOrdersByCustomerId(loginCustomer[0]._id);
           dispatch(response);
         }
@@ -240,7 +240,30 @@ export default function OrdersPage() {
     fetchData();
   }, [dispatch, loginCustomer]);
 
-  console.log(orders);
+  // console.log(orders);
+
+  // the filter method is effect directly on source data of each table cell, unrelated to the render output
+  // in this case, the order of total, will compare data of item.total, even if the rendering table cell output is a string with dollar sign; or for discount, it will compare data of item.discount but output a string of '##% off'
+  //so before return the tablecells, firstly to define the tablesheet data for filter method's source data, i.e., rows below.
+
+  const rows = orders.map((item) => {
+    return {
+      orderId: item._id,
+      date: item.date,
+      products: item.products.reduce((accum, curr) => accum + curr.quantity, 0),
+      discount: 1 - item.discount,
+      // number.toFixed() method converts a number to fixed-point notation with the indicated number of decimalPlaces (rounding the result where necessary) and then returns its value as a string.
+      total: Number(
+        (
+          item.products.reduce(
+            (accum, curr) => accum + curr.price * curr.quantity,
+            0
+          ) * item.discount
+        ).toFixed(2)
+      ),
+      status: item.status,
+    };
+  });
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("date");
@@ -249,7 +272,10 @@ export default function OrdersPage() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  console.log(`order: ${order}, orderBy: ${orderBy}`);
+
   const handleRequestSort = (event, property) => {
+    console.log(property);
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -307,7 +333,7 @@ export default function OrdersPage() {
 
   return (
     <Box sx={{ width: "100%", p: 3 }}>
-      {orders && orders.length > 0 ? (
+      {rows && rows.length > 0 ? (
         <>
           <Paper sx={{ width: "100%", mb: 2 }}>
             <EnhancedTableToolbar numSelected={selected.length} />
@@ -323,23 +349,23 @@ export default function OrdersPage() {
                   orderBy={orderBy}
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
-                  rowCount={orders.length}
+                  rowCount={rows.length}
                 />
                 <TableBody>
-                  {stableSort(orders, getComparator(order, orderBy))
+                  {stableSort(rows, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((order, index) => {
-                      const isItemSelected = isSelected(order._id);
+                    .map((item, index) => {
+                      const isItemSelected = isSelected(item.orderId);
                       const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
                         <TableRow
                           hover
-                          onClick={(event) => handleClick(event, order._id)}
+                          onClick={(event) => handleClick(event, item.orderId)}
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
-                          key={order._Id}
+                          key={item.orderId}
                           selected={isItemSelected}
                         >
                           <TableCell padding="checkbox">
@@ -357,22 +383,36 @@ export default function OrdersPage() {
                             scope="order"
                             padding="none"
                           >
-                            {order._id}
+                            {item.orderId}
                           </TableCell>
                           <TableCell align="right">
-                            {new Date(order.date).toDateString()}
+                            {new Date(item.date).toDateString()}
+                            {/* {new Date(item.date).toDateString()} */}
                           </TableCell>
                           <TableCell align="right">
-                            {order.products.reduce(
+                            {item.products}
+                            {/* {item.products.reduce(
                               (accum, curr) => accum + curr.quantity,
                               0
-                            )}
+                            )} */}
                           </TableCell>
                           <TableCell align="right">
-                            {(1 - order.discount).toFixed(2)}
+                            {item.discount === 0.0
+                              ? "N/A"
+                              : `${(item.discount * 100).toFixed()}% OFF`}
+                            {/* {(1 - item.discount).toFixed(2)} */}
                           </TableCell>
-                          <TableCell align="right">{order.total}</TableCell>
-                          <TableCell align="right">{order.status}</TableCell>
+                          <TableCell align="right">
+                            {`$${item.total}`}
+                            {/* {(
+                              item.products.reduce(
+                                (accum, curr) =>
+                                  accum + curr.price * curr.quantity,
+                                0
+                              ) * item.discount
+                            ).toFixed(2)} */}
+                          </TableCell>
+                          <TableCell align="left">{item.status}</TableCell>
                         </TableRow>
                       );
                     })}
