@@ -48,6 +48,7 @@ export default function checkout({
             m: 0,
             py: 3,
             px: 3,
+            bgcolor: "background.paper",
           }}
         >
           <Grid item xs={12} sm={6} sx={{ height: "auto" }}>
@@ -196,6 +197,7 @@ export default function checkout({
             boxShadow:
               "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
             borderRadius: 1,
+            bgcolor: "background.paper",
             // mb: 3,
             // border: "1px solid red",
             px: 2,

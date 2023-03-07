@@ -41,6 +41,7 @@ export default function Payment({
             m: 0,
             py: 3,
             px: 3,
+            bgcolor: "background.paper",
           }}
         >
           <Grid item xs={12} md={6} sx={{ height: "fit-content" }}>
@@ -136,6 +137,7 @@ export default function Payment({
             // border: "1px solid red",
             px: 2,
             py: 3,
+            bgcolor: "background.paper",
           }}
         >
           <Stack

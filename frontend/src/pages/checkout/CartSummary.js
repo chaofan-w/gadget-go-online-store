@@ -118,6 +118,7 @@ const CartSummary = ({
                 borderRadius: 2,
                 mb: 3,
                 position: "relative",
+                bgcolor: "background.paper",
               }}
             >
               <Grid
@@ -279,6 +280,7 @@ const CartSummary = ({
             // border: "1px solid red",
             px: 2,
             py: 3,
+            bgcolor: "background.paper",
           }}
         >
           <Stack

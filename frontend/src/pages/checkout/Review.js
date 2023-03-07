@@ -123,6 +123,7 @@ const Review = ({
                 borderRadius: 2,
                 mb: 3,
                 position: "relative",
+                bgcolor: "background.paper",
               }}
             >
               <Grid
@@ -258,6 +259,7 @@ const Review = ({
             // border: "1px solid red",
             px: 2,
             py: 3,
+            bgcolor: "background.paper",
           }}
         >
           {shippingAddress &&
@@ -304,6 +306,7 @@ const Review = ({
             // border: "1px solid red",
             px: 2,
             py: 3,
+            bgcolor: "background.paper",
           }}
         >
           <Stack

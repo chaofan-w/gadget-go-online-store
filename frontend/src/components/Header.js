@@ -386,17 +386,12 @@ export default function PrimarySearchAppBar() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+      <Box sx={{ flexGrow: 1, height: "10vh", m: 0 }}>
+        <AppBar
+          position="fixed"
+          sx={{ height: "10vh", m: 0, p: 0, boxShadow: "none" }}
+        >
           <Toolbar>
-            {/* <IconButton
-              size="large"
-              edge="start"
-              aria-label="open drawer"
-              sx={{ mr: 2, color: "secondary.light" }}
-            >
-              <MenuIcon />
-            </IconButton> */}
             <Link to="/" style={{ textDecoration: "none" }}>
               <IconButton disableRipple>
                 <img

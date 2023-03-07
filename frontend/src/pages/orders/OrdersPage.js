@@ -27,6 +27,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { Link } from "react-router-dom";
 import OrderDetailDrawer from "./OrderDetailDrawer";
+import { Fade, Slide } from "@mui/material";
 
 import {
   getOrdersByCustomerId,
@@ -367,9 +368,11 @@ export default function OrdersPage() {
     setDrawerState({ ...drawerState, [anchor]: open });
   };
   const anchor = "right";
-  // console.log(orders);
+
   return (
-    <Box sx={{ width: "100%", p: 3 }}>
+    <Box
+      sx={{ width: "100%", p: 5, bgcolor: "primary.light", minHeight: "90vh" }}
+    >
       {rows && rows.length > 0 ? (
         <>
           <Paper sx={{ width: "100%", mb: 2 }}>
@@ -491,12 +494,17 @@ export default function OrdersPage() {
           onClose={() => setReviewOrderId(null)}
           onOpen={toggleDrawer(anchor, true)}
         >
-          <Box sx={{ width: "40vw", height: "100vh", p: 3 }}>
+          <Box
+            sx={{
+              width: "40vw",
+              height: "100vh",
+              p: 3,
+            }}
+          >
             <OrderDetailDrawer
               order={orders.find((i) => i._id === reviewOrderId) || {}}
               orderId={reviewOrderId}
             />
-            {/* drawer page */}
           </Box>
         </SwipeableDrawer>
       )}

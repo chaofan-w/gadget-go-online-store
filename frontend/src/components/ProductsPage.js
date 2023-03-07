@@ -20,79 +20,6 @@ const ProductsPage = () => {
   const reviews = useSelector(selectAllReviews);
   const carts = useSelector(selectAllCarts);
 
-  // React.useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       if (productsStatus === "idle") {
-  //         const response = await fetchProducts();
-  //         dispatch(response);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchData();
-  // }, [dispatch, productsStatus]);
-
-  // React.useEffect(() => {
-  //   async function fetchCateData() {
-  //     try {
-  //       if (categoriesStatus === "idle") {
-  //         const response = await fetchCategories();
-  //         dispatch(response);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchCateData();
-  // }, [dispatch, categoriesStatus]);
-  // React.useEffect(() => {
-  //   async function fetchReviewsData() {
-  //     try {
-  //       if (reviewsStatus === "idle") {
-  //         const response = await fetchReviews();
-  //         dispatch(response);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchReviewsData();
-  // }, [dispatch, reviewsStatus]);
-
-  // React.useEffect(() => {
-  //   async function fetchBodyData() {
-  //     try {
-  //       if (bodyLocationsStatus === "idle") {
-  //         const response = await fetchBodyLocations();
-  //         dispatch(response);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchBodyData();
-  // }, [dispatch, bodyLocationsStatus]);
-
-  // React.useEffect(() => {
-  //   async function fetchCartsData() {
-  //     try {
-  //       if (cartsStatus === "idle") {
-  //         //### in the carts asyncthunk, within the callback there is
-  //         // the argument of customerId needed. so pass the argument here
-  //         const response = await fetchCarts(loginUserId);
-  //         dispatch(response);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchCartsData();
-  // }, [dispatch, cartsStatus]);
-
-  // console.log(reviews);
-
   let content;
   if (productsStatus === "loading") {
     content = <Spinner text="Loading..." />;
@@ -100,30 +27,34 @@ const ProductsPage = () => {
     content = products ? (
       // && categories
       <Box sx={{ width: "100%" }}>
-        <Paper>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="flex-start"
-            sx={{
-              flexWrap: "wrap",
-              width: "100%",
-              height: "auto",
-              gap: 4,
-            }}
-          >
-            {products.map((product) => (
-              <ProductDetailCard
-                key={product._id}
-                product={product}
-                categories={categories}
-                body_locations={body_locations}
-                reviews={reviews}
-                carts={carts}
-              />
-            ))}
-          </Stack>
-        </Paper>
+        {/* <Paper
+          variant={"outlined"}
+          elevation={0}
+          sx={{ bgcolor: "none", border: "1px solid red" }}
+        > */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="flex-start"
+          sx={{
+            flexWrap: "wrap",
+            width: "100%",
+            height: "auto",
+            gap: 4,
+          }}
+        >
+          {products.map((product) => (
+            <ProductDetailCard
+              key={product._id}
+              product={product}
+              categories={categories}
+              body_locations={body_locations}
+              reviews={reviews}
+              carts={carts}
+            />
+          ))}
+        </Stack>
+        {/* </Paper> */}
       </Box>
     ) : (
       <div>{error}</div>
@@ -132,7 +63,13 @@ const ProductsPage = () => {
     content = <div>{error}</div>;
   }
 
-  return <Box>{content}</Box>;
+  return (
+    <Box
+      sx={{ width: "100%", minHeight: "100vh", p: 5, bgcolor: "primary.light" }}
+    >
+      {content}
+    </Box>
+  );
 };
 
 export default ProductsPage;
