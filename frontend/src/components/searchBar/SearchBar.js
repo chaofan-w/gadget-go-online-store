@@ -12,21 +12,14 @@ export default function SearchBar() {
   const categories = useSelector(selectAllCategories);
   const [categoryId, setCategoryId] = React.useState(0);
   const products = useSelector(selectAllProducts);
+  const [suggestions, setSuggestions] = React.useState([]);
   const suggestionPool = products.map((product) => {
     return { id: product._id, name: product.name, category: product.category };
   });
-  const [suggestions, setSuggestions] = React.useState(suggestionPool);
+
   const [searchValue, setSearchValue] = React.useState("");
 
-  console.log(suggestions);
   console.log(searchValue);
-
-  React.useEffect(() => {
-    const generateSuggestionPool = async () => {
-      await setSuggestions(suggestionPool);
-    };
-    generateSuggestionPool();
-  }, []);
 
   return (
     <Paper
@@ -36,7 +29,7 @@ export default function SearchBar() {
         p: "2px 4px",
         display: "flex",
         alignItems: "center",
-        minWidth: 300,
+        minWidth: 360,
         height: 40,
         ml: 2,
         p: 0,
@@ -62,17 +55,13 @@ export default function SearchBar() {
         />
       </Box>
 
-      {/* <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Your Product"
-        inputProps={{ "aria-label": "search google maps" }}
-        value={searchWord}
-        onChange={handleSearchWord}
-      /> */}
       <AutocompleteInput
         suggestions={suggestions}
         setSearchValue={setSearchValue}
         searchValue={searchValue}
+        setSuggestions={setSuggestions}
+        products={products}
+        suggestionPool={suggestionPool}
       />
       {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */}
       <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
