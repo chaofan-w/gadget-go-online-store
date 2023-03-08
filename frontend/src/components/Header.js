@@ -26,6 +26,7 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { ordersCleared } from "../features/orders/ordersSlice";
+import SearchBar from "./searchBar/SearchBar";
 const theme = createTheme({
   typography: {
     fontFamily: ["Lato", "Oswald", "Roboto"],
@@ -411,8 +412,9 @@ export default function PrimarySearchAppBar() {
                 </Typography>
               </IconButton>
             </Link>
+            <SearchBar />
 
-            <Search>
+            {/* <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -420,7 +422,7 @@ export default function PrimarySearchAppBar() {
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
               />
-            </Search>
+            </Search> */}
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               {loginCustomer.length > 0 && (
