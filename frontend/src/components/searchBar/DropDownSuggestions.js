@@ -20,12 +20,14 @@ export default function AutocompleteInput({
   suggestions,
   searchValue,
   setSearchValue,
+  setSuggestions,
+  products,
 }) {
   const handleSearchValueChange = (e, newValue) => {
     setSearchValue(newValue);
   };
 
-  // usage of getOptionLabel, getOptionSelected
+  // usage of getOptionLabel, getOptionSelected(updated to isOptionEqualToValue)
   // https://stackoverflow.com/questions/62494672/what-is-getoptionselected-and-getoptionlabel-in-material-ui-with-an-example
 
   return (
@@ -33,6 +35,19 @@ export default function AutocompleteInput({
       <StyledAutocomplete
         value={searchValue}
         onChange={handleSearchValueChange}
+        onFocus={() => {
+          if (suggestions.length === 0) {
+            setSuggestions(
+              products.map((product) => {
+                return {
+                  id: product._id,
+                  name: product.name,
+                  category: product.category,
+                };
+              })
+            );
+          }
+        }}
         freeSolo
         id="autocomplete-input"
         // disableClearable

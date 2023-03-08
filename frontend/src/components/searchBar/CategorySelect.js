@@ -4,11 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Tooltip, NativeSelect, InputBase } from "@mui/material";
 import styled from "styled-components";
-import { useSelector, dispatch } from "react-redux";
-import { selectAllCategories } from "../../features/categories/categoriesSlice";
-import { selectAllProducts } from "../../features/products/productsSlice";
 
 const StyledSelect = styled(Select)`
   & .MuiFilledInput-input {
