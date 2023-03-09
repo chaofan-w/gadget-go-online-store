@@ -1,11 +1,65 @@
-import React from 'react'
+import * as React from "react";
+import PropTypes from "prop-types";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-export const Spinner = ({ text = '', size = '5em' }) => {
-  const header = text ? <h4>{text}</h4> : null
+function CircularProgressWithLabel(props) {
   return (
-    <div className="spinner">
-      {header}
-      <div className="loader" style={{ height: size, width: size }} />
-    </div>
-  )
+    <Box
+      sx={{
+        position: "relative",
+        display: "inline-flex",
+        width: "100%",
+        height: "80vh",
+        // border: "1px solid red",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <CircularProgress size={60} variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography variant="caption" component="div" color="text.secondary">
+          {`${Math.round(props.value)}%`}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+CircularProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate variant.
+   * Value between 0 and 100.
+   * @default 0
+   */
+  value: PropTypes.number.isRequired,
+};
+
+export default function Spinner() {
+  const [progress, setProgress] = React.useState(10);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 5
+      );
+    }, 100);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  return <CircularProgressWithLabel value={progress} />;
 }

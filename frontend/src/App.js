@@ -7,7 +7,7 @@ import {
   Link,
 } from "react-router-dom";
 import PrimarySearchAppBar from "./components/Header";
-import ProductsPage from "./components/ProductsPage";
+import ProductsPage from "./pages/products/ProductsPage";
 import OrdersPage from "./pages/orders/OrdersPage";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -30,7 +30,7 @@ import {
   fetchCategories,
 } from "./features/categories/categoriesSlice";
 
-import ProductDetailCard from "./components/productDetailPage";
+import ProductDetailCard from "./pages/products/productDetailPage";
 import {
   fetchBodyLocations,
   selectAllBodyLocations,
@@ -63,6 +63,8 @@ import SignupForm from "./components/SignupForm";
 import CheckoutNavBar from "./pages/checkout/CheckoutNavBar";
 
 import { CheckoutContextProvider } from "./pages/checkout/CheckoutContext";
+import Spinner from "./components/Spinner";
+import SingleProductPage from "./pages/products/SingleProductPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -199,12 +201,19 @@ function App() {
   return (
     <Router>
       <PrimarySearchAppBar />
+      {(productsStatus === "pending" ||
+        cartsStatus === "pending" ||
+        reviewsStatus === "pending") && <Spinner />}
       <Routes>
         <Route path="/" element={<ProductsPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/checkout" element={<CheckoutNavBar />} />
         <Route path="/orders" element={<OrdersPage />} />
+        <Route
+          path="/products/:productId"
+          element={<SingleProductPage loginCustomer={loginCustomer} />}
+        />
       </Routes>
       {notification && notification.text && (
         <Snackbar

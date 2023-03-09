@@ -18,7 +18,7 @@ import { Box, Stack } from "@mui/material";
 import { BiBody } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
 import { BsBagPlusFill, BsFillBagDashFill } from "react-icons/bs";
-import AddToCartBtn from "./AddToCartBtn";
+import AddToCartBtn from "../../components/AddToCartBtn";
 
 export default function ProductDetailCard({
   product,

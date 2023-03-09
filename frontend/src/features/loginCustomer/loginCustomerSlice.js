@@ -9,7 +9,7 @@ const initialState = {
 export const fetchLoginCustomer = createAsyncThunk(
   "loginCustomer/fetchLoginCustomer",
   async ({ email, password }) => {
-    const response = await fetch(`api/customers/login/${email}/${password}`);
+    const response = await fetch(`/api/customers/login/${email}/${password}`);
     const loginCustomerData = response.json();
     return loginCustomerData;
   }

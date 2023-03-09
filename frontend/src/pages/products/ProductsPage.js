@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Spinner } from "./Spinner";
+import Spinner from "../../components/Spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Stack, Paper, Typography } from "@mui/material";
-import { selectAllProducts } from "../features/products/productsSlice";
-import { selectAllCategories } from "../features/categories/categoriesSlice";
+import { selectAllProducts } from "../../features/products/productsSlice";
+import { selectAllCategories } from "../../features/categories/categoriesSlice";
 
 import ProductDetailCard from "./productDetailPage";
-import { selectAllBodyLocations } from "../features/body_locations/bodyLocationsSlice";
-import { selectAllReviews } from "../features/reviews/reviewsSlice";
-import { selectAllCarts } from "../features/carts/cartsSlice";
+import { selectAllBodyLocations } from "../../features/body_locations/bodyLocationsSlice";
+import { selectAllReviews } from "../../features/reviews/reviewsSlice";
+import { selectAllCarts } from "../../features/carts/cartsSlice";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const ProductsPage = () => {
 
   let content;
   if (productsStatus === "loading") {
-    content = <Spinner text="Loading..." />;
+    content = <Spinner />;
   } else if (productsStatus === "succeeded") {
     content = products ? (
       // && categories
