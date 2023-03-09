@@ -47,7 +47,7 @@ export default function SingleProductPage({ loginCustomer }) {
   const [product, setProduct] = React.useState(null);
   const [productImg, setProductImg] = React.useState("");
   const { productId } = useParams();
-  console.log(product);
+  // console.log(product);
 
   React.useEffect(() => {
     const fetchProductById = async () => {
@@ -85,12 +85,12 @@ export default function SingleProductPage({ loginCustomer }) {
         <React.Fragment>
           <Card
             sx={{
+              width: { xs: 340, sm: 560 },
               maxWidth: 560,
               minWidth: 300,
               my: 3,
               mx: "auto",
-              position: "relative",
-              height: 500,
+              height: { xs: "fit-content", sm: 500 },
             }}
           >
             <CardHeader
@@ -114,10 +114,15 @@ export default function SingleProductPage({ loginCustomer }) {
               }
             />
             <Stack
-              direction={"row"}
+              direction={{ xs: "column", sm: "row" }}
               alignItems={"flex-start"}
               justifyContent={"space-between"}
-              sx={{ width: "100%", p: 2, height: 340, position: "relative" }}
+              sx={{
+                width: "100%",
+                p: 2,
+                height: { xs: "fit-content", sm: 340 },
+                position: "relative",
+              }}
             >
               {product.promotionPrice && (
                 <Box
@@ -171,11 +176,13 @@ export default function SingleProductPage({ loginCustomer }) {
 
               <List
                 sx={{
-                  ml: 2,
+                  ml: { xs: 0, sm: 2 },
+                  mt: { xs: 2, sm: 0 },
+                  width: { xs: 300, sm: 60 },
                   p: 0,
-                  height: 300,
+                  height: { xs: 60, sm: 300 },
                   display: "flex",
-                  flexDirection: "column",
+                  flexDirection: { xs: "row", sm: "column" },
                   gap: 1,
                   alignItems: "flex-end",
                   justifyContent: "space-between",
@@ -231,7 +238,11 @@ export default function SingleProductPage({ loginCustomer }) {
                 justifyContent={"space-between"}
                 sx={{ height: 300, flex: 1 }}
               >
-                <Stack direction="row" spacing={2} sx={{ pt: 1, mx: 1 }}>
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  sx={{ pt: 1, mx: { xs: 0, sm: 1 } }}
+                >
                   {/* <Typography variant="caption">{`Product Id: ${product._id}`}</Typography> */}
                   <Typography
                     variant="caption"
@@ -270,12 +281,30 @@ export default function SingleProductPage({ loginCustomer }) {
                       ).body_location}
                   </Typography>
                 </Stack>
-                <CardContent>
-                  <Stack direction={"column"} alignItems="flex-end">
+                <CardContent
+                  sx={{
+                    width: { xs: 300, sm: 160 },
+                    m: 0,
+                    pt: { xs: 2 },
+                    px: { xs: 0 },
+                    display: "flex",
+                    alignItems: { sm: "flex-end" },
+                    justifyContent: { sm: "flex-end" },
+                  }}
+                >
+                  <Stack
+                    sx={{
+                      width: { xs: 300, sm: 100 },
+                      m: 0,
+                    }}
+                    direction={{ xs: "row", sm: "column" }}
+                    alignItems={{ xs: "flex-end", sm: "flex-end" }}
+                    justifyContent={{ xs: "flex-start", sm: "center" }}
+                  >
                     <Typography
                       variant="h5"
                       color="text.secondary"
-                      // sx={{ mr: 2 }}
+                      sx={{ mr: { xs: 2, sm: 0 } }}
                     >
                       {`$ ${
                         product.promotionPrice
@@ -296,7 +325,7 @@ export default function SingleProductPage({ loginCustomer }) {
                     )}
                   </Stack>
                 </CardContent>
-                <Box width={100}>
+                <Box width={{ xs: 300, sm: 140 }}>
                   <AddToCartBtn
                     carts={carts}
                     quantity={quantity}

@@ -19,6 +19,7 @@ import { BiBody } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
 import { BsBagPlusFill, BsFillBagDashFill } from "react-icons/bs";
 import AddToCartBtn from "../../components/AddToCartBtn";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductDetailCard({
   product,
@@ -29,6 +30,7 @@ export default function ProductDetailCard({
 }) {
   const compareDate = new Date(2023, 1, 10);
   const [quantity, setQuantity] = React.useState(0);
+  const navigate = useNavigate();
 
   const reviewsByProduct = reviews.filter(
     (review) => review.productId === product._id
@@ -86,7 +88,10 @@ export default function ProductDetailCard({
       )}
       <CardHeader
         action={
-          <IconButton aria-label="settings">
+          <IconButton
+            aria-label="settings"
+            onClick={() => navigate(`/products/${product._id}`)}
+          >
             <MoreVertIcon />
           </IconButton>
         }
