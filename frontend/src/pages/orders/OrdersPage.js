@@ -36,7 +36,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { selectLoginCustomer } from "../../features/loginCustomer/loginCustomerSlice";
 import { style } from "@mui/system";
-import Spinner from "../../components/Spinner";
+import { Spinner } from "../../components/Spinner";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

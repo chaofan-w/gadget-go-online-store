@@ -19,6 +19,8 @@ import {
   IconButton,
   Typography,
   Divider,
+  ListItemButton,
+  ListItem,
 } from "@mui/material";
 import { BiBody } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
@@ -43,6 +45,7 @@ export default function SingleProductPage({ loginCustomer }) {
   const reviews = useSelector(selectAllReviews);
   const carts = useSelector(selectAllCarts);
   const [product, setProduct] = React.useState(null);
+  const [productImg, setProductImg] = React.useState("");
   const { productId } = useParams();
   console.log(product);
 
@@ -55,6 +58,7 @@ export default function SingleProductPage({ loginCustomer }) {
             .then((result) => {
               if (result.status === 200) {
                 setProduct(result.data[0]);
+                setProductImg(result.data[0].imageSrc);
               } else {
                 console.log(result.message);
               }
@@ -89,47 +93,6 @@ export default function SingleProductPage({ loginCustomer }) {
               height: 500,
             }}
           >
-            {product.promotionPrice && (
-              <Box
-                sx={{
-                  width: 60,
-                  height: 30,
-                  bgcolor: "primary.main",
-                  position: "absolute",
-                  top: 120,
-                  left: 0,
-                  zIndex: 10,
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                <Typography variant="caption" sx={{ lineHeight: "30px" }}>
-                  {`${Math.round(
-                    ((product.price - product.promotionPrice) / product.price) *
-                      100
-                  )}% OFF`}
-                </Typography>
-              </Box>
-            )}
-            {new Date(product.arrivalDate) > compareDate && (
-              <Box
-                sx={{
-                  width: 40,
-                  height: 70,
-                  bgcolor: "primary.main",
-                  position: "absolute",
-                  top: 120,
-                  right: 10,
-                  zIndex: 10,
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                <Typography variant="caption" sx={{ lineHeight: "30px" }}>
-                  New Arrival
-                </Typography>
-              </Box>
-            )}
             <CardHeader
               action={
                 <IconButton aria-label="settings">
@@ -141,7 +104,7 @@ export default function SingleProductPage({ loginCustomer }) {
                   sx={{
                     width: "100%",
                     height: "fit-content",
-                    overflow: "hidden",
+                    overflow: "auto",
                   }}
                 >
                   <Typography variant="h6" sx={{ lineHeight: 1 }}>
@@ -154,14 +117,114 @@ export default function SingleProductPage({ loginCustomer }) {
               direction={"row"}
               alignItems={"flex-start"}
               justifyContent={"space-between"}
-              sx={{ width: "100%", p: 2, height: 340 }}
+              sx={{ width: "100%", p: 2, height: 340, position: "relative" }}
             >
+              {product.promotionPrice && (
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 30,
+                    bgcolor: "secondary.main",
+                    position: "absolute",
+                    top: 30,
+                    left: 16,
+                    zIndex: 10,
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography variant="caption" sx={{ lineHeight: "30px" }}>
+                    {`${Math.round(
+                      ((product.price - product.promotionPrice) /
+                        product.price) *
+                        100
+                    )}% OFF`}
+                  </Typography>
+                </Box>
+              )}
+              {new Date(product.arrivalDate) > compareDate && (
+                <Box
+                  sx={{
+                    width: 40,
+                    height: 70,
+                    bgcolor: "secondary.main",
+                    position: "absolute",
+                    top: 16,
+                    left: 260,
+                    zIndex: 10,
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography variant="caption" sx={{ lineHeight: "30px" }}>
+                    New Arrival
+                  </Typography>
+                </Box>
+              )}
               <CardMedia
                 component="img"
                 sx={{ height: 300, width: 300 }}
-                image={product.imageSrc}
+                image={productImg}
+                // image={product.imageSrc}
                 alt={`Id: ${product._id}`}
               />
+
+              <List
+                sx={{
+                  ml: 2,
+                  p: 0,
+                  height: 300,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                  alignItems: "flex-end",
+                  justifyContent: "space-between",
+                }}
+              >
+                {[1, 2, 3].map((img) => (
+                  <ListItem sx={{ width: 60, height: 60, m: 0, p: 0 }}>
+                    <ListItemButton
+                      sx={{ width: 60, height: 60, m: 0, p: 0 }}
+                      onClick={() =>
+                        setProductImg(
+                          `https://loremflickr.com/320/240/gadget?${product._id}-${img}`
+                        )
+                      }
+                    >
+                      <img
+                        src={`https://loremflickr.com/320/240/gadget?${product._id}-${img}`}
+                        style={{
+                          width: 60,
+                          height: 60,
+                          filter:
+                            productImg ===
+                            `https://loremflickr.com/320/240/gadget?${product._id}-${img}`
+                              ? "grayscale(0)"
+                              : "grayscale(100%)",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+                <ListItem sx={{ width: 60, height: 60, m: 0, p: 0 }}>
+                  <ListItemButton
+                    sx={{ width: 60, height: 60, m: 0, p: 0 }}
+                    onClick={() => setProductImg(product.imageSrc)}
+                  >
+                    <img
+                      src={product.imageSrc}
+                      style={{
+                        width: 60,
+                        height: 60,
+                        filter:
+                          productImg === product.imageSrc
+                            ? "grayscale(0)"
+                            : "grayscale(100%)",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </List>
               <Stack
                 direction={"column"}
                 alignItems="flex-end"

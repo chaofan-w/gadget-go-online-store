@@ -63,7 +63,7 @@ import SignupForm from "./components/SignupForm";
 import CheckoutNavBar from "./pages/checkout/CheckoutNavBar";
 
 import { CheckoutContextProvider } from "./pages/checkout/CheckoutContext";
-import Spinner from "./components/Spinner";
+import { Spinner } from "./components/Spinner";
 import SingleProductPage from "./pages/products/SingleProductPage";
 
 function App() {

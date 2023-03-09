@@ -1,5 +1,5 @@
 import * as React from "react";
-import Spinner from "../../components/Spinner";
+import { Spinner } from "../../components/Spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Stack, Paper, Typography } from "@mui/material";
 import { selectAllProducts } from "../../features/products/productsSlice";
