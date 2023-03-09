@@ -192,7 +192,7 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
+      {/* <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
         <IconButton
           size="medium"
           aria-label="show 4 new mails"
@@ -205,7 +205,7 @@ export default function PrimarySearchAppBar() {
         <Typography variant="body2" color="primary">
           Messages
         </Typography>
-      </MenuItem>
+      </MenuItem> */}
       <Link to="/checkout" style={{ textDecoration: "none" }}>
         <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
           <IconButton
@@ -380,7 +380,7 @@ export default function PrimarySearchAppBar() {
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               {loginCustomer.length > 0 && (
                 <>
-                  <IconButton
+                  {/* <IconButton
                     size="large"
                     aria-label="show 4 new mails"
                     // color="secondary"
@@ -389,7 +389,7 @@ export default function PrimarySearchAppBar() {
                     <Badge badgeContent={4} color="error">
                       <MailIcon />
                     </Badge>
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton
                     disabled={
                       carts.length === 0 || carts[0].products.length === 0

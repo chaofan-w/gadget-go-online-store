@@ -7,6 +7,7 @@ import { useSelector, dispatch } from "react-redux";
 import { selectAllCategories } from "../../features/categories/categoriesSlice";
 import { selectAllProducts } from "../../features/products/productsSlice";
 import AutocompleteInput from "./DropDownSuggestions";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
   const categories = useSelector(selectAllCategories);
@@ -18,6 +19,14 @@ export default function SearchBar() {
   });
 
   const [searchValue, setSearchValue] = React.useState("");
+  const navigate = useNavigate();
+
+  const handleSearchProductById = () => {
+    if (searchValue) {
+      navigate(`/products/${searchValue.id}`);
+      setSearchValue("");
+    }
+  };
 
   console.log(searchValue);
 
@@ -64,7 +73,12 @@ export default function SearchBar() {
         suggestionPool={suggestionPool}
       />
       {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */}
-      <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+      <IconButton
+        type="button"
+        sx={{ p: "10px" }}
+        aria-label="search"
+        onClick={handleSearchProductById}
+      >
         <SearchIcon />
       </IconButton>
     </Paper>

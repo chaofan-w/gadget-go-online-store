@@ -36,6 +36,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { selectLoginCustomer } from "../../features/loginCustomer/loginCustomerSlice";
 import { style } from "@mui/system";
+import Spinner from "../../components/Spinner";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -370,144 +371,162 @@ export default function OrdersPage() {
   const anchor = "right";
 
   return (
-    <Box
-      sx={{ width: "100%", p: 5, bgcolor: "primary.light", minHeight: "90vh" }}
-    >
-      {rows && rows.length > 0 ? (
-        <>
-          <Paper sx={{ width: "100%", mb: 2 }}>
-            <EnhancedTableToolbar numSelected={selected.length} />
-            <TableContainer>
-              <Table
-                sx={{ minWidth: 750 }}
-                aria-labelledby="tableTitle"
-                size={dense ? "small" : "medium"}
-              >
-                <EnhancedTableHead
-                  numSelected={selected.length}
-                  order={order}
-                  orderBy={orderBy}
-                  onSelectAllClick={handleSelectAllClick}
-                  onRequestSort={handleRequestSort}
-                  rowCount={rows.length}
-                />
-                <TableBody>
-                  {stableSort(rows, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((item, index) => {
-                      const isItemSelected = isSelected(item.orderId);
-                      const labelId = `enhanced-table-checkbox-${index}`;
+    <>
+      {ordersStatus === "loading" ? (
+        <Spinner />
+      ) : (
+        <Box
+          sx={{
+            width: "100%",
+            p: 5,
+            bgcolor: "primary.light",
+            minHeight: "90vh",
+          }}
+        >
+          {rows && rows.length > 0 ? (
+            <>
+              <Paper sx={{ width: "100%", mb: 2 }}>
+                <EnhancedTableToolbar numSelected={selected.length} />
+                <TableContainer>
+                  <Table
+                    sx={{ minWidth: 750 }}
+                    aria-labelledby="tableTitle"
+                    size={dense ? "small" : "medium"}
+                  >
+                    <EnhancedTableHead
+                      numSelected={selected.length}
+                      order={order}
+                      orderBy={orderBy}
+                      onSelectAllClick={handleSelectAllClick}
+                      onRequestSort={handleRequestSort}
+                      rowCount={rows.length}
+                    />
+                    <TableBody>
+                      {stableSort(rows, getComparator(order, orderBy))
+                        .slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                        .map((item, index) => {
+                          const isItemSelected = isSelected(item.orderId);
+                          const labelId = `enhanced-table-checkbox-${index}`;
 
-                      return (
-                        <TableRow
-                          hover
-                          onClick={(event) => handleClick(event, item.orderId)}
-                          role="checkbox"
-                          aria-checked={isItemSelected}
-                          tabIndex={-1}
-                          key={item.orderId}
-                          selected={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              color="primary"
-                              checked={isItemSelected}
-                              inputProps={{
-                                "aria-labelledby": labelId,
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="order"
-                            padding="none"
-                          >
-                            {item.orderId}
-                          </TableCell>
-                          <TableCell align="right">
-                            {new Date(item.date).toDateString()}
-                            {/* {new Date(item.date).toDateString()} */}
-                          </TableCell>
-                          <TableCell align="right">
-                            {item.products}
-                            {/* {item.products.reduce(
+                          return (
+                            <TableRow
+                              hover
+                              onClick={(event) =>
+                                handleClick(event, item.orderId)
+                              }
+                              role="checkbox"
+                              aria-checked={isItemSelected}
+                              tabIndex={-1}
+                              key={item.orderId}
+                              selected={isItemSelected}
+                            >
+                              <TableCell padding="checkbox">
+                                <Checkbox
+                                  color="primary"
+                                  checked={isItemSelected}
+                                  inputProps={{
+                                    "aria-labelledby": labelId,
+                                  }}
+                                />
+                              </TableCell>
+                              <TableCell
+                                component="th"
+                                id={labelId}
+                                scope="order"
+                                padding="none"
+                              >
+                                {item.orderId}
+                              </TableCell>
+                              <TableCell align="right">
+                                {new Date(item.date).toDateString()}
+                                {/* {new Date(item.date).toDateString()} */}
+                              </TableCell>
+                              <TableCell align="right">
+                                {item.products}
+                                {/* {item.products.reduce(
                               (accum, curr) => accum + curr.quantity,
                               0
                             )} */}
-                          </TableCell>
-                          <TableCell align="right">
-                            {item.discount === 0.0
-                              ? "N/A"
-                              : `${(item.discount * 100).toFixed()}% OFF`}
-                            {/* {(1 - item.discount).toFixed(2)} */}
-                          </TableCell>
-                          <TableCell align="right">
-                            {`$${item.total}`}
-                            {/* {(
+                              </TableCell>
+                              <TableCell align="right">
+                                {item.discount === 0.0
+                                  ? "N/A"
+                                  : `${(item.discount * 100).toFixed()}% OFF`}
+                                {/* {(1 - item.discount).toFixed(2)} */}
+                              </TableCell>
+                              <TableCell align="right">
+                                {`$${item.total}`}
+                                {/* {(
                               item.products.reduce(
                                 (accum, curr) =>
                                   accum + curr.price * curr.quantity,
                                 0
                               ) * item.discount
                             ).toFixed(2)} */}
-                          </TableCell>
-                          <TableCell align="left">{item.status}</TableCell>
-                          <TableCell align="left">{item.detail}</TableCell>
+                              </TableCell>
+                              <TableCell align="left">{item.status}</TableCell>
+                              <TableCell align="left">{item.detail}</TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      {emptyRows > 0 && (
+                        <TableRow
+                          style={{
+                            height: (dense ? 33 : 53) * emptyRows,
+                          }}
+                        >
+                          <TableCell colSpan={6} />
                         </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow
-                      style={{
-                        height: (dense ? 33 : 53) * emptyRows,
-                      }}
-                    >
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={orders.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper>
-          <FormControlLabel
-            control={<Switch checked={dense} onChange={handleChangeDense} />}
-            label="Dense padding"
-          />
-        </>
-      ) : (
-        <Typography>No Orders</Typography>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={orders.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>
+              <FormControlLabel
+                control={
+                  <Switch checked={dense} onChange={handleChangeDense} />
+                }
+                label="Dense padding"
+              />
+            </>
+          ) : (
+            <Typography>No Orders</Typography>
+          )}
+          {reviewOrderId && (
+            <SwipeableDrawer
+              anchor={anchor}
+              open={reviewOrderId ? true : false}
+              onClose={() => setReviewOrderId(null)}
+              onOpen={toggleDrawer(anchor, true)}
+            >
+              <Box
+                sx={{
+                  width: "40vw",
+                  height: "100vh",
+                  p: 3,
+                }}
+              >
+                <OrderDetailDrawer
+                  order={orders.find((i) => i._id === reviewOrderId) || {}}
+                  orderId={reviewOrderId}
+                />
+              </Box>
+            </SwipeableDrawer>
+          )}
+        </Box>
       )}
-      {reviewOrderId && (
-        <SwipeableDrawer
-          anchor={anchor}
-          open={reviewOrderId ? true : false}
-          onClose={() => setReviewOrderId(null)}
-          onOpen={toggleDrawer(anchor, true)}
-        >
-          <Box
-            sx={{
-              width: "40vw",
-              height: "100vh",
-              p: 3,
-            }}
-          >
-            <OrderDetailDrawer
-              order={orders.find((i) => i._id === reviewOrderId) || {}}
-              orderId={reviewOrderId}
-            />
-          </Box>
-        </SwipeableDrawer>
-      )}
-    </Box>
+    </>
   );
 }
