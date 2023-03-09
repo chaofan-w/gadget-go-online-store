@@ -28,7 +28,7 @@ export default function SearchBar() {
     }
   };
 
-  console.log(searchValue);
+  // console.log(searchValue);
 
   return (
     <Paper
