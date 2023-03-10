@@ -8,6 +8,8 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
+import Rating from "@mui/material/Rating";
+import RatingStars from "./Rating";
 
 const Comments = ({ review }) => {
   const [customer, setCustomer] = React.useState(null);
@@ -45,14 +47,17 @@ const Comments = ({ review }) => {
             <ListItemAvatar>
               <Avatar
                 alt={customer.firstName + " " + customer.lastName}
-                src="https://placebeard.it/30x30"
+                src={`https://placebeard.it/30x30?${customerId}`}
               />
             </ListItemAvatar>
             <ListItemText
               primary={
-                <Typography variant="subtitle1">
-                  {customer.firstName + " " + customer.lastName}
-                </Typography>
+                <>
+                  <Typography variant="subtitle1">
+                    {customer.firstName + " " + customer.lastName}
+                  </Typography>
+                  <RatingStars ratingValue={review.rating} />
+                </>
               }
               secondary={
                 <React.Fragment>
@@ -63,6 +68,13 @@ const Comments = ({ review }) => {
                     color="text.primary"
                   >
                     {new Date(review.date).toDateString()} - {review.text}
+                    {/* {(
+                      (new Date().getTime() - new Date(review.date).getTime()) /
+                      1000 /
+                      3600 /
+                      24
+                    ).toFixed()}{" "}
+                    days ago - {review.text} */}
                   </Typography>
                 </React.Fragment>
               }

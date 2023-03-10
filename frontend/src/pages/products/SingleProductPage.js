@@ -36,6 +36,7 @@ import { selectLoginCustomer } from "../../features/loginCustomer/loginCustomerS
 import { SignalCellularNullRounded } from "@mui/icons-material";
 import Spinner from "../../components/Spinner";
 import Comments from "./Comments";
+import RatingStars from "./Rating";
 
 export default function SingleProductPage({ loginCustomer }) {
   // console.log(productId);
@@ -345,37 +346,34 @@ export default function SingleProductPage({ loginCustomer }) {
                 justifyContent: "space-between",
               }}
             >
-              <IconButton aria-label="add to favorites">
+              <Box sx={{ p: 1 }}>
                 <Stack direction={"row"} alignItems="center">
-                  <FavoriteIcon
+                  {/* <FavoriteIcon
                     sx={{
                       color:
                         reviewsByProduct.length > 0 ? "secondary.main" : "grey",
                     }}
-                  />
+                  /> */}
                   {reviewsByProduct.length > 0 && (
-                    <React.Fragment>
-                      <Typography
-                        variant="body2"
-                        fontWeight={"medium"}
-                        sx={{ mr: 1 }}
-                      >
-                        {Math.round(
+                    <Stack direciton="column" alignItems={"flex-start"}>
+                      <RatingStars
+                        ratingValue={Math.round(
                           reviewsByProduct.reduce(
                             (accum, curr) => accum + curr.rating,
                             0
                           ) / reviewsByProduct.length,
                           1
                         )}
-                      </Typography>
+                      />
+
                       <Typography
                         variant="body2"
                         fontWeight={"medium"}
-                      >{`(${reviewsByProduct.length})`}</Typography>
-                    </React.Fragment>
+                      >{`total: ${reviewsByProduct.length} reviews`}</Typography>
+                    </Stack>
                   )}
                 </Stack>
-              </IconButton>
+              </Box>
             </CardActions>
           </Card>
           <Divider
