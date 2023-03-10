@@ -6,6 +6,8 @@ const {
   getLoginCustomer,
   postNewCustomer,
   postNewOrder,
+  postNewProductReview,
+  patchProductReview,
 } = require("./routeCallbacks");
 
 const router = require("express").Router();
@@ -187,6 +189,7 @@ router.get(
   getMidWareGen({ collectionName: "reviews" }),
   getDocByIdFromCollection
 );
+router.patch("/api/reviews/updateReview", patchProductReview);
 router.get(
   "/api/reviews/customer/:categoryValue",
   getMidWareGen({ collectionName: "reviews", filterFieldName: "customerId" }),
@@ -202,6 +205,7 @@ router.get(
   getMidWareGen({ collectionName: "reviews", filterFieldName: "productId" }),
   filterByCategory
 );
+router.post("/api/reviews/postreview", postNewProductReview);
 
 // ################## handle wrong url #############################
 // ################## handle wrong url #############################

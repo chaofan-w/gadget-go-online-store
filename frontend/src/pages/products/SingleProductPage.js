@@ -190,7 +190,10 @@ export default function SingleProductPage({ loginCustomer }) {
                 }}
               >
                 {[1, 2, 3].map((img) => (
-                  <ListItem sx={{ width: 60, height: 60, m: 0, p: 0 }}>
+                  <ListItem
+                    key={`alternativeImg-${img}`}
+                    sx={{ width: 60, height: 60, m: 0, p: 0 }}
+                  >
                     <ListItemButton
                       sx={{ width: 60, height: 60, m: 0, p: 0 }}
                       onClick={() =>
@@ -244,43 +247,56 @@ export default function SingleProductPage({ loginCustomer }) {
                   spacing={2}
                   sx={{ pt: 1, mx: { xs: 0, sm: 1 } }}
                 >
-                  {/* <Typography variant="caption">{`Product Id: ${product._id}`}</Typography> */}
-                  <Typography
-                    variant="caption"
-                    fontWeight={"bold"}
-                    sx={{
-                      color: "secondary.main",
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: 1,
-                      alignItems: "center",
-                    }}
-                  >
-                    <GoTasklist />{" "}
-                    {categories &&
+                  {categories && categories.length > 0 && (
+                    <Typography
+                      variant="caption"
+                      fontWeight={"bold"}
+                      sx={{
+                        color: "secondary.main",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 1,
+                        alignItems: "center",
+                      }}
+                    >
+                      <GoTasklist />{" "}
+                      {
+                        categories.find(
+                          (category) => category._id === product.category
+                        ).category
+                      }
+                      {/* {categories &&
                       categories.length > 0 &&
                       categories.find(
                         (category) => category._id === product.category
-                      ).category}
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    fontWeight={"bold"}
-                    sx={{
-                      color: "secondary.main",
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: 1,
-                      alignItems: "center",
-                    }}
-                  >
-                    <BiBody />{" "}
-                    {body_locations &&
+                      ).category} */}
+                    </Typography>
+                  )}
+                  {body_locations && body_locations.length > 0 && (
+                    <Typography
+                      variant="caption"
+                      fontWeight={"bold"}
+                      sx={{
+                        color: "secondary.main",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 1,
+                        alignItems: "center",
+                      }}
+                    >
+                      <BiBody />{" "}
+                      {
+                        body_locations.find(
+                          (location) => location._id === product.body_location
+                        ).body_location
+                      }
+                      {/* {body_locations &&
                       body_locations.length > 0 &&
                       body_locations.find(
                         (location) => location._id === product.body_location
-                      ).body_location}
-                  </Typography>
+                      ).body_location} */}
+                    </Typography>
+                  )}
                 </Stack>
                 <CardContent
                   sx={{

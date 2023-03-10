@@ -1,10 +1,20 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Typography, Stack, Grid } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Stack,
+  Grid,
+  Button,
+  SwipeableDrawer,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllProducts } from "../../features/products/productsSlice";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Transform } from "@mui/icons-material";
+import WriteReview from "../../components/WriteReview";
+import { selectAllCategories } from "../../features/categories/categoriesSlice";
 
 const theme = createTheme({
   palette: {
@@ -72,8 +82,9 @@ const theme = createTheme({
   },
 });
 
-const OrderDetailDrawer = ({ order, orderId }) => {
+const OrderDetailDrawer = ({ order, orderId, loginCustomer }) => {
   const products = useSelector(selectAllProducts);
+  const categories = useSelector(selectAllCategories);
 
   const {
     firstName,
@@ -118,6 +129,25 @@ const OrderDetailDrawer = ({ order, orderId }) => {
     },
   ];
 
+  const anchor = "right";
+  const [drawerState, setDrawerState] = React.useState({
+    [anchor]: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setDrawerState({ ...drawerState, [anchor]: open });
+  };
+
+  const [productArg, setProductArg] = React.useState([]);
+
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -125,6 +155,7 @@ const OrderDetailDrawer = ({ order, orderId }) => {
         sx={{
           width: "100%",
           minWidth: 360,
+          position: "relative",
         }}
       >
         <Grid item xs={12} md={12} sx={{ height: "auto" }}>
@@ -147,7 +178,7 @@ const OrderDetailDrawer = ({ order, orderId }) => {
               >
                 <Grid
                   item
-                  xs={3}
+                  xs={4}
                   sm={3}
                   md={4}
                   sx={{
@@ -174,31 +205,7 @@ const OrderDetailDrawer = ({ order, orderId }) => {
                 </Grid>
                 <Grid
                   item
-                  xs={6}
-                  sm={4}
-                  md={4}
-                  sx={{
-                    height: 100,
-                    // border: "1px solid green",
-                    p: 0,
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      lineHeight: 1.5,
-                      display: "flex",
-                      alignItems: "center",
-                      height: "100%",
-                      // border: "1px solid green",
-                    }}
-                  >
-                    {product.name}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
+                  xs={8}
                   sm={4}
                   md={4}
                   sx={{
@@ -208,13 +215,56 @@ const OrderDetailDrawer = ({ order, orderId }) => {
                   }}
                 >
                   <Stack
+                    direction="column"
+                    justifyContent={"space-between"}
+                    sx={{ height: "100%", py: 1 }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        lineHeight: 1,
+                        display: "flex",
+                        alignItems: "center",
+                        height: "100%",
+                        // border: "1px solid green",
+                      }}
+                    >
+                      {product.name}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      sx={{ p: 0 }}
+                      onClick={async () => {
+                        await setProductArg(product);
+                        await setDrawerState({ [anchor]: true });
+                      }}
+                    >
+                      <Typography variant="caption" sx={{ fontSize: "10px" }}>
+                        Write a review
+                      </Typography>
+                    </Button>
+                  </Stack>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  md={4}
+                  sx={{
+                    height: { xs: 50, sm: 100 },
+                    // border: "1px solid green",
+                    p: 0,
+                  }}
+                >
+                  <Stack
                     direction="row"
                     alignItems="center"
-                    justifyContent={"space-between"}
+                    justifyContent={{ xs: "flex-end", sm: "space-between" }}
                     sx={{ height: "100%", p: 0 }}
                   >
                     <Stack
-                      direction="column"
+                      direction={{ xs: "row", sm: "column" }}
                       alignItems="flex-start"
                       justifyContent="flex-start"
                     >
@@ -242,8 +292,15 @@ const OrderDetailDrawer = ({ order, orderId }) => {
               `}
                       </Typography>
                     </Stack>
-                    <Stack direction={"column"}>
-                      <Typography variant="caption" sx={{ mr: 1 }}>
+                    <Stack
+                      direction={{ xs: "row", sm: "column" }}
+                      alignItems={{ xs: "center", sm: "flex-start" }}
+                      sx={{ pr: 1 }}
+                    >
+                      <Typography
+                        variant="caption"
+                        sx={{ mr: 1, ml: { xs: 2, sm: 0 } }}
+                      >
                         subtotal
                       </Typography>
                       <Typography variant="subtitle1">
@@ -418,6 +475,22 @@ const OrderDetailDrawer = ({ order, orderId }) => {
             </Stack>
           </Stack>
         </Grid>
+
+        <SwipeableDrawer
+          anchor={anchor}
+          open={drawerState[anchor]}
+          onClose={() => setDrawerState({ [anchor]: false })}
+          onOpen={toggleDrawer(anchor, true)}
+        >
+          <Box
+            sx={{
+              minWidth: 360,
+            }}
+          >
+            <WriteReview product={productArg} loginCustomer={loginCustomer} />
+            {/* drawer */}
+          </Box>
+        </SwipeableDrawer>
       </Grid>
     </ThemeProvider>
   );
