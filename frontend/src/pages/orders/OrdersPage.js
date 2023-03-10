@@ -513,6 +513,7 @@ export default function OrdersPage() {
             >
               <Box
                 sx={{
+                  minWidth: 360,
                   width: "40vw",
                   height: "100vh",
                   p: 3,
@@ -521,6 +522,7 @@ export default function OrdersPage() {
                 <OrderDetailDrawer
                   order={orders.find((i) => i._id === reviewOrderId) || {}}
                   orderId={reviewOrderId}
+                  loginCustomer={loginCustomer}
                 />
               </Box>
             </SwipeableDrawer>

@@ -280,6 +280,88 @@ const postNewOrder = async (req, res) => {
   }
 };
 
+const postNewProductReview = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  await client.connect();
+  console.log(`${dbName} connected`);
+  try {
+    const { customerId, rating, productId, text } = req.body;
+
+    const addNewReview = await db.collection("reviews").insertOne({
+      customerId: customerId,
+      date: new Date(),
+      rating: rating,
+      productId: productId,
+      text: text,
+    });
+
+    if (addNewReview.acknowledged) {
+      sendResponse(
+        res,
+        200,
+        addNewReview.insertedId,
+        "Thanks for your product review!"
+      );
+    } else {
+      sendResponse(
+        res,
+        400,
+        null,
+        "Sorry, server error ocurred, please try again later."
+      );
+    }
+  } catch (err) {
+    sendResponse(res, 402, null, err.message);
+  } finally {
+    client.close();
+    console.log(`${dbName} disconnected`);
+  }
+};
+
+const patchProductReview = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  await client.connect();
+  console.log(`${dbName} connected`);
+  try {
+    const { reviewId, rating, text } = req.body;
+    console.log(reviewId);
+
+    const updateReview = await db.collection("reviews").updateOne(
+      { _id: new ObjectId(reviewId) },
+      {
+        $set: {
+          date: new Date(),
+          rating: rating,
+          text: text,
+        },
+      }
+    );
+
+    if (updateReview.modifiedCount === 1) {
+      sendResponse(
+        res,
+        200,
+        reviewId,
+        "Your product review has been updated successfully!"
+      );
+    } else {
+      sendResponse(
+        res,
+        400,
+        null,
+        "Sorry, server error ocurred, please try again later."
+      );
+    }
+  } catch (err) {
+    sendResponse(res, 402, null, err.message);
+  } finally {
+    client.close();
+    console.log(`${dbName} disconnected`);
+  }
+};
+
 module.exports = {
   getAllDocsOfCollection,
   getDocByIdFromCollection,
@@ -287,4 +369,6 @@ module.exports = {
   getLoginCustomer,
   postNewCustomer,
   postNewOrder,
+  postNewProductReview,
+  patchProductReview,
 };
