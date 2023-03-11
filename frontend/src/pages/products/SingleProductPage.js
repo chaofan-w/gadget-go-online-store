@@ -410,7 +410,9 @@ export default function SingleProductPage({ loginCustomer }) {
             }}
           >
             {reviewsByProduct &&
-              reviewsByProduct.map((review) => <Comments review={review} />)}
+              reviewsByProduct.map((review) => (
+                <Comments review={review} key={review._id} />
+              ))}
           </List>
         </React.Fragment>
       )}

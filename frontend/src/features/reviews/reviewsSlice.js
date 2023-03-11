@@ -67,6 +67,25 @@ export const patchProductReview = createAsyncThunk(
     }
   }
 );
+export const deleteProductReview = createAsyncThunk(
+  "reviews/deleteProductReview",
+  async ({ reviewId }) => {
+    try {
+      const option = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+      const response = await fetch(`/api/reviews/${reviewId}`, option);
+      const result = response.json();
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
 
 const reviewsSlice = createSlice({
   name: "reviews",
@@ -106,6 +125,17 @@ const reviewsSlice = createSlice({
         state.error = action.payload.message;
       })
       .addCase(patchProductReview.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload.message;
+      })
+      .addCase(deleteProductReview.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(deleteProductReview.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.error = action.payload.message;
+      })
+      .addCase(deleteProductReview.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload.message;
       });

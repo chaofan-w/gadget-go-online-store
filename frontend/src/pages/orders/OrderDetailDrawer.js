@@ -487,8 +487,13 @@ const OrderDetailDrawer = ({ order, orderId, loginCustomer }) => {
               minWidth: 360,
             }}
           >
-            <WriteReview product={productArg} loginCustomer={loginCustomer} />
-            {/* drawer */}
+            <WriteReview
+              product={productArg}
+              loginCustomer={loginCustomer}
+              anchor={anchor}
+              setDrawerState={setDrawerState}
+              drawerState={drawerState}
+            />
           </Box>
         </SwipeableDrawer>
       </Grid>

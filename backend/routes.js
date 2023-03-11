@@ -8,6 +8,7 @@ const {
   postNewOrder,
   postNewProductReview,
   patchProductReview,
+  deleteOneDocById,
 } = require("./routeCallbacks");
 
 const router = require("express").Router();
@@ -188,6 +189,11 @@ router.get(
   "/api/reviews/:id",
   getMidWareGen({ collectionName: "reviews" }),
   getDocByIdFromCollection
+);
+router.delete(
+  "/api/reviews/:id",
+  getMidWareGen({ collectionName: "reviews" }),
+  deleteOneDocById
 );
 router.patch("/api/reviews/updateReview", patchProductReview);
 router.get(

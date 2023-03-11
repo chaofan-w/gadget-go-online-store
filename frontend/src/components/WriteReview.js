@@ -38,6 +38,7 @@ import {
   notificationClosed,
 } from "../features/notifications/notificationsSlice";
 import {
+  deleteProductReview,
   fetchReviews,
   patchProductReview,
   postNewReview,
@@ -48,7 +49,13 @@ import { selectLoginCustomer } from "../features/loginCustomer/loginCustomerSlic
 import { SignalCellularNullRounded } from "@mui/icons-material";
 import Spinner from "../components/Spinner";
 
-export default function WriteReview({ loginCustomer, product }) {
+export default function WriteReview({
+  loginCustomer,
+  product,
+  anchor,
+  setDrawerState,
+  drawerStatre,
+}) {
   async function handleNotification({ text, severity }) {
     await dispatch(
       notificationDisplayed({
@@ -76,20 +83,6 @@ export default function WriteReview({ loginCustomer, product }) {
   const [bodyLocationName, setBodyLocationName] = React.useState("");
   const [reviewIdValue, setReviewIdValue] = React.useState("");
 
-  // console.log(
-  //   "reviewIdValue: " +
-  //     reviewIdValue +
-  //     " ratingValue: " +
-  //     ratingValue +
-  //     ", " +
-  //     " comments: " +
-  //     comments
-  // );
-  // console.log(categoryName);
-  // console.log(customerReviews);
-
-  // console.log(reviews);
-
   const handlePostNewReview = async (e) => {
     e.preventDefault();
     const customerId = loginCustomer[0]._id;
@@ -112,6 +105,7 @@ export default function WriteReview({ loginCustomer, product }) {
           });
           const updatedReviews = await fetchReviews();
           dispatch(updatedReviews);
+          setDrawerState({ ...drawerStatre, [anchor]: false });
         } else {
           await handleNotification({
             text: result.payload.message,
@@ -141,6 +135,33 @@ export default function WriteReview({ loginCustomer, product }) {
           });
           const updatedReviews = await fetchReviews();
           dispatch(updatedReviews);
+          setDrawerState({ ...drawerStatre, [anchor]: false });
+        } else {
+          await handleNotification({
+            text: result.payload.message,
+            severity: "error",
+          });
+        }
+      });
+    }
+  };
+  const handleDeleteReview = async (e) => {
+    e.preventDefault();
+    const reviewId = reviewIdValue;
+
+    if (reviewId) {
+      const response = await deleteProductReview({
+        reviewId: reviewId,
+      });
+      await dispatch(response).then(async (result) => {
+        if (result.payload.status === 200) {
+          await handleNotification({
+            text: result.payload.message,
+            severity: "success",
+          });
+          const updatedReviews = await fetchReviews();
+          dispatch(updatedReviews);
+          setDrawerState({ ...drawerStatre, [anchor]: false });
         } else {
           await handleNotification({
             text: result.payload.message,
@@ -151,26 +172,6 @@ export default function WriteReview({ loginCustomer, product }) {
     }
   };
 
-  // React.useEffect(() => {
-  //   const fetchCustomerReviews = async () => {
-  //     try {
-  //       if (loginCustomer && loginCustomer.length > 0) {
-  //         const response = await fetch(
-  //           `api/reviews/customer/${loginCustomer[0]._id}`
-  //         );
-  //         const result = response.json();
-  //         console.log(result);
-  //         if (result.status === 200 && result.data.length > 0) {
-  //           setCustomerReviews(result.data);
-  //         }
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //     fetchCustomerReviews();
-  //   };
-  // }, []);
-
   React.useEffect(() => {
     const getReview = async () => {
       if (reviews) {
@@ -179,11 +180,14 @@ export default function WriteReview({ loginCustomer, product }) {
             item.productId === product._id &&
             item.customerId === loginCustomer[0]._id
         );
-        console.log(productReview);
         if (productReview) {
           setReviewIdValue(productReview._id);
           setRatingValue(productReview.rating);
           setComments(productReview.text);
+        } else {
+          setReviewIdValue("");
+          setRatingValue("");
+          setComments("");
         }
       }
     };
@@ -480,25 +484,43 @@ export default function WriteReview({ loginCustomer, product }) {
                   onChange={(e) => setComments(e.currentTarget.value)}
                 />
               </Box>
-              <Button
-                type="button"
-                variant="contained"
-                fullWidth
-                sx={{ mx: "auto", my: 1, width: 320 }}
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                sx={{ width: 320, mx: "auto" }}
               >
-                <Typography
-                  variant="subtitle2"
-                  onClick={(e) => {
-                    if (reviewIdValue) {
-                      handlePatchReview(e);
-                    } else {
-                      handlePostNewReview(e);
-                    }
-                  }}
+                <Button
+                  type="button"
+                  variant="contained"
+                  disabled={!ratingValue}
+                  fullWidth
+                  sx={{ mx: "auto", my: 1, width: "40%" }}
                 >
-                  {reviewIdValue ? "Update" : "Submit"}
-                </Typography>
-              </Button>
+                  <Typography
+                    variant="subtitle2"
+                    onClick={(e) => {
+                      if (reviewIdValue) {
+                        handlePatchReview(e);
+                      } else {
+                        handlePostNewReview(e);
+                      }
+                    }}
+                  >
+                    {reviewIdValue ? "Update" : "Submit"}
+                  </Typography>
+                </Button>
+                <Button
+                  type="button"
+                  variant="contained"
+                  fullWidth
+                  sx={{ mx: "auto", my: 1, width: "40%" }}
+                  disabled={!reviewIdValue}
+                >
+                  <Typography variant="subtitle2" onClick={handleDeleteReview}>
+                    Delete
+                  </Typography>
+                </Button>
+              </Stack>
             </Stack>
           </Card>
         </React.Fragment>
