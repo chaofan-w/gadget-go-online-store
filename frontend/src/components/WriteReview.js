@@ -451,7 +451,7 @@ export default function WriteReview({
                 </Typography>
                 <Rating
                   name="simple-controlled"
-                  value={ratingValue}
+                  value={Number(ratingValue)}
                   onChange={(event, newValue) => {
                     setRatingValue(newValue);
                   }}

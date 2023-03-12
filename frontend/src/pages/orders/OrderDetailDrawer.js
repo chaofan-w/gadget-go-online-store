@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Transform } from "@mui/icons-material";
 import WriteReview from "../../components/WriteReview";
 import { selectAllCategories } from "../../features/categories/categoriesSlice";
+import { fetchMultiProductsByIds } from "../../features/products/productsSlice";
 
 const theme = createTheme({
   palette: {
@@ -85,6 +86,7 @@ const theme = createTheme({
 const OrderDetailDrawer = ({ order, orderId, loginCustomer }) => {
   const products = useSelector(selectAllProducts);
   const categories = useSelector(selectAllCategories);
+  const dispatch = useDispatch();
 
   const {
     firstName,
@@ -147,6 +149,19 @@ const OrderDetailDrawer = ({ order, orderId, loginCustomer }) => {
   };
 
   const [productArg, setProductArg] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchMultiProductsByIds(allCartItemIds);
+        dispatch(response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

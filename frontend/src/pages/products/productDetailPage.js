@@ -46,7 +46,7 @@ export default function ProductDetailCard({
         position: "relative",
       }}
     >
-      {product.promotionPrice && (
+      {product && product.promotionPrice && (
         <Box
           sx={{
             width: 60,
@@ -67,7 +67,7 @@ export default function ProductDetailCard({
           </Typography>
         </Box>
       )}
-      {new Date(product.arrivalDate) > compareDate && (
+      {product && new Date(product.arrivalDate) > compareDate && (
         <Box
           sx={{
             width: 40,

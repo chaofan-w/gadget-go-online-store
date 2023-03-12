@@ -130,16 +130,19 @@ function App() {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        if (productsStatus === "idle") {
-          const response = await fetchProducts();
-          dispatch(response);
-        }
+        // if (productsStatus === "idle") {
+        const response = await fetchProducts();
+        dispatch(response);
+        // }
       } catch (err) {
         console.log(err);
       }
     }
     fetchData();
-  }, [dispatch, productsStatus]);
+  }, [
+    dispatch,
+    // productsStatus
+  ]);
 
   React.useEffect(() => {
     async function fetchCateData() {
