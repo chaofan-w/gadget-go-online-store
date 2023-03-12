@@ -27,7 +27,10 @@ import { useNavigate, Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { ordersCleared } from "../features/orders/ordersSlice";
 import SearchBar from "./searchBar/SearchBar";
-import { selectAllProducts } from "../features/products/productsSlice";
+import {
+  fetchProducts,
+  selectAllProducts,
+} from "../features/products/productsSlice";
 const theme = createTheme({
   typography: {
     fontFamily: ["Lato", "Oswald", "Roboto"],
@@ -355,25 +358,32 @@ export default function PrimarySearchAppBar() {
           sx={{ height: "10vh", m: 0, p: 0, boxShadow: "none" }}
         >
           <Toolbar>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <IconButton disableRipple>
-                <img
-                  src={logoImg}
-                  alt="Gadget Go Logo"
-                  style={{ width: 35, height: 30 }}
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    ml: 1,
-                    color: "white",
-                    display: { xs: "none", sm: "block" },
-                  }}
-                >
-                  Gadget Go!
-                </Typography>
-              </IconButton>
-            </Link>
+            {/* <Link to="/" style={{ textDecoration: "none" }}> */}
+            <IconButton
+              disableRipple
+              onClick={async () => {
+                navigate("/");
+                const response = await fetchProducts();
+                dispatch(response);
+              }}
+            >
+              <img
+                src={logoImg}
+                alt="Gadget Go Logo"
+                style={{ width: 35, height: 30 }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  ml: 1,
+                  color: "white",
+                  display: { xs: "none", sm: "block" },
+                }}
+              >
+                Gadget Go!
+              </Typography>
+            </IconButton>
+            {/* </Link> */}
 
             <SearchBar />
             <Box sx={{ flexGrow: 1 }} />

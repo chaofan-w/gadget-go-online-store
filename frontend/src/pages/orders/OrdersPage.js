@@ -288,7 +288,7 @@ export default function OrdersPage() {
     };
   });
 
-  console.log(reviewOrderId);
+  // console.log(reviewOrderId);
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("date");
@@ -298,7 +298,7 @@ export default function OrdersPage() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
-    console.log(property);
+    // console.log(property);
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);

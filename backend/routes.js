@@ -9,6 +9,8 @@ const {
   postNewProductReview,
   patchProductReview,
   deleteOneDocById,
+  getLimitedDocsOfCollection,
+  getManyDocsByIdsArr,
 } = require("./routeCallbacks");
 
 const router = require("express").Router();
@@ -84,12 +86,19 @@ router.get(
 router.get(
   "/api/products",
   getMidWareGen({ collectionName: "products" }),
-  getAllDocsOfCollection
+  // getAllDocsOfCollection
+  getLimitedDocsOfCollection
 );
 router.get(
   "/api/products/:id",
   getMidWareGen({ collectionName: "products" }),
   getDocByIdFromCollection
+);
+
+router.get(
+  "/api/multiproducts",
+  getMidWareGen({ collectionName: "products" }),
+  getManyDocsByIdsArr
 );
 
 router.get(
