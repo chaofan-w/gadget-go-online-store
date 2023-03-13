@@ -123,10 +123,9 @@ export default function ProductDetailCard({
               }}
             >
               <GoTasklist />{" "}
-              {
+              {categories &&
                 categories.find((category) => category._id === product.category)
-                  .category
-              }
+                  .category}
             </Typography>
             <Typography
               variant="caption"
@@ -140,11 +139,10 @@ export default function ProductDetailCard({
               }}
             >
               <BiBody />{" "}
-              {
+              {body_locations &&
                 body_locations.find(
                   (location) => location._id === product.body_location
-                ).body_location
-              }
+                ).body_location}
             </Typography>
           </Stack>
         }

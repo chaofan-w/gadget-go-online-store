@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 export default function SearchBar() {
   const categories = useSelector(selectAllCategories);
   const [categoryId, setCategoryId] = React.useState(0);
-  const products = useSelector(selectAllProducts);
+  // const products = useSelector(selectAllProducts);
+  const [products, setProducts] = React.useState([]);
   const [suggestions, setSuggestions] = React.useState([]);
   const suggestionPool = products.map((product) => {
     return { id: product._id, name: product.name, category: product.category };
@@ -27,6 +28,17 @@ export default function SearchBar() {
       setSearchValue("");
     }
   };
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/products");
+      const productsData = await response.json();
+      if (productsData.status === 200) {
+        setProducts(productsData.data);
+      }
+    };
+    fetchData();
+  }, []);
 
   // console.log(searchValue);
 

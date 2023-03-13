@@ -1,14 +1,19 @@
 import * as React from "react";
-import { Spinner } from "../../components/Spinner";
+import Spinner from "../../components/Spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Stack, Paper, Typography } from "@mui/material";
-import { selectAllProducts } from "../../features/products/productsSlice";
+import {
+  selectAllProducts,
+  fetchProducts,
+} from "../../features/products/productsSlice";
 import { selectAllCategories } from "../../features/categories/categoriesSlice";
 
 import ProductDetailCard from "./productDetailPage";
 import { selectAllBodyLocations } from "../../features/body_locations/bodyLocationsSlice";
 import { selectAllReviews } from "../../features/reviews/reviewsSlice";
 import { selectAllCarts } from "../../features/carts/cartsSlice";
+import { useParams } from "react-router-dom";
+import PaginationCompo from "../../components/PaginationCompo";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -19,6 +24,26 @@ const ProductsPage = () => {
   const body_locations = useSelector(selectAllBodyLocations);
   const reviews = useSelector(selectAllReviews);
   const carts = useSelector(selectAllCarts);
+
+  const { currPage } = useParams();
+
+  React.useEffect(() => {
+    async function fetchData() {
+      try {
+        // if (productsStatus === "idle") {
+        const response = await fetchProducts(currPage);
+        dispatch(response);
+        // }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchData();
+  }, [
+    dispatch,
+    currPage,
+    // productsStatus
+  ]);
 
   let content;
   if (productsStatus === "loading") {
@@ -68,6 +93,7 @@ const ProductsPage = () => {
       sx={{ width: "100%", minHeight: "100vh", p: 5, bgcolor: "primary.light" }}
     >
       {content}
+      <PaginationCompo />
     </Box>
   );
 };
