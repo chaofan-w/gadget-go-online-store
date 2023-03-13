@@ -19,9 +19,11 @@ const getLimitedDocsOfCollection = async (req, res) => {
   console.log(`${dbName} connected`);
   const { collectionName } = req.inputArg;
   try {
+    const currPage = req.params.currPage;
     const allDocsOfCollection = await db
       .collection(collectionName)
       .find({})
+      .skip(parseInt(currPage - 1) * 10)
       .limit(10)
       .toArray();
 

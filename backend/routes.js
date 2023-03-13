@@ -86,6 +86,11 @@ router.get(
 router.get(
   "/api/products",
   getMidWareGen({ collectionName: "products" }),
+  getAllDocsOfCollection
+);
+router.get(
+  "/api/productsPage/:currPage",
+  getMidWareGen({ collectionName: "products" }),
   // getAllDocsOfCollection
   getLimitedDocsOfCollection
 );

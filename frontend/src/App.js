@@ -5,6 +5,7 @@ import {
   Route,
   useNavigate,
   Link,
+  Navigate,
 } from "react-router-dom";
 import PrimarySearchAppBar from "./components/Header";
 import ProductsPage from "./pages/products/ProductsPage";
@@ -63,7 +64,7 @@ import SignupForm from "./components/SignupForm";
 import CheckoutNavBar from "./pages/checkout/CheckoutNavBar";
 
 import { CheckoutContextProvider } from "./pages/checkout/CheckoutContext";
-import { Spinner } from "./components/Spinner";
+import Spinner from "./components/Spinner";
 import SingleProductPage from "./pages/products/SingleProductPage";
 
 function App() {
@@ -127,22 +128,22 @@ function App() {
     fetchLoginCustomerData();
   }, []);
 
-  React.useEffect(() => {
-    async function fetchData() {
-      try {
-        // if (productsStatus === "idle") {
-        const response = await fetchProducts();
-        dispatch(response);
-        // }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    fetchData();
-  }, [
-    dispatch,
-    // productsStatus
-  ]);
+  // React.useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       // if (productsStatus === "idle") {
+  //       const response = await fetchProducts();
+  //       dispatch(response);
+  //       // }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   fetchData();
+  // }, [
+  //   dispatch,
+  //   // productsStatus
+  // ]);
 
   React.useEffect(() => {
     async function fetchCateData() {
@@ -204,11 +205,12 @@ function App() {
   return (
     <Router>
       <PrimarySearchAppBar />
-      {(productsStatus === "pending" ||
-        cartsStatus === "pending" ||
-        reviewsStatus === "pending") && <Spinner />}
+      {(productsStatus === "loading" ||
+        cartsStatus === "loading" ||
+        reviewsStatus === "loading") && <Spinner />}
       <Routes>
-        <Route path="/" element={<ProductsPage />} />
+        <Route path="/" element={<Navigate replace to="/page/1" />} />
+        <Route path="/page/:currPage" element={<ProductsPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/checkout" element={<CheckoutNavBar />} />

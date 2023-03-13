@@ -47,7 +47,7 @@ CircularProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function Spinner() {
+function Spinner() {
   const [progress, setProgress] = React.useState(10);
 
   React.useEffect(() => {
@@ -55,7 +55,7 @@ export default function Spinner() {
       setProgress((prevProgress) =>
         prevProgress >= 100 ? 0 : prevProgress + 5
       );
-    }, 100);
+    }, 200);
     return () => {
       clearInterval(timer);
     };
@@ -63,3 +63,5 @@ export default function Spinner() {
 
   return <CircularProgressWithLabel value={progress} />;
 }
+
+export default Spinner;

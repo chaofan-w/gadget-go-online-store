@@ -8,8 +8,8 @@ const initialState = {
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async () => {
-    const response = await fetch("/api/products");
+  async (currPage) => {
+    const response = await fetch(`/api/productsPage/${currPage}`);
     const productsData = await response.json();
     if (productsData.status === 200) {
       return productsData;
