@@ -66,6 +66,7 @@ import CheckoutNavBar from "./pages/checkout/CheckoutNavBar";
 import { CheckoutContextProvider } from "./pages/checkout/CheckoutContext";
 import Spinner from "./components/Spinner";
 import SingleProductPage from "./pages/products/SingleProductPage";
+import LandingPage from "./pages/home/Home";
 
 function App() {
   const dispatch = useDispatch();
@@ -209,7 +210,14 @@ function App() {
         cartsStatus === "loading" ||
         reviewsStatus === "loading") && <Spinner />}
       <Routes>
-        <Route path="/" element={<Navigate replace to="/page/1" />} />
+        <Route
+          path="/"
+          element={
+            <React.Fragment>
+              <LandingPage />
+            </React.Fragment>
+          }
+        />
         <Route path="/page/:currPage" element={<ProductsPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />

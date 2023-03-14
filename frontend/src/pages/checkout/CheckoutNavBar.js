@@ -9,7 +9,10 @@ import {
   notificationClosed,
   notificationDisplayed,
 } from "../../features/notifications/notificationsSlice";
-import { selectAllProducts } from "../../features/products/productsSlice";
+import {
+  selectAllProducts,
+  fetchMultiProductsByIds,
+} from "../../features/products/productsSlice";
 import {
   selectAllCarts,
   fetchCarts,
@@ -105,6 +108,19 @@ const CheckoutNavBar = () => {
   const [cardNumber, setCardNumber] = React.useState("");
   const [expDate, setExpDate] = React.useState("");
   const [cvv, setCvv] = React.useState("");
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchMultiProductsByIds(allCartItemIds);
+        dispatch(response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   async function handleNotification({ text, severity }) {
     await dispatch(
