@@ -16,6 +16,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      {/* <ThemeProvider theme={darktheme}> */}
       <ThemeProvider theme={lighttheme}>
         <CssBaseline />
         <App />

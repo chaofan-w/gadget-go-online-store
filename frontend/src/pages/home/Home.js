@@ -36,14 +36,14 @@ const LandingPage = () => {
           direction="column"
           alignItems={{ xs: "flex-end", md: "flex-start" }}
           sx={{
-            width: { sm: "45%", md: "48%" },
+            width: { sx: "60%", sm: "45%", md: "48%" },
             ml: { sx: 0, sm: "50%" },
-            py: { xs: 0, sm: 7, md: 5 },
+            py: { xs: 10, sm: 7, md: 5 },
           }}
         >
           <Typography
             sx={{
-              fontSize: { sm: "60px", md: "80px" },
+              fontSize: { xs: "60px", md: "80px" },
               lineHeight: 1.1,
               fontFamily: "Noto Sans",
               fontWeight: 700,
