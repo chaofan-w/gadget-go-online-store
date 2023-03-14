@@ -11,10 +11,10 @@ function CircularProgressWithLabel(props) {
         position: "relative",
         display: "inline-flex",
         width: "100%",
-        height: "80vh",
-        // border: "1px solid red",
+        minHeight: "90vh",
         alignItems: "center",
         justifyContent: "center",
+        bgcolor: "primary.light",
       }}
     >
       <CircularProgress size={60} variant="determinate" {...props} />

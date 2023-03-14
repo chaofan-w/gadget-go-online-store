@@ -25,7 +25,7 @@ export default function PaginationCompo() {
   }, []);
 
   return (
-    <Stack spacing={2} sx={{ width: "60%", maxWidth: 500, mx: "auto" }}>
+    <Stack spacing={2} sx={{ width: "60%", maxWidth: 500, mx: "auto", my: 4 }}>
       <Pagination
         count={Math.ceil(totalProducts / 10)}
         showFirstButton
