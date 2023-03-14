@@ -36,6 +36,17 @@ export default function ProductDetailCard({
     (review) => review.productId === product._id
   );
 
+  const bodyLocationText =
+    product &&
+    body_locations &&
+    body_locations.find((location) => location._id === product.body_location)
+      .body_location;
+
+  const categoryText =
+    product &&
+    categories &&
+    categories.find((category) => category._id === product.category).category;
+
   return (
     <Card
       sx={{
@@ -109,42 +120,38 @@ export default function ProductDetailCard({
           </Box>
         }
         subheader={
-          <Stack direction="row" spacing={2} sx={{ pt: 1 }}>
-            {/* <Typography variant="caption">{`Product Id: ${product._id}`}</Typography> */}
-            <Typography
-              variant="caption"
-              fontWeight={"bold"}
-              sx={{
-                color: "secondary.main",
-                display: "flex",
-                flexDirection: "row",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              <GoTasklist />{" "}
-              {categories &&
-                categories.find((category) => category._id === product.category)
-                  .category}
-            </Typography>
-            <Typography
-              variant="caption"
-              fontWeight={"bold"}
-              sx={{
-                color: "secondary.main",
-                display: "flex",
-                flexDirection: "row",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              <BiBody />{" "}
-              {body_locations &&
-                body_locations.find(
-                  (location) => location._id === product.body_location
-                ).body_location}
-            </Typography>
-          </Stack>
+          product &&
+          categories &&
+          body_locations && (
+            <Stack direction="row" spacing={2} sx={{ pt: 1 }}>
+              <Typography
+                variant="caption"
+                fontWeight={"bold"}
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 1,
+                  alignItems: "center",
+                }}
+              >
+                <GoTasklist /> {categoryText}
+              </Typography>
+              <Typography
+                variant="caption"
+                fontWeight={"bold"}
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 1,
+                  alignItems: "center",
+                }}
+              >
+                <BiBody /> {bodyLocationText}
+              </Typography>
+            </Stack>
+          )
         }
       />
       <CardMedia
