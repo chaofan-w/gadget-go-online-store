@@ -1,0 +1,6 @@
+[[redirects]]
+  from = "/api/*"  
+  to = "https://gadget-go2023.herokuapp.com/api/:splat"
+  status = 200
+  force = true
+
