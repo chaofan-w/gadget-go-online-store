@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import styled from "styled-components";
+import { Typography } from "@mui/material";
 
 const StyledSelect = styled(Select)`
   & .MuiFilledInput-input {
@@ -72,8 +73,11 @@ export default function CategorySelect({
             // border: "1px solid red",
           }}
         >
-          <MenuItem value={0} sx={{ fontSize: 15 }}>
-            All
+          <MenuItem
+            value={0}
+            // sx={{ fontSize: 15 }}
+          >
+            <Typography variant="caption">All</Typography>
           </MenuItem>
           {categories &&
             categories.map((category) => (
@@ -82,7 +86,7 @@ export default function CategorySelect({
                 value={category._id}
                 sx={{ fontSize: 15 }}
               >
-                {category.category}
+                <Typography variant="caption">{category.category}</Typography>
               </MenuItem>
             ))}
         </StyledSelect>

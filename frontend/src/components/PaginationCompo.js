@@ -11,7 +11,7 @@ export default function PaginationCompo() {
     setPage(value);
     navigate(`/page/${page}`);
   };
-  console.log(page);
+  // console.log(page);
 
   React.useEffect(() => {
     const fetchData = async () => {
