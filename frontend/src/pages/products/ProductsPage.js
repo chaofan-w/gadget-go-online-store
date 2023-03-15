@@ -49,41 +49,43 @@ const ProductsPage = () => {
   if (productsStatus === "loading") {
     content = <Spinner />;
   } else if (productsStatus === "succeeded") {
-    content = products ? (
-      // && categories
-      <Box sx={{ width: "100%" }}>
-        {/* <Paper
+    content =
+      products && products.length > 0 ? (
+        // && categories
+        <Box sx={{ width: "100%" }}>
+          {/* <Paper
           variant={"outlined"}
           elevation={0}
           sx={{ bgcolor: "none", border: "1px solid red" }}
         > */}
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="flex-start"
-          sx={{
-            flexWrap: "wrap",
-            width: "100%",
-            height: "auto",
-            gap: 4,
-          }}
-        >
-          {products.map((product) => (
-            <ProductDetailCard
-              key={product._id}
-              product={product}
-              categories={categories}
-              body_locations={body_locations}
-              reviews={reviews}
-              carts={carts}
-            />
-          ))}
-        </Stack>
-        {/* </Paper> */}
-      </Box>
-    ) : (
-      <div>{error}</div>
-    );
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-start"
+            sx={{
+              flexWrap: "wrap",
+              width: "100%",
+              height: "auto",
+              gap: 4,
+            }}
+          >
+            {products &&
+              products.map((product) => (
+                <ProductDetailCard
+                  key={product._id}
+                  product={product}
+                  categories={categories}
+                  body_locations={body_locations}
+                  reviews={reviews}
+                  carts={carts}
+                />
+              ))}
+          </Stack>
+          {/* </Paper> */}
+        </Box>
+      ) : (
+        <div>{error}</div>
+      );
   } else {
     content = <div>{error}</div>;
   }
