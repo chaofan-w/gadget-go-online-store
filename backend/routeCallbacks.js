@@ -1,5 +1,4 @@
 const { MongoClient, ObjectId } = require("mongodb");
-const { useParams } = require("react-router-dom");
 const { sendResponse } = require("./utils");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
