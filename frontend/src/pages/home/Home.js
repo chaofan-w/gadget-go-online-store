@@ -12,8 +12,8 @@ const LandingPage = () => {
   return (
     <Box
       sx={{
-        width: "100%",
-        maxWidth: "100vw",
+        width: "100vw",
+        // maxWidth: "100vw",
         boxSizing: "border-box",
         height: "fit-content",
         minHeight: "100vh",
