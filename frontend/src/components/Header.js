@@ -372,9 +372,11 @@ export default function PrimarySearchAppBar() {
         width: "100%",
         boxSizing: "border-box",
         boxShadow: "none",
+        display: "flex",
+        justfiyContent: "center",
       }}
     >
-      <Toolbar>
+      <Toolbar sx={{ height: "100%" }}>
         <IconButton
           disableRipple
           onClick={async () => {

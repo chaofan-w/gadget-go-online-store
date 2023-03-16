@@ -53,7 +53,7 @@ const LandingPage = () => {
             px: 2,
             position: "absolute",
             top: "55%",
-            left: { xs: "65%", sm: "70%", md: "80%" },
+            left: { xs: "55%", sm: "70%", md: "80%" },
             transform: "translate(-50%, -50%)",
           }}
         >
