@@ -1,12 +1,11 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -41,7 +40,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" align="center" {...props}>
       {"Copyright © "}
-      <Link color="inherit" href="/">
+      <Link to="/" style={{ textDecoration: "none" }}>
         Gadget Go
       </Link>{" "}
       {new Date().getFullYear()}
@@ -131,7 +130,7 @@ export default function SignupForm() {
               style={{ width: 40, height: 35, marginBottom: 10 }}
             />
             {/* </Avatar> */}
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" color="primary">
               Sign up
             </Typography>
             <Box
@@ -188,7 +187,12 @@ export default function SignupForm() {
                     control={
                       <Checkbox value="allowExtraEmails" color="primary" />
                     }
-                    label="I want to receive inspiration, marketing promotions and updates via email."
+                    label={
+                      <Typography variant="caption" color="primary">
+                        I want to receive inspiration, marketing promotions and
+                        updates via email.
+                      </Typography>
+                    }
                   />
                 </Grid>
               </Grid>
@@ -202,7 +206,7 @@ export default function SignupForm() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                  <Link to="/login" style={{ textDecoration: "none" }}>
                     Already have an account? Sign in
                   </Link>
                 </Grid>
