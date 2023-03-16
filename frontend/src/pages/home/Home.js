@@ -16,7 +16,7 @@ const LandingPage = () => {
         maxWidth: "100vw",
         boxSizing: "border-box",
         height: "fit-content",
-        minHeight: "90vh",
+        minHeight: "100vh",
         // border: "1px solid red",
         backgroundImage: {
           xs: `url(${bkImage_vertical})`,
@@ -32,7 +32,7 @@ const LandingPage = () => {
         variant={"outlined"}
         sx={{
           width: "100%",
-          minHeight: "90vh",
+          minHeight: "100vh",
           backgroundImage: {
             xs: `url(${bkImage_vertical})`,
             sm: `url(${bkImage_horizontal})`,
@@ -52,7 +52,7 @@ const LandingPage = () => {
             // py: { xs: 10, sm: 7, md: 5 },
             px: 2,
             position: "absolute",
-            top: "50%",
+            top: "55%",
             left: { xs: "65%", sm: "70%", md: "80%" },
             transform: "translate(-50%, -50%)",
           }}
