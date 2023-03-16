@@ -50,8 +50,8 @@ export default function ProductDetailCard({
   return (
     <Card
       sx={{
-        maxWidth: 345,
-        minWidth: 300,
+        maxWidth: { xs: 320, sm: 300, md: 340 },
+        minWidth: { xs: 320, sm: 300, md: 340 },
         flex: 1,
         my: 1,
         position: "relative",
@@ -199,22 +199,23 @@ export default function ProductDetailCard({
             {reviewsByProduct.length > 0 && (
               <React.Fragment>
                 <Typography
-                  variant="body2"
+                  variant="caption"
                   fontWeight={"medium"}
                   sx={{ mr: 1 }}
                 >
-                  {Math.round(
+                  {`rating: ${Math.round(
                     reviewsByProduct.reduce(
                       (accum, curr) => accum + curr.rating,
                       0
                     ) / reviewsByProduct.length,
                     1
-                  )}
+                  )}`}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  fontWeight={"medium"}
-                >{`(${reviewsByProduct.length})`}</Typography>
+                <Typography variant="caption" fontWeight={"medium"}>{`(${
+                  reviewsByProduct.length
+                } ${
+                  reviewsByProduct.length === 1 ? "review" : "reviews"
+                })`}</Typography>
               </React.Fragment>
             )}
           </Stack>

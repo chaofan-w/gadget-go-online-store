@@ -52,21 +52,25 @@ const ProductsPage = () => {
     content =
       products && products.length > 0 ? (
         // && categories
-        <Box sx={{ width: "100%" }}>
-          {/* <Paper
-          variant={"outlined"}
-          elevation={0}
-          sx={{ bgcolor: "none", border: "1px solid red" }}
-        > */}
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "100vw",
+            boxSizing: "border-box",
+            m: 0,
+          }}
+        >
           <Stack
             direction="row"
             alignItems="center"
-            justifyContent="flex-start"
+            justifyContent="center"
             sx={{
+              display: "flex",
               flexWrap: "wrap",
-              width: "100%",
               height: "auto",
               gap: 4,
+              flexGrow: 1,
+              mx: "auto",
             }}
           >
             {products &&
@@ -81,7 +85,6 @@ const ProductsPage = () => {
                 />
               ))}
           </Stack>
-          {/* </Paper> */}
         </Box>
       ) : (
         <div>{error}</div>
@@ -92,7 +95,15 @@ const ProductsPage = () => {
 
   return (
     <Box
-      sx={{ width: "100%", minHeight: "100vh", p: 5, bgcolor: "primary.light" }}
+      sx={{
+        width: "100%",
+        maxWidth: "100vw",
+        boxSizing: "border-box",
+        m: 0,
+        minHeight: "100vh",
+        p: 5,
+        bgcolor: "primary.light",
+      }}
     >
       {content}
       <PaginationCompo />

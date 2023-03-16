@@ -12,10 +12,19 @@ const LandingPage = () => {
   return (
     <Box
       sx={{
-        width: "100vw",
+        width: "100%",
+        maxWidth: "100vw",
+        boxSizing: "border-box",
         height: "fit-content",
         minHeight: "90vh",
         // border: "1px solid red",
+        backgroundImage: {
+          xs: `url(${bkImage_vertical})`,
+          sm: `url(${bkImage_horizontal})`,
+        },
+        backgroundSize: "cover",
+        backgroundPosition: "top left",
+        border: "none",
       }}
     >
       <Paper
@@ -30,6 +39,7 @@ const LandingPage = () => {
           },
           backgroundSize: "cover",
           backgroundPosition: "top left",
+          border: "none",
         }}
       >
         <Stack
