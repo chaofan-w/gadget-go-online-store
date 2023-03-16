@@ -351,7 +351,6 @@ export default function PrimarySearchAppBar() {
 
   return (
     // <ThemeProvider theme={theme}>
-    // <CssBaseline />
     <Box
       sx={{
         // flexGrow: 1,
