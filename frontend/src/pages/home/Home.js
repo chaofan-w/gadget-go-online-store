@@ -47,7 +47,7 @@ const LandingPage = () => {
           direction="column"
           alignItems={{ xs: "flex-end", md: "flex-start" }}
           sx={{
-            width: { sx: "60%", sm: "50%", md: "40%" },
+            width: { sx: "40%", sm: "50%", md: "40%" },
             // ml: { xs: 0, sm: "40%" },
             // py: { xs: 10, sm: 7, md: 5 },
             px: 2,

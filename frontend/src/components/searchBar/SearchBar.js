@@ -50,7 +50,7 @@ export default function SearchBar() {
         p: "2px 4px",
         display: "flex",
         alignItems: "center",
-        minWidth: { xs: 240, sm: 300, md: 360 },
+        minWidth: { xs: 200, sm: 300, md: 360 },
         height: 40,
         ml: 2,
         p: 0,
