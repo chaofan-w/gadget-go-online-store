@@ -352,17 +352,7 @@ export default function PrimarySearchAppBar() {
   return (
     // <ThemeProvider theme={theme}>
     // <CssBaseline />
-    <Box
-      sx={{
-        // flexGrow: 1,
-        height: "10vh",
-        m: 0,
-        maxWidth: "100vw",
-        width: "100%",
-        boxSizing: "border-box",
-        p: 0,
-      }}
-    >
+    <Box sx={{ flexGrow: 1, height: "10vh", m: 0 }}>
       <AppBar
         position="fixed"
         sx={{ height: "10vh", m: 0, p: 0, boxShadow: "none" }}
