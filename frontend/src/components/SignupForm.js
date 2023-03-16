@@ -103,7 +103,7 @@ export default function SignupForm() {
 
   return (
     <ThemeProvider theme={lighttheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "100vh", pt: "10vh" }}>
         <CssBaseline />
         <Grid
           item
