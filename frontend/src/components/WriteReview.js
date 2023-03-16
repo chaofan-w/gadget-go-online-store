@@ -455,6 +455,11 @@ export default function WriteReview({
                   onChange={(event, newValue) => {
                     setRatingValue(newValue);
                   }}
+                  sx={{
+                    "& .MuiRating-iconFilled": {
+                      color: "#FDCC0D",
+                    },
+                  }}
                 />
               </Box>
               <Box

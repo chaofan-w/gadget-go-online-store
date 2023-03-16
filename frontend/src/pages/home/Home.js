@@ -12,11 +12,11 @@ const LandingPage = () => {
   return (
     <Box
       sx={{
-        width: "100%",
-        maxWidth: "100vw",
+        width: "100vw",
+        // maxWidth: "100vw",
         boxSizing: "border-box",
         height: "fit-content",
-        minHeight: "90vh",
+        minHeight: "100vh",
         // border: "1px solid red",
         backgroundImage: {
           xs: `url(${bkImage_vertical})`,
@@ -32,7 +32,7 @@ const LandingPage = () => {
         variant={"outlined"}
         sx={{
           width: "100%",
-          minHeight: "90vh",
+          minHeight: "100vh",
           backgroundImage: {
             xs: `url(${bkImage_vertical})`,
             sm: `url(${bkImage_horizontal})`,
@@ -40,20 +40,26 @@ const LandingPage = () => {
           backgroundSize: "cover",
           backgroundPosition: "top left",
           border: "none",
+          position: "relative",
         }}
       >
         <Stack
           direction="column"
           alignItems={{ xs: "flex-end", md: "flex-start" }}
           sx={{
-            width: { sx: "60%", sm: "45%", md: "48%" },
-            ml: { sx: 0, sm: "50%" },
-            py: { xs: 10, sm: 7, md: 5 },
+            width: { sx: "40%", sm: "50%", md: "40%" },
+            // ml: { xs: 0, sm: "40%" },
+            // py: { xs: 10, sm: 7, md: 5 },
+            px: 2,
+            position: "absolute",
+            top: "55%",
+            left: { xs: "55%", sm: "70%", md: "80%" },
+            transform: "translate(-50%, -50%)",
           }}
         >
           <Typography
             sx={{
-              fontSize: { xs: "60px", md: "80px" },
+              fontSize: { xs: "60px", md: "75px" },
               lineHeight: 1.1,
               fontFamily: "Noto Sans",
               fontWeight: 700,
@@ -69,7 +75,7 @@ const LandingPage = () => {
             sx={{
               fontFamily: "Roboto Condensed",
               lineHeight: 1.1,
-              fontSize: { sm: "40px", md: "60px" },
+              fontSize: { xs: "24px", sm: "36px" },
               textAlign: { xs: "right", md: "left" },
               fontWeight: 400,
               color: "common.grey",
@@ -82,7 +88,14 @@ const LandingPage = () => {
             }}
           >
             Get{" "}
-            <Typography variant="h2" color="primary" component={"span"}>
+            <Typography
+              // variant={{ xs: "h3", sm: "h2" }}
+              color="primary"
+              component={"span"}
+              sx={{
+                fontSize: { xs: "36px", sm: "48px" },
+              }}
+            >
               15%
             </Typography>{" "}
             off Today!

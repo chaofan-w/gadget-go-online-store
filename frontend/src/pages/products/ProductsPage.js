@@ -101,7 +101,9 @@ const ProductsPage = () => {
         boxSizing: "border-box",
         m: 0,
         minHeight: "100vh",
-        p: 5,
+        px: 5,
+        pt: "12vh",
+        pb: "2vh",
         bgcolor: "primary.light",
       }}
     >

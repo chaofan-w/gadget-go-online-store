@@ -1,12 +1,11 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -29,7 +28,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" align="center" {...props}>
       {"Copyright © "}
-      <Link color="inherit" href="/">
+      <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
         Gadget Go
       </Link>{" "}
       {new Date().getFullYear()}
@@ -94,7 +93,7 @@ export default function LoginForm() {
   }, [loginCustomer]);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={{ height: "100vh", pt: "10vh" }}>
       <CssBaseline />
       <Grid
         item
@@ -128,7 +127,7 @@ export default function LoginForm() {
             alt="Gadget-go logo"
             style={{ width: 40, height: 35, marginBottom: 10 }}
           />
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" color="primary">
             Sign in
           </Typography>
           <Box
@@ -159,7 +158,11 @@ export default function LoginForm() {
             />
             <StyledFormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label={<Typography variant="subtitle2">Remember Me</Typography>}
+              label={
+                <Typography variant="subtitle2" color="primary">
+                  Remember Me
+                </Typography>
+              }
             />
             <Button
               type="submit"
@@ -171,12 +174,12 @@ export default function LoginForm() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link to="#" style={{ textDecoration: "none" }}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link to="/signup" style={{ textDecoration: "none" }}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

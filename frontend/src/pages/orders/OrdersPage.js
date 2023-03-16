@@ -378,9 +378,11 @@ export default function OrdersPage() {
         <Box
           sx={{
             width: "100%",
-            p: 5,
+            px: 5,
             bgcolor: "primary.light",
-            minHeight: "90vh",
+            minHeight: "100vh",
+            pt: "12vh",
+            pb: "2vh",
           }}
         >
           {rows && rows.length > 0 ? (

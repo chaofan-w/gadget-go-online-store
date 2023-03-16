@@ -1,6 +1,6 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Popper } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import styled from "styled-components";
 
@@ -28,15 +28,27 @@ export default function AutocompleteInput({
     setSearchValue(newValue);
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const CustomPopper = (props) => {
+    return <Popper {...props} placement="bottom" popperOptions={true} />;
+  };
   // usage of getOptionLabel, getOptionSelected(updated to isOptionEqualToValue)
   // https://stackoverflow.com/questions/62494672/what-is-getoptionselected-and-getoptionlabel-in-material-ui-with-an-example
 
   return (
-    <Box sx={{ flex: 1, height: 40, m: 0, p: 0 }}>
+    <Box
+      sx={{
+        flex: 1,
+        height: 40,
+        m: 0,
+        p: 0,
+      }}
+    >
       <StyledAutocomplete
         value={searchValue}
         onChange={handleSearchValueChange}
-        onFocus={() => {
+        onFocus={(e) => {
+          e.stopPropagation();
           if (suggestions.length === 0) {
             setSuggestions(
               products.map((product) => {
@@ -77,6 +89,7 @@ export default function AutocompleteInput({
             },
           },
         }}
+        PopperComponent={CustomPopper}
       />
     </Box>
   );

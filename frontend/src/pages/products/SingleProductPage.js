@@ -33,7 +33,6 @@ import { selectAllBodyLocations } from "../../features/body_locations/bodyLocati
 import { selectAllReviews } from "../../features/reviews/reviewsSlice";
 import { selectAllCarts } from "../../features/carts/cartsSlice";
 import { selectLoginCustomer } from "../../features/loginCustomer/loginCustomerSlice";
-import { SignalCellularNullRounded } from "@mui/icons-material";
 import Spinner from "../../components/Spinner";
 import Comments from "./Comments";
 import RatingStars from "./Rating";
@@ -83,7 +82,17 @@ export default function SingleProductPage({ loginCustomer }) {
   return (
     <>
       {product && (
-        <React.Fragment>
+        <Box
+          sx={{
+            width: "100%",
+            minWidth: "100vw",
+            minHeight: "100vh",
+            height: "fit-content",
+            pt: "12vh",
+            pb: "2vh",
+            bgcolor: "primary.light",
+          }}
+        >
           <Card
             sx={{
               width: { xs: 340, sm: 560 },
@@ -385,7 +394,7 @@ export default function SingleProductPage({ loginCustomer }) {
                       <Typography
                         variant="body2"
                         fontWeight={"medium"}
-                      >{`total: ${reviewsByProduct.length} reviews`}</Typography>
+                      >{`${reviewsByProduct.length} reviews`}</Typography>
                     </Stack>
                   )}
                 </Stack>
@@ -414,7 +423,7 @@ export default function SingleProductPage({ loginCustomer }) {
                 <Comments review={review} key={review._id} />
               ))}
           </List>
-        </React.Fragment>
+        </Box>
       )}
     </>
   );

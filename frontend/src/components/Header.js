@@ -31,31 +31,6 @@ import {
   fetchProducts,
   selectAllProducts,
 } from "../features/products/productsSlice";
-// const theme = createTheme({
-//   typography: {
-//     fontFamily: ["Lato", "Oswald", "Roboto"],
-//   },
-//   palette: {
-//     mode: "light",
-//     primary: {
-//       main: "#6e5b98",
-//       light: "#cec2dc",
-//       dark: "#2b2839",
-//     },
-//     secondary: {
-//       main: "#a9729b",
-//       dark: "#844881",
-//       light: "#f3d0ea",
-//     },
-//     background: {
-//       default: "rgba(255,255,255,0.8)",
-//       paper: "#f3f0f9",
-//     },
-//     info: {
-//       main: "#5a21f3",
-//     },
-//   },
-// });
 
 export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
@@ -195,20 +170,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
-        <IconButton
-          size="medium"
-          aria-label="show 4 new mails"
-          color="secondary"
-        >
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <Typography variant="body2" color="primary">
-          Messages
-        </Typography>
-      </MenuItem> */}
       <Link to="/checkout" style={{ textDecoration: "none" }}>
         <MenuItem onClick={handleMobileMenuClose} sx={{ py: 0 }}>
           <IconButton
@@ -350,15 +311,34 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    // <ThemeProvider theme={theme}>
-    // <CssBaseline />
-    <Box sx={{ flexGrow: 1, height: "10vh", m: 0 }}>
+
+    <Box
+      sx={{
+        // flexGrow: 1,
+        height: "10vh",
+        m: 0,
+        maxWidth: "100vw",
+        width: "100%",
+        boxSizing: "border-box",
+        p: 0,
+      }}
+    >
+
       <AppBar
         position="fixed"
-        sx={{ height: "10vh", m: 0, p: 0, boxShadow: "none" }}
+        sx={{
+          height: "10vh",
+          m: 0,
+          p: 0,
+          // maxWidth: "100vw",
+          // width: "100%",
+          // boxSizing: "border-box",
+          boxShadow: "none",
+          display: "flex",
+          justfiyContent: "center",
+        }}
       >
-        <Toolbar>
-          {/* <Link to="/" style={{ textDecoration: "none" }}> */}
+        <Toolbar sx={{ height: "100%" }}>
           <IconButton
             disableRipple
             onClick={async () => {
@@ -383,23 +363,12 @@ export default function PrimarySearchAppBar() {
               Gadget Go!
             </Typography>
           </IconButton>
-          {/* </Link> */}
 
           <SearchBar />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {loginCustomer.length > 0 && (
               <>
-                {/* <IconButton
-                    size="large"
-                    aria-label="show 4 new mails"
-                    // color="secondary"
-                    sx={{ color: "secondary.light" }}
-                  >
-                    <Badge badgeContent={4} color="error">
-                      <MailIcon />
-                    </Badge>
-                  </IconButton> */}
                 <IconButton
                   disabled={
                     carts.length === 0 || carts[0].products.length === 0
@@ -440,10 +409,11 @@ export default function PrimarySearchAppBar() {
             </IconButton>
           </Box>
         </Toolbar>
+        {loginCustomer.length > 0
+          ? renderMobileMenu
+          : renderMobileMenuLoggedOut}
+        {loginCustomer.length > 0 ? renderMenu : renderMenuLoggedOut}
       </AppBar>
-      {loginCustomer.length > 0 ? renderMobileMenu : renderMobileMenuLoggedOut}
-      {loginCustomer.length > 0 ? renderMenu : renderMenuLoggedOut}
     </Box>
-    // </ThemeProvider>
   );
 }
