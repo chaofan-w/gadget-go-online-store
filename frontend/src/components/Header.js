@@ -311,6 +311,7 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
+
     <Box
       sx={{
         // flexGrow: 1,
@@ -322,6 +323,7 @@ export default function PrimarySearchAppBar() {
         p: 0,
       }}
     >
+
       <AppBar
         position="fixed"
         sx={{
