@@ -16,7 +16,7 @@ const LandingPage = () => {
         // maxWidth: "100vw",
         boxSizing: "border-box",
         height: "fit-content",
-        minHeight: "100vh",
+        minHeight: "90vh",
         // border: "1px solid red",
         backgroundImage: {
           xs: `url(${bkImage_vertical})`,

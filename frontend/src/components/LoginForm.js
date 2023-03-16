@@ -93,7 +93,7 @@ export default function LoginForm() {
   }, [loginCustomer]);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh", pt: "10vh" }}>
+    <Grid container component="main" sx={{ height: "90vh" }}>
       <CssBaseline />
       <Grid
         item
