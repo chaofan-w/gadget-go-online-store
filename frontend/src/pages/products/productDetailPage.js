@@ -189,37 +189,43 @@ export default function ProductDetailCard({
           justifyContent: "space-between",
         }}
       >
-        <IconButton aria-label="add to favorites">
-          <Stack direction={"row"} alignItems="center">
-            <FavoriteIcon
-              sx={{
-                color: reviewsByProduct.length > 0 ? "secondary.main" : "grey",
-              }}
-            />
-            {reviewsByProduct.length > 0 && (
-              <React.Fragment>
-                <Typography
-                  variant="caption"
-                  fontWeight={"medium"}
-                  sx={{ mr: 1 }}
-                >
-                  {`rating: ${Math.round(
-                    reviewsByProduct.reduce(
-                      (accum, curr) => accum + curr.rating,
-                      0
-                    ) / reviewsByProduct.length,
-                    1
-                  )}`}
-                </Typography>
-                <Typography variant="caption" fontWeight={"medium"}>{`(${
-                  reviewsByProduct.length
-                } ${
-                  reviewsByProduct.length === 1 ? "review" : "reviews"
-                })`}</Typography>
-              </React.Fragment>
-            )}
-          </Stack>
-        </IconButton>
+        {/* <IconButton aria-label="add to favorites" disableRipple> */}
+        <Stack direction={"row"} alignItems="center">
+          <FavoriteIcon
+            sx={{
+              color: reviewsByProduct.length > 0 ? "secondary.main" : "grey",
+              width: 14,
+              height: 14,
+              mx: 1,
+            }}
+          />
+          {reviewsByProduct.length > 0 && (
+            <React.Fragment>
+              <Typography
+                variant="caption"
+                fontWeight={"medium"}
+                sx={{ mr: 1 }}
+                color={"secondary"}
+              >
+                {`rating: ${Math.round(
+                  reviewsByProduct.reduce(
+                    (accum, curr) => accum + curr.rating,
+                    0
+                  ) / reviewsByProduct.length,
+                  1
+                )}`}
+              </Typography>
+              <Typography
+                variant="caption"
+                fontWeight={"medium"}
+                color={"secondary"}
+              >{`(${reviewsByProduct.length} ${
+                reviewsByProduct.length === 1 ? "review" : "reviews"
+              })`}</Typography>
+            </React.Fragment>
+          )}
+        </Stack>
+        {/* </IconButton> */}
 
         <Box width={100}>
           <AddToCartBtn

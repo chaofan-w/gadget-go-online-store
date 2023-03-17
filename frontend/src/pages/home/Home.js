@@ -19,7 +19,6 @@ const bkImage_vertical =
 
 const LandingPage = () => {
   return (
-    // <Scrollbar>
     <Grid
       container
       component="main"
@@ -140,7 +139,6 @@ const LandingPage = () => {
         <ProductsPage />
       </Grid>
     </Grid>
-    // </Scrollbar>
   );
 };
 

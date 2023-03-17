@@ -7,10 +7,6 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -21,6 +17,7 @@ import {
   Divider,
   ListItemButton,
   ListItem,
+  Grid,
 } from "@mui/material";
 import { BiBody } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
@@ -82,348 +79,356 @@ export default function SingleProductPage({ loginCustomer }) {
   return (
     <>
       {product && (
-        <Box
+        <Grid
+          container
+          component="main"
           sx={{
-            width: "100%",
-            minWidth: "100vw",
-            minHeight: "100vh",
+            // width: "100%",
+            // minWidth: "100vw",
+            // minHeight: "100vh",
             height: "fit-content",
-            pt: "12vh",
+            pt: "2vh",
             pb: "2vh",
             bgcolor: "primary.light",
           }}
         >
-          <Card
-            sx={{
-              width: { xs: 340, sm: 560 },
-              maxWidth: 560,
-              minWidth: 300,
-              my: 3,
-              mx: "auto",
-              height: { xs: "fit-content", sm: 500 },
-            }}
-          >
-            <CardHeader
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "fit-content",
-                    overflow: "auto",
-                  }}
-                >
-                  <Typography variant="h6" sx={{ lineHeight: 1 }}>
-                    {product.name}
-                  </Typography>
-                </Box>
-              }
-            />
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              alignItems={"flex-start"}
-              justifyContent={"space-between"}
+          <Grid item xs={12}>
+            <Card
               sx={{
-                width: "100%",
-                p: 2,
-                height: { xs: "fit-content", sm: 340 },
-                position: "relative",
+                width: { xs: 340, sm: 560 },
+                maxWidth: 560,
+                minWidth: 300,
+                my: 3,
+                mx: "auto",
+                height: { xs: "fit-content", sm: 500 },
               }}
             >
-              {product.promotionPrice && (
-                <Box
-                  sx={{
-                    width: 60,
-                    height: 30,
-                    bgcolor: "secondary.main",
-                    position: "absolute",
-                    top: 30,
-                    left: 16,
-                    zIndex: 10,
-                    color: "white",
-                    textAlign: "center",
-                  }}
-                >
-                  <Typography variant="caption" sx={{ lineHeight: "30px" }}>
-                    {`${Math.round(
-                      ((product.price - product.promotionPrice) /
-                        product.price) *
-                        100
-                    )}% OFF`}
-                  </Typography>
-                </Box>
-              )}
-              {new Date(product.arrivalDate) > compareDate && (
-                <Box
-                  sx={{
-                    width: 40,
-                    height: 70,
-                    bgcolor: "secondary.main",
-                    position: "absolute",
-                    top: 16,
-                    left: 260,
-                    zIndex: 10,
-                    color: "white",
-                    textAlign: "center",
-                  }}
-                >
-                  <Typography variant="caption" sx={{ lineHeight: "30px" }}>
-                    New Arrival
-                  </Typography>
-                </Box>
-              )}
-              <CardMedia
-                component="img"
-                sx={{ height: 300, width: 300 }}
-                image={productImg}
-                // image={product.imageSrc}
-                alt={`Id: ${product._id}`}
+              <CardHeader
+                action={
+                  <IconButton aria-label="settings">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: "fit-content",
+                      overflow: "auto",
+                    }}
+                  >
+                    <Typography variant="h6" sx={{ lineHeight: 1 }}>
+                      {product.name}
+                    </Typography>
+                  </Box>
+                }
               />
-
-              <List
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                alignItems={"flex-start"}
+                justifyContent={"space-between"}
                 sx={{
-                  ml: { xs: 0, sm: 2 },
-                  mt: { xs: 2, sm: 0 },
-                  width: { xs: 300, sm: 60 },
-                  p: 0,
-                  height: { xs: 60, sm: 300 },
-                  display: "flex",
-                  flexDirection: { xs: "row", sm: "column" },
-                  gap: 1,
-                  alignItems: "flex-end",
-                  justifyContent: "space-between",
+                  width: "100%",
+                  p: 2,
+                  height: { xs: "fit-content", sm: 340 },
+                  position: "relative",
                 }}
               >
-                {[1, 2, 3].map((img) => (
-                  <ListItem
-                    key={`alternativeImg-${img}`}
-                    sx={{ width: 60, height: 60, m: 0, p: 0 }}
+                {product.promotionPrice && (
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 30,
+                      bgcolor: "secondary.main",
+                      position: "absolute",
+                      top: 30,
+                      left: 16,
+                      zIndex: 10,
+                      color: "white",
+                      textAlign: "center",
+                    }}
                   >
+                    <Typography variant="caption" sx={{ lineHeight: "30px" }}>
+                      {`${Math.round(
+                        ((product.price - product.promotionPrice) /
+                          product.price) *
+                          100
+                      )}% OFF`}
+                    </Typography>
+                  </Box>
+                )}
+                {new Date(product.arrivalDate) > compareDate && (
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 70,
+                      bgcolor: "secondary.main",
+                      position: "absolute",
+                      top: 16,
+                      left: 260,
+                      zIndex: 10,
+                      color: "white",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Typography variant="caption" sx={{ lineHeight: "30px" }}>
+                      New Arrival
+                    </Typography>
+                  </Box>
+                )}
+                <CardMedia
+                  component="img"
+                  sx={{ height: 300, width: 300 }}
+                  image={productImg}
+                  // image={product.imageSrc}
+                  alt={`Id: ${product._id}`}
+                />
+
+                <List
+                  sx={{
+                    ml: { xs: 0, sm: 2 },
+                    mt: { xs: 2, sm: 0 },
+                    width: { xs: 300, sm: 60 },
+                    p: 0,
+                    height: { xs: 60, sm: 300 },
+                    display: "flex",
+                    flexDirection: { xs: "row", sm: "column" },
+                    gap: 1,
+                    alignItems: "flex-end",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  {[1, 2, 3].map((img) => (
+                    <ListItem
+                      key={`alternativeImg-${img}`}
+                      sx={{ width: 60, height: 60, m: 0, p: 0 }}
+                    >
+                      <ListItemButton
+                        sx={{ width: 60, height: 60, m: 0, p: 0 }}
+                        onClick={() =>
+                          setProductImg(
+                            `https://loremflickr.com/320/240/gadget?${product._id}-${img}`
+                          )
+                        }
+                      >
+                        <img
+                          src={`https://loremflickr.com/320/240/gadget?${product._id}-${img}`}
+                          style={{
+                            width: 60,
+                            height: 60,
+                            filter:
+                              productImg ===
+                              `https://loremflickr.com/320/240/gadget?${product._id}-${img}`
+                                ? "grayscale(0)"
+                                : "grayscale(100%)",
+                          }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                  <ListItem sx={{ width: 60, height: 60, m: 0, p: 0 }}>
                     <ListItemButton
                       sx={{ width: 60, height: 60, m: 0, p: 0 }}
-                      onClick={() =>
-                        setProductImg(
-                          `https://loremflickr.com/320/240/gadget?${product._id}-${img}`
-                        )
-                      }
+                      onClick={() => setProductImg(product.imageSrc)}
                     >
                       <img
-                        src={`https://loremflickr.com/320/240/gadget?${product._id}-${img}`}
+                        src={product.imageSrc}
                         style={{
                           width: 60,
                           height: 60,
                           filter:
-                            productImg ===
-                            `https://loremflickr.com/320/240/gadget?${product._id}-${img}`
+                            productImg === product.imageSrc
                               ? "grayscale(0)"
                               : "grayscale(100%)",
                         }}
                       />
                     </ListItemButton>
                   </ListItem>
-                ))}
-                <ListItem sx={{ width: 60, height: 60, m: 0, p: 0 }}>
-                  <ListItemButton
-                    sx={{ width: 60, height: 60, m: 0, p: 0 }}
-                    onClick={() => setProductImg(product.imageSrc)}
-                  >
-                    <img
-                      src={product.imageSrc}
-                      style={{
-                        width: 60,
-                        height: 60,
-                        filter:
-                          productImg === product.imageSrc
-                            ? "grayscale(0)"
-                            : "grayscale(100%)",
-                      }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-              <Stack
-                direction={"column"}
-                alignItems="flex-end"
-                justifyContent={"space-between"}
-                sx={{ height: 300, flex: 1 }}
-              >
+                </List>
                 <Stack
-                  direction="row"
-                  spacing={2}
-                  sx={{ pt: 1, mx: { xs: 0, sm: 1 } }}
+                  direction={"column"}
+                  alignItems="flex-end"
+                  justifyContent={"space-between"}
+                  sx={{ height: 300, flex: 1 }}
                 >
-                  {categories && categories.length > 0 && (
-                    <Typography
-                      variant="caption"
-                      fontWeight={"bold"}
-                      sx={{
-                        color: "secondary.main",
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 1,
-                        alignItems: "center",
-                      }}
-                    >
-                      <GoTasklist />{" "}
-                      {
-                        categories.find(
-                          (category) => category._id === product.category
-                        ).category
-                      }
-                      {/* {categories &&
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{ pt: 1, mx: { xs: 0, sm: 1 } }}
+                  >
+                    {categories && categories.length > 0 && (
+                      <Typography
+                        variant="caption"
+                        fontWeight={"bold"}
+                        sx={{
+                          color: "secondary.main",
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 1,
+                          alignItems: "center",
+                        }}
+                      >
+                        <GoTasklist />{" "}
+                        {
+                          categories.find(
+                            (category) => category._id === product.category
+                          ).category
+                        }
+                        {/* {categories &&
                       categories.length > 0 &&
                       categories.find(
                         (category) => category._id === product.category
                       ).category} */}
-                    </Typography>
-                  )}
-                  {body_locations && body_locations.length > 0 && (
-                    <Typography
-                      variant="caption"
-                      fontWeight={"bold"}
-                      sx={{
-                        color: "secondary.main",
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 1,
-                        alignItems: "center",
-                      }}
-                    >
-                      <BiBody />{" "}
-                      {
-                        body_locations.find(
-                          (location) => location._id === product.body_location
-                        ).body_location
-                      }
-                      {/* {body_locations &&
+                      </Typography>
+                    )}
+                    {body_locations && body_locations.length > 0 && (
+                      <Typography
+                        variant="caption"
+                        fontWeight={"bold"}
+                        sx={{
+                          color: "secondary.main",
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 1,
+                          alignItems: "center",
+                        }}
+                      >
+                        <BiBody />{" "}
+                        {
+                          body_locations.find(
+                            (location) => location._id === product.body_location
+                          ).body_location
+                        }
+                        {/* {body_locations &&
                       body_locations.length > 0 &&
                       body_locations.find(
                         (location) => location._id === product.body_location
                       ).body_location} */}
-                    </Typography>
-                  )}
-                </Stack>
-                <CardContent
-                  sx={{
-                    width: { xs: 300, sm: 160 },
-                    m: 0,
-                    pt: { xs: 2 },
-                    px: { xs: 0 },
-                    display: "flex",
-                    alignItems: { sm: "flex-end" },
-                    justifyContent: { sm: "flex-end" },
-                  }}
-                >
-                  <Stack
-                    sx={{
-                      width: { xs: 300, sm: 100 },
-                      m: 0,
-                    }}
-                    direction={{ xs: "row", sm: "column" }}
-                    alignItems={{ xs: "flex-end", sm: "flex-end" }}
-                    justifyContent={{ xs: "flex-start", sm: "center" }}
-                  >
-                    <Typography
-                      variant="h5"
-                      color="text.secondary"
-                      sx={{ mr: { xs: 2, sm: 0 } }}
-                    >
-                      {`$ ${
-                        product.promotionPrice
-                          ? product.promotionPrice
-                          : product.price
-                      }
-                    `}
-                    </Typography>
-                    {product.promotionPrice && (
-                      <Typography
-                        variant="subtitle1"
-                        sx={{
-                          textDecoration: "line-through",
-                          // border: "1px solid red",
-                          color: "red",
-                        }}
-                      >{`$ ${product.price}`}</Typography>
+                      </Typography>
                     )}
                   </Stack>
-                </CardContent>
-                <Box width={{ xs: 300, sm: 140 }}>
-                  <AddToCartBtn
-                    carts={carts}
-                    quantity={quantity}
-                    setQuantity={setQuantity}
-                    product={product}
-                  />
-                </Box>
+                  <CardContent
+                    sx={{
+                      width: { xs: 300, sm: 160 },
+                      m: 0,
+                      pt: { xs: 2 },
+                      px: { xs: 0 },
+                      display: "flex",
+                      alignItems: { sm: "flex-end" },
+                      justifyContent: { sm: "flex-end" },
+                    }}
+                  >
+                    <Stack
+                      sx={{
+                        width: { xs: 300, sm: 100 },
+                        m: 0,
+                      }}
+                      direction={{ xs: "row", sm: "column" }}
+                      alignItems={{ xs: "flex-end", sm: "flex-end" }}
+                      justifyContent={{ xs: "flex-start", sm: "center" }}
+                    >
+                      <Typography
+                        variant="h5"
+                        color="text.secondary"
+                        sx={{ mr: { xs: 2, sm: 0 } }}
+                      >
+                        {`$ ${
+                          product.promotionPrice
+                            ? product.promotionPrice
+                            : product.price
+                        }
+                    `}
+                      </Typography>
+                      {product.promotionPrice && (
+                        <Typography
+                          variant="subtitle1"
+                          sx={{
+                            textDecoration: "line-through",
+                            // border: "1px solid red",
+                            color: "red",
+                          }}
+                        >{`$ ${product.price}`}</Typography>
+                      )}
+                    </Stack>
+                  </CardContent>
+                  <Box width={{ xs: 300, sm: 140 }}>
+                    <AddToCartBtn
+                      carts={carts}
+                      quantity={quantity}
+                      setQuantity={setQuantity}
+                      product={product}
+                    />
+                  </Box>
+                </Stack>
               </Stack>
-            </Stack>
 
-            <CardActions
-              disableSpacing
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ p: 1 }}>
-                <Stack direction={"row"} alignItems="center">
-                  {/* <FavoriteIcon
+              <CardActions
+                disableSpacing
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ p: 1 }}>
+                  <Stack direction={"row"} alignItems="center">
+                    {/* <FavoriteIcon
                     sx={{
                       color:
                         reviewsByProduct.length > 0 ? "secondary.main" : "grey",
                     }}
                   /> */}
-                  {reviewsByProduct.length > 0 && (
-                    <Stack direciton="column" alignItems={"flex-start"}>
-                      <RatingStars
-                        ratingValue={Math.round(
-                          reviewsByProduct.reduce(
-                            (accum, curr) => accum + curr.rating,
-                            0
-                          ) / reviewsByProduct.length,
-                          1
-                        )}
-                      />
+                    {reviewsByProduct.length > 0 && (
+                      <Stack direciton="column" alignItems={"flex-start"}>
+                        <RatingStars
+                          ratingValue={Math.round(
+                            reviewsByProduct.reduce(
+                              (accum, curr) => accum + curr.rating,
+                              0
+                            ) / reviewsByProduct.length,
+                            1
+                          )}
+                        />
 
-                      <Typography
-                        variant="body2"
-                        fontWeight={"medium"}
-                      >{`${reviewsByProduct.length} reviews`}</Typography>
-                    </Stack>
-                  )}
-                </Stack>
-              </Box>
-            </CardActions>
-          </Card>
-          <Divider
-            orientation="horizontal"
-            variant="middle"
-            textAlign="center"
-            sx={{ maxWidth: 560, mx: "auto" }}
-          >
-            <Typography variant="subtitle2">Reviews</Typography>
-          </Divider>
-          <List
-            sx={{
-              maxWidth: 560,
-              minWidth: 300,
-              my: 3,
-              mx: "auto",
-              bgcolor: "background.paper",
-            }}
-          >
-            {reviewsByProduct &&
-              reviewsByProduct.map((review) => (
-                <Comments review={review} key={review._id} />
-              ))}
-          </List>
-        </Box>
+                        <Typography
+                          variant="body2"
+                          fontWeight={"medium"}
+                        >{`${reviewsByProduct.length} reviews`}</Typography>
+                      </Stack>
+                    )}
+                  </Stack>
+                </Box>
+              </CardActions>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Divider
+              orientation="horizontal"
+              variant="middle"
+              textAlign="center"
+              sx={{ maxWidth: 560, mx: "auto" }}
+            >
+              <Typography variant="subtitle2">Reviews</Typography>
+            </Divider>
+          </Grid>
+          <Grid item xs={12}>
+            <List
+              sx={{
+                maxWidth: 560,
+                minWidth: 300,
+                my: 3,
+                mx: "auto",
+                bgcolor: "background.paper",
+              }}
+            >
+              {reviewsByProduct &&
+                reviewsByProduct.map((review) => (
+                  <Comments review={review} key={review._id} />
+                ))}
+            </List>
+          </Grid>
+        </Grid>
       )}
     </>
   );

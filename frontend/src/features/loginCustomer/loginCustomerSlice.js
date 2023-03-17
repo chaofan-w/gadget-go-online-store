@@ -1,7 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  loginCustomer: [],
+  loginCustomer: [
+    {
+      _id: "63f513109c55023b48edaeeb",
+      firstName: "aaa",
+      lastName: "aaa",
+      email: "aaa",
+      address: "6133 Welch Lane",
+      city: "Madison",
+      state: "Wisconsin",
+      country: "United States",
+      postcode: "53779",
+      phone: "608-366-5983",
+      password: "aaa",
+    },
+  ],
   status: "idle",
   error: null,
 };
