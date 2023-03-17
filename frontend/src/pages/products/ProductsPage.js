@@ -1,7 +1,14 @@
 import * as React from "react";
 import Spinner from "../../components/Spinner";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Stack, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Paper,
+  Typography,
+  Grid,
+  CssBaseline,
+} from "@mui/material";
 import {
   selectAllProducts,
   fetchProducts,
@@ -94,11 +101,13 @@ const ProductsPage = () => {
   }
 
   return (
-    <Box
+    <Grid
+      container
+      component="main"
       sx={{
-        width: "100%",
-        maxWidth: "100vw",
-        boxSizing: "border-box",
+        // width: "100vw",
+        // maxWidth: "100vw",
+        // boxSizing: "border-box",
         m: 0,
         minHeight: "90vh",
         px: 5,
@@ -107,9 +116,14 @@ const ProductsPage = () => {
         bgcolor: "primary.light",
       }}
     >
-      {content}
-      <PaginationCompo />
-    </Box>
+      <CssBaseline />
+      <Grid item xs={12}>
+        {content}
+      </Grid>
+      <Grid item xs={12}>
+        <PaginationCompo />
+      </Grid>
+    </Grid>
   );
 };
 

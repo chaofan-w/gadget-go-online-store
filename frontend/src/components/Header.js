@@ -19,6 +19,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import logoImg from "../assets/img/logo/gadget-go-icon-white.png";
 import { useDispatch, useSelector } from "react-redux";
 import { cartCleared, selectAllCarts } from "../features/carts/cartsSlice";
+import { Grid } from "@mui/material";
 import {
   customerLogout,
   selectLoginCustomer,
@@ -311,109 +312,111 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-
-    <Box
+    <Grid
+      container
+      component="main"
       sx={{
-        // flexGrow: 1,
+        flexGrow: 1,
         height: "10vh",
         m: 0,
-        maxWidth: "100vw",
-        width: "100%",
-        boxSizing: "border-box",
+        // width: "100%",
+        // maxWidth: "100vw",
+        // boxSizing: "border-box",
         p: 0,
       }}
     >
-
-      <AppBar
-        position="fixed"
-        sx={{
-          height: "10vh",
-          m: 0,
-          p: 0,
-          // maxWidth: "100vw",
-          // width: "100%",
-          // boxSizing: "border-box",
-          boxShadow: "none",
-          display: "flex",
-          justfiyContent: "center",
-        }}
-      >
-        <Toolbar sx={{ height: "100%" }}>
-          <IconButton
-            disableRipple
-            onClick={async () => {
-              navigate("/");
-              const response = await fetchProducts();
-              dispatch(response);
-            }}
-          >
-            <img
-              src={logoImg}
-              alt="Gadget Go Logo"
-              style={{ width: 35, height: 30 }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                ml: 1,
-                color: "white",
-                display: { xs: "none", sm: "block" },
+      <Grid item xs={12}>
+        <AppBar
+          position="fixed"
+          sx={{
+            height: "10vh",
+            m: 0,
+            p: 0,
+            // maxWidth: "100vw",
+            // width: "100%",
+            // boxSizing: "border-box",
+            boxShadow: "none",
+            display: "flex",
+            justfiyContent: "center",
+          }}
+        >
+          <Toolbar sx={{ height: "100%" }}>
+            <IconButton
+              disableRipple
+              onClick={async () => {
+                navigate("/");
+                const response = await fetchProducts();
+                dispatch(response);
               }}
             >
-              Gadget Go!
-            </Typography>
-          </IconButton>
+              <img
+                src={logoImg}
+                alt="Gadget Go Logo"
+                style={{ width: 35, height: 30 }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  ml: 1,
+                  color: "white",
+                  display: { xs: "none", sm: "block" },
+                }}
+              >
+                Gadget Go!
+              </Typography>
+            </IconButton>
 
-          <SearchBar />
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {loginCustomer.length > 0 && (
-              <>
-                <IconButton
-                  disabled={
-                    carts.length === 0 || carts[0].products.length === 0
-                  }
-                  size="large"
-                  aria-label="show num of items in cart"
-                  sx={{ color: "secondary.light" }}
-                  onClick={() => navigate("/checkout")}
-                >
-                  <Badge badgeContent={getCartAmount()} color="error">
-                    <ShoppingBag />
-                  </Badge>
-                </IconButton>
-              </>
-            )}
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              sx={{ color: "secondary.light" }}
-            >
-              {loginCustomer.length > 0 ? <AccountCircle /> : <Login />}
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              sx={{ color: "secondary.light" }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-        {loginCustomer.length > 0
-          ? renderMobileMenu
-          : renderMobileMenuLoggedOut}
-        {loginCustomer.length > 0 ? renderMenu : renderMenuLoggedOut}
-      </AppBar>
-    </Box>
+            <SearchBar />
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {loginCustomer.length > 0 && (
+                <>
+                  <IconButton
+                    disabled={
+                      carts.length === 0 || carts[0].products.length === 0
+                    }
+                    size="large"
+                    aria-label="show num of items in cart"
+                    sx={{ color: "secondary.light" }}
+                    onClick={() => navigate("/checkout")}
+                  >
+                    <Badge badgeContent={getCartAmount()} color="error">
+                      <ShoppingBag />
+                    </Badge>
+                  </IconButton>
+                </>
+              )}
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                sx={{ color: "secondary.light" }}
+              >
+                {loginCustomer.length > 0 ? <AccountCircle /> : <Login />}
+              </IconButton>
+            </Box>
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                sx={{ color: "secondary.light" }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+          {loginCustomer.length > 0
+            ? renderMobileMenu
+            : renderMobileMenuLoggedOut}
+          {loginCustomer.length > 0 ? renderMenu : renderMenuLoggedOut}
+        </AppBar>
+      </Grid>
+    </Grid>
   );
 }

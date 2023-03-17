@@ -68,6 +68,7 @@ import { CheckoutContextProvider } from "./pages/checkout/CheckoutContext";
 import Spinner from "./components/Spinner";
 import SingleProductPage from "./pages/products/SingleProductPage";
 import LandingPage from "./pages/home/Home";
+import Scrollbar from "./components/Scrollbar";
 
 function App() {
   const dispatch = useDispatch();
@@ -205,74 +206,88 @@ function App() {
   }, [dispatch, loginCustomer]);
 
   return (
-    <Router>
-      <PrimarySearchAppBar />
-      {(productsStatus === "loading" ||
-        cartsStatus === "loading" ||
-        reviewsStatus === "loading") && <Spinner />}
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <React.Fragment>
-              <LandingPage />
-            </React.Fragment>
-          }
-        />
-        <Route path="/page/:currPage" element={<ProductsPage />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<SignupForm />} />
-        <Route path="/checkout" element={<CheckoutNavBar />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route
-          path="/products/:productId"
-          element={<SingleProductPage loginCustomer={loginCustomer} />}
-        />
-      </Routes>
-      {notification && notification.text && (
-        <Snackbar
-          open={notification.text.length > 0}
-          sx={{
-            width: "50%",
-            color: (theme) => theme.palette.white,
-            zIndex: 200,
-          }}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          action={
-            <IconButton
-              size="small"
-              color="inherit"
-              onClick={() => {
-                const response = dispatch(notificationClosed);
-                return response;
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "100vw",
+        overflow: "hidden",
+        boxSizing: "border-box",
+        m: 0,
+        p: 0,
+        overflow: "overlay",
+      }}
+    >
+      <Router>
+        <PrimarySearchAppBar />
+        {(productsStatus === "loading" ||
+          cartsStatus === "loading" ||
+          reviewsStatus === "loading") && <Spinner />}
+        <Scrollbar>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <React.Fragment>
+                  <LandingPage />
+                </React.Fragment>
+              }
+            />
+            <Route path="/page/:currPage" element={<ProductsPage />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/signup" element={<SignupForm />} />
+            <Route path="/checkout" element={<CheckoutNavBar />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route
+              path="/products/:productId"
+              element={<SingleProductPage loginCustomer={loginCustomer} />}
+            />
+          </Routes>
+        </Scrollbar>
+        {notification && notification.text && (
+          <Snackbar
+            open={notification.text.length > 0}
+            sx={{
+              width: "50%",
+              color: (theme) => theme.palette.white,
+              zIndex: 200,
+            }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            action={
+              <IconButton
+                size="small"
+                color="inherit"
+                onClick={() => {
+                  const response = dispatch(notificationClosed);
+                  return response;
+                }}
+              >
+                <Close fontSize="small" />
+              </IconButton>
+            }
+          >
+            <Alert
+              variant="filled"
+              severity={notification.severity}
+              onClose={(e, reason) => {
+                if (reason === "clickaway") {
+                  return;
+                }
+                dispatch(notificationClosed());
+              }}
+              sx={{
+                width: "100%",
+                color: (theme) => theme.palette.white,
               }}
             >
-              <Close fontSize="small" />
-            </IconButton>
-          }
-        >
-          <Alert
-            variant="filled"
-            severity={notification.severity}
-            onClose={(e, reason) => {
-              if (reason === "clickaway") {
-                return;
-              }
-              dispatch(notificationClosed());
-            }}
-            sx={{
-              width: "100%",
-              color: (theme) => theme.palette.white,
-            }}
-          >
-            {notification.text}
-          </Alert>
-        </Snackbar>
-      )}
-    </Router>
+              {notification.text}
+            </Alert>
+          </Snackbar>
+        )}
+      </Router>
+    </Box>
   );
 }
 
