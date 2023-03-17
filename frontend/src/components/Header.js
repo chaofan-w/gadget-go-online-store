@@ -317,7 +317,7 @@ export default function PrimarySearchAppBar() {
       component="main"
       sx={{
         flexGrow: 1,
-        height: "10vh",
+        height: "0vh",
         m: 0,
         // width: "100%",
         // maxWidth: "100vw",
@@ -345,8 +345,8 @@ export default function PrimarySearchAppBar() {
               disableRipple
               onClick={async () => {
                 navigate("/");
-                const response = await fetchProducts();
-                dispatch(response);
+                // const response = await fetchProducts();
+                // dispatch(response);
               }}
             >
               <img

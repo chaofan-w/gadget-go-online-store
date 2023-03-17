@@ -29,9 +29,9 @@ export default function AutocompleteInput({
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const CustomPopper = (props) => {
-    return <Popper {...props} placement="bottom" popperOptions={true} />;
-  };
+  // const CustomPopper = (props) => {
+  //   return <Popper {...props} placement="bottom" popperOptions />;
+  // };
   // usage of getOptionLabel, getOptionSelected(updated to isOptionEqualToValue)
   // https://stackoverflow.com/questions/62494672/what-is-getoptionselected-and-getoptionlabel-in-material-ui-with-an-example
 
@@ -89,7 +89,7 @@ export default function AutocompleteInput({
             },
           },
         }}
-        PopperComponent={CustomPopper}
+        // PopperComponent={CustomPopper}
       />
     </Box>
   );

@@ -218,11 +218,11 @@ function App() {
       }}
     >
       <Router>
-        <PrimarySearchAppBar />
-        {(productsStatus === "loading" ||
-          cartsStatus === "loading" ||
-          reviewsStatus === "loading") && <Spinner />}
         <Scrollbar>
+          <PrimarySearchAppBar />
+          {(productsStatus === "loading" ||
+            cartsStatus === "loading" ||
+            reviewsStatus === "loading") && <Spinner />}
           <Routes>
             <Route
               path="/"

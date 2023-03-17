@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   CssBaseline,
+  Button,
 } from "@mui/material";
 import {
   selectAllProducts,
@@ -31,14 +32,20 @@ const ProductsPage = () => {
   const body_locations = useSelector(selectAllBodyLocations);
   const reviews = useSelector(selectAllReviews);
   const carts = useSelector(selectAllCarts);
+  const [filter, setFilter] = React.useState({ all: "all" });
 
   const { currPage } = useParams();
 
   React.useEffect(() => {
     async function fetchData() {
       try {
-        // if (productsStatus === "idle") {
-        const response = await fetchProducts(currPage);
+        const filterKey = filter && Object.keys(filter)[0];
+        const filterValue = filter && filter[filterKey];
+        const response = await fetchProducts({
+          filterKey: filterKey,
+          filterValue: filterValue,
+          currPage: currPage,
+        });
         dispatch(response);
         // }
       } catch (err) {
@@ -46,11 +53,7 @@ const ProductsPage = () => {
       }
     }
     fetchData();
-  }, [
-    dispatch,
-    currPage,
-    // productsStatus
-  ]);
+  }, [dispatch, currPage, filter]);
 
   let content;
   if (productsStatus === "loading") {
@@ -118,10 +121,23 @@ const ProductsPage = () => {
     >
       <CssBaseline />
       <Grid item xs={12}>
+        <Button
+          onClick={async () => {
+            const filterKey = Object.keys(filter)[0];
+            await setFilter(
+              filterKey === "all" ? { companyId: "13334" } : { all: "all" }
+            );
+          }}
+          variant="contained"
+        >
+          filter
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
         {content}
       </Grid>
       <Grid item xs={12}>
-        <PaginationCompo />
+        <PaginationCompo filter={filter} />
       </Grid>
     </Grid>
   );

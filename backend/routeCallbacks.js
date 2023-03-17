@@ -18,13 +18,79 @@ const getLimitedDocsOfCollection = async (req, res) => {
   console.log(`${dbName} connected`);
   const { collectionName } = req.inputArg;
   try {
-    const currPage = req.params.currPage;
-    const allDocsOfCollection = await db
-      .collection(collectionName)
-      .find({})
-      .skip(parseInt(currPage - 1) * 10)
-      .limit(10)
-      .toArray();
+    const { filterKey, filterValue, currPage } = req.params;
+    let allDocsOfCollection;
+    if (filterKey === "all" && filterValue === "all") {
+      allDocsOfCollection = await db
+        .collection(collectionName)
+        .find({})
+        .skip(parseInt(currPage - 1) * 10)
+        .limit(10)
+        .toArray();
+    } else {
+      allDocsOfCollection = await db
+        .collection(collectionName)
+        .find({
+          $or: [
+            { [filterKey]: Number(filterValue) },
+            { [filterKey]: filterValue },
+          ],
+        })
+        .skip(parseInt(currPage - 1) * 10)
+        .limit(10)
+        .toArray();
+    }
+
+    if (allDocsOfCollection.length > 0) {
+      sendResponse(res, 200, allDocsOfCollection, "");
+    } else {
+      sendResponse(
+        res,
+        404,
+        null,
+        `not found in our ${collectionName} database`
+      );
+    }
+
+    // await client.close();
+    // console.log(`${dbName} disconnected`);
+    return;
+  } catch (err) {
+    sendResponse(res, 402, null, err.message);
+    // await client.close();
+    // console.log(`${dbName} disconnected`);
+    return;
+  } finally {
+    await client.close();
+    console.log(`${dbName} disconnected`);
+  }
+};
+const getAllDocsOfCollection = async (req, res) => {
+  // #####################important: const client = new MongoClient(MONGO_URI, options) inside the callback, to make sure, creates a new MongoDB client and connects to the database each time it is called. This ensures that a new session is created for each database request, which helps to avoid the MongoExpiredSessionError error. ######################################### //
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db(dbName);
+  await client.connect();
+  console.log(`${dbName} connected`);
+  const { collectionName } = req.inputArg;
+  try {
+    const { filterKey, filterValue } = req.params;
+    let allDocsOfCollection;
+    if (filterKey === "all" && filterValue === "all") {
+      allDocsOfCollection = await db
+        .collection(collectionName)
+        .find({})
+        .toArray();
+    } else {
+      allDocsOfCollection = await db
+        .collection(collectionName)
+        .find({
+          $or: [
+            { [filterKey]: Number(filterValue) },
+            { [filterKey]: filterValue },
+          ],
+        })
+        .toArray();
+    }
 
     if (allDocsOfCollection.length > 0) {
       sendResponse(res, 200, allDocsOfCollection, "");
@@ -92,43 +158,6 @@ const getManyDocsByIdsArr = async (req, res) => {
   }
 };
 
-const getAllDocsOfCollection = async (req, res) => {
-  // #####################important: const client = new MongoClient(MONGO_URI, options) inside the callback, to make sure, creates a new MongoDB client and connects to the database each time it is called. This ensures that a new session is created for each database request, which helps to avoid the MongoExpiredSessionError error. ######################################### //
-  const client = new MongoClient(MONGO_URI, options);
-  const db = client.db(dbName);
-  await client.connect();
-  console.log(`${dbName} connected`);
-  const { collectionName } = req.inputArg;
-  try {
-    const allDocsOfCollection = await db
-      .collection(collectionName)
-      .find({})
-      .toArray();
-
-    if (allDocsOfCollection.length > 0) {
-      sendResponse(res, 200, allDocsOfCollection, "");
-    } else {
-      sendResponse(
-        res,
-        404,
-        null,
-        `not found in our ${collectionName} database`
-      );
-    }
-
-    // await client.close();
-    // console.log(`${dbName} disconnected`);
-    return;
-  } catch (err) {
-    sendResponse(res, 402, null, err.message);
-    // await client.close();
-    // console.log(`${dbName} disconnected`);
-    return;
-  } finally {
-    await client.close();
-    console.log(`${dbName} disconnected`);
-  }
-};
 const deleteOneDocById = async (req, res) => {
   // #####################important: const client = new MongoClient(MONGO_URI, options) inside the callback, to make sure, creates a new MongoDB client and connects to the database each time it is called. This ensures that a new session is created for each database request, which helps to avoid the MongoExpiredSessionError error. ######################################### //
   const client = new MongoClient(MONGO_URI, options);

@@ -31,7 +31,7 @@ export default function SearchBar() {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/api/products");
+      const response = await fetch("/api/productsPage/all/all");
       const productsData = await response.json();
       if (productsData.status === 200) {
         setProducts(productsData.data);
