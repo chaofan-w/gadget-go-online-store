@@ -8,6 +8,7 @@ import cartsReducer from "../features/carts/cartsSlice";
 import loginCustomerReducer from "../features/loginCustomer/loginCustomerSlice";
 import notificationsReducer from "../features/notifications/notificationsSlice";
 import ordersReducer from "../features/orders/ordersSlice";
+import companiesReducer from "../features/compaines/companiesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,5 +20,6 @@ export const store = configureStore({
     loginCustomer: loginCustomerReducer,
     notifications: notificationsReducer,
     orders: ordersReducer,
+    companies: companiesReducer,
   },
 });
