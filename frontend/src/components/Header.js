@@ -332,7 +332,15 @@ export default function PrimarySearchAppBar() {
       }}
     >
       <CssBaseline />
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          "& .MuiAppBar-root": {
+            backgroundColor: "primary.main !important",
+          },
+        }}
+      >
         <AppBar
           position="fixed"
           sx={{
@@ -345,96 +353,84 @@ export default function PrimarySearchAppBar() {
             boxShadow: "none",
             display: "flex",
             justfiyContent: "center",
-            bgcolor: "primary.main !important",
+            // bgcolor: "primary.main !important",
           }}
         >
-          <Paper
-            variant="contained"
-            square
-            elevation={0}
-            sx={{
-              width: "100%",
-              maxWidth: "100vw",
-              height: "10vh",
-              bgcolor: "primary.main",
-            }}
-          >
-            <Toolbar sx={{ height: "100%" }}>
-              <IconButton
-                disableRipple
-                onClick={async () => {
-                  navigate("/");
-                  // const response = await fetchProducts();
-                  // dispatch(response);
+          <Toolbar sx={{ height: "100%" }}>
+            <IconButton
+              disableRipple
+              onClick={async () => {
+                navigate("/");
+                // const response = await fetchProducts();
+                // dispatch(response);
+              }}
+            >
+              <img
+                src={logoImg}
+                alt="Gadget Go Logo"
+                style={{ width: 35, height: 30 }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  ml: 1,
+                  color: "white",
+                  display: { xs: "none", sm: "block" },
                 }}
               >
-                <img
-                  src={logoImg}
-                  alt="Gadget Go Logo"
-                  style={{ width: 35, height: 30 }}
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    ml: 1,
-                    color: "white",
-                    display: { xs: "none", sm: "block" },
-                  }}
-                >
-                  Gadget Go!
-                </Typography>
-              </IconButton>
+                Gadget Go!
+              </Typography>
+            </IconButton>
 
-              <SearchBar />
-              <Box sx={{ flexGrow: 1 }} />
-              <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                {loginCustomer.length > 0 && (
-                  <>
-                    <IconButton
-                      disabled={
-                        carts.length === 0 || carts[0].products.length === 0
-                      }
-                      size="large"
-                      aria-label="show num of items in cart"
-                      sx={{ color: "secondary.light" }}
-                      onClick={() => navigate("/checkout")}
-                    >
-                      <Badge badgeContent={getCartAmount()} color="error">
-                        <ShoppingBag />
-                      </Badge>
-                    </IconButton>
-                  </>
-                )}
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  sx={{ color: "secondary.light" }}
-                >
-                  {loginCustomer.length > 0 ? <AccountCircle /> : <Login />}
-                </IconButton>
-              </Box>
-              <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show more"
-                  aria-controls={mobileMenuId}
-                  aria-haspopup="true"
-                  onClick={handleMobileMenuOpen}
-                  sx={{ color: "secondary.light" }}
-                >
-                  <MenuIcon />
-                </IconButton>
-              </Box>
-            </Toolbar>
-            {loginCustomer.length > 0
-              ? renderMobileMenu
-              : renderMobileMenuLoggedOut}
-            {loginCustomer.length > 0 ? renderMenu : renderMenuLoggedOut}
-          </Paper>
+            <SearchBar />
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {loginCustomer.length > 0 && (
+                <>
+                  <IconButton
+                    disabled={
+                      carts.length === 0 || carts[0].products.length === 0
+                    }
+                    size="large"
+                    aria-label="show num of items in cart"
+                    sx={{ color: "secondary.light" }}
+                    onClick={() => navigate("/checkout")}
+                  >
+                    <Badge badgeContent={getCartAmount()} color="error">
+                      <ShoppingBag />
+                    </Badge>
+                  </IconButton>
+                </>
+              )}
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                sx={{ color: "secondary.light" }}
+              >
+                {loginCustomer.length > 0 ? <AccountCircle /> : <Login />}
+              </IconButton>
+            </Box>
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                sx={{ color: "secondary.light" }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+          {loginCustomer.length > 0
+            ? renderMobileMenu
+            : renderMobileMenuLoggedOut}
+          {loginCustomer.length > 0 ? renderMenu : renderMenuLoggedOut}
         </AppBar>
       </Grid>
     </Grid>
