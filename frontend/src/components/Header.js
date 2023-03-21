@@ -346,7 +346,7 @@ export default function PrimarySearchAppBar() {
             boxShadow: "none",
             display: "flex",
             justfiyContent: "center",
-            bgcolor: "navy",
+            bgcolor: "primary.main !important",
           }}
         >
           <Toolbar sx={{ height: "100%" }}>
