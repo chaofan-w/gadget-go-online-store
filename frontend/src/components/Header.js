@@ -329,8 +329,10 @@ export default function PrimarySearchAppBar() {
         // maxWidth: "100vw",
         // boxSizing: "border-box",
         p: 0,
+        bgcolor: "none",
       }}
     >
+      <CssBaseline />
       <Grid item xs={12}>
         <AppBar
           position="fixed"
@@ -344,7 +346,7 @@ export default function PrimarySearchAppBar() {
             boxShadow: "none",
             display: "flex",
             justfiyContent: "center",
-            bgcolor: "primary.main",
+            bgcolor: "navy",
           }}
         >
           <Toolbar sx={{ height: "100%" }}>
