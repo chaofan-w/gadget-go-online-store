@@ -6,10 +6,25 @@ const initialState = {
   error: null,
 };
 
+export const fetchAllFilteredProducts = createAsyncThunk(
+  "products/fetchProducts",
+  async ({ filterKey, filterValue }) => {
+    const response = await fetch(
+      `/api/productsPage/${filterKey}/${filterValue}`
+    );
+    const productsData = await response.json();
+    if (productsData.status === 200) {
+      return productsData;
+    }
+    // console.log(productsData);
+  }
+);
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async (currPage) => {
-    const response = await fetch(`/api/productsPage/${currPage}`);
+  async ({ filterKey, filterValue, currPage }) => {
+    const response = await fetch(
+      `/api/productsPage/${filterKey}/${filterValue}/${currPage}`
+    );
     const productsData = await response.json();
     if (productsData.status === 200) {
       return productsData;

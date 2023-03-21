@@ -1,28 +1,32 @@
 import * as React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Pagination, PaginationItem } from "@mui/material";
+import { Button, Pagination, PaginationItem } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
-export default function PaginationCompo() {
-  const navigate = useNavigate();
-  const [totalProducts, setTotalProducts] = React.useState(0);
+export default function PaginationCompo({ filter }) {
   const [page, setPage] = React.useState(1);
-  const handleChange = (e, value) => {
-    setPage(value);
-    navigate(`/page/${page}`);
+  const [totalProducts, setTotalProducts] = React.useState(0);
+  const handleChange = async (e, value) => {
+    console.log(value);
+    await setPage(value);
   };
-  // console.log(page);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/api/products");
+      const filterKey = filter && Object.keys(filter)[0];
+      const filterValue = filter && filter[filterKey];
+      const response = await fetch(
+        `/api/productsPage/${filterKey}/${filterValue}`
+      );
       const productsData = await response.json();
       if (productsData.status === 200) {
         setTotalProducts(productsData.data.length);
       }
     };
     fetchData();
-  }, []);
+  }, [filter]);
+
+  console.log(page);
 
   return (
     <Stack spacing={2} sx={{ width: "60%", maxWidth: 500, mx: "auto", my: 4 }}>
@@ -35,7 +39,7 @@ export default function PaginationCompo() {
         renderItem={(item) => (
           <PaginationItem
             component={Link}
-            to={`/${item.page === 1 ? "" : `page/${item.page}`}`}
+            to={`/page/${item.page}`}
             {...item}
           />
         )}

@@ -8,7 +8,11 @@ import {
   Typography,
   Grid,
   CssBaseline,
+  Button,
+  Drawer,
+  IconButton,
 } from "@mui/material";
+import { FilterList, FilterListOff } from "@mui/icons-material";
 import {
   selectAllProducts,
   fetchProducts,
@@ -21,6 +25,8 @@ import { selectAllReviews } from "../../features/reviews/reviewsSlice";
 import { selectAllCarts } from "../../features/carts/cartsSlice";
 import { useParams } from "react-router-dom";
 import PaginationCompo from "../../components/PaginationCompo";
+import FilterDrawer from "../../components/FilterDrawer";
+import { selectAllCompanies } from "../../features/compaines/companiesSlice";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -31,14 +37,21 @@ const ProductsPage = () => {
   const body_locations = useSelector(selectAllBodyLocations);
   const reviews = useSelector(selectAllReviews);
   const carts = useSelector(selectAllCarts);
+  const companies = useSelector(selectAllCompanies);
+  const [filter, setFilter] = React.useState({ all: "all" });
 
   const { currPage } = useParams();
 
   React.useEffect(() => {
     async function fetchData() {
       try {
-        // if (productsStatus === "idle") {
-        const response = await fetchProducts(currPage);
+        const filterKey = filter && Object.keys(filter)[0];
+        const filterValue = filter && filter[filterKey];
+        const response = await fetchProducts({
+          filterKey: filterKey,
+          filterValue: filterValue,
+          currPage: currPage,
+        });
         dispatch(response);
         // }
       } catch (err) {
@@ -46,11 +59,7 @@ const ProductsPage = () => {
       }
     }
     fetchData();
-  }, [
-    dispatch,
-    currPage,
-    // productsStatus
-  ]);
+  }, [dispatch, currPage, filter]);
 
   let content;
   if (productsStatus === "loading") {
@@ -100,6 +109,28 @@ const ProductsPage = () => {
     content = <div>{error}</div>;
   }
 
+  const [filterDrawerState, setFilterDrawerState] = React.useState({
+    top: false,
+    left: false,
+  });
+
+  const toggleFilterDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setFilterDrawerState({ ...filterDrawerState, [anchor]: open });
+  };
+
+  console.log(filter);
+
+  const handleCloseFilter = async () => {
+    await setFilter({ all: "all" });
+  };
+
   return (
     <Grid
       container
@@ -117,12 +148,69 @@ const ProductsPage = () => {
       }}
     >
       <CssBaseline />
+      <Grid item xs={12} sx={{ position: "relative", textAlign: "right" }}>
+        {Object.keys(filter)[0] === "all" ? (
+          <IconButton
+            size="large"
+            sx={{ color: "primary.main" }}
+            onClick={toggleFilterDrawer("top", true)}
+          >
+            <FilterList />
+          </IconButton>
+        ) : (
+          <IconButton
+            size="large"
+            sx={{ color: "primary.main" }}
+            onClick={handleCloseFilter}
+          >
+            <FilterListOff />
+          </IconButton>
+        )}
+      </Grid>
       <Grid item xs={12}>
         {content}
       </Grid>
       <Grid item xs={12}>
-        <PaginationCompo />
+        <PaginationCompo filter={filter} />
       </Grid>
+      <Drawer
+        anchor={"top"}
+        open={filterDrawerState["top"]}
+        onClose={toggleFilterDrawer("top", false)}
+      >
+        <Box
+          sx={{
+            minHeight: "80vh",
+            p: 3,
+            // mt: "10vh",
+          }}
+        >
+          <FilterDrawer
+            filterDrawerState={filterDrawerState}
+            setFilterDrawerState={setFilterDrawerState}
+            setFilter={setFilter}
+            filterSource={categories}
+            filterName={"Categories"}
+            filterKey={"category"}
+          />
+          <FilterDrawer
+            filterDrawerState={filterDrawerState}
+            setFilterDrawerState={setFilterDrawerState}
+            setFilter={setFilter}
+            filterSource={body_locations}
+            filterName={"Body Locations"}
+            filterKey={"body_location"}
+          />
+          <FilterDrawer
+            filterDrawerState={filterDrawerState}
+            setFilterDrawerState={setFilterDrawerState}
+            setFilter={setFilter}
+            filterSource={companies}
+            filterName={"Companies"}
+            filterKey={"companyId"}
+          />
+        </Box>
+      </Drawer>
     </Grid>
   );
 };

@@ -28,6 +28,7 @@
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: rgba(103, 88, 170, 0.8) #f1f1f1;
+  padding: 0;
 }
 
 /* Hide the scrollbar when not in use */

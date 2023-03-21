@@ -56,6 +56,18 @@ router.get(
 //   getMidWareGen({ collectionName: "body_locations" }),
 //   getDocByIdFromCollection
 // );
+
+// ################## companies ############################################
+// ################## companies ############################################
+// ################## companies ############################################
+// ################## companies ############################################
+
+router.get(
+  "/api/companies",
+  getMidWareGen({ collectionName: "companies" }),
+  getAllDocsOfCollection
+);
+
 // ################## carts ############################################
 // ################## carts ############################################
 // ################## carts ############################################
@@ -84,12 +96,12 @@ router.get(
 // ################## products ##############################################
 
 router.get(
-  "/api/products",
+  "/api/productsPage/:filterKey/:filterValue",
   getMidWareGen({ collectionName: "products" }),
   getAllDocsOfCollection
 );
 router.get(
-  "/api/productsPage/:currPage",
+  "/api/productsPage/:filterKey/:filterValue/:currPage",
   getMidWareGen({ collectionName: "products" }),
   // getAllDocsOfCollection
   getLimitedDocsOfCollection

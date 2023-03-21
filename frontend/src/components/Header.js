@@ -13,8 +13,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import { CssBaseline } from "@mui/material";
-import { ShoppingBag, Login, Logout, LocalShipping } from "@mui/icons-material";
+import { CssBaseline, Drawer } from "@mui/material";
+import {
+  ShoppingBag,
+  Login,
+  Logout,
+  LocalShipping,
+  FilterList,
+} from "@mui/icons-material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logoImg from "../assets/img/logo/gadget-go-icon-white.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -317,7 +323,7 @@ export default function PrimarySearchAppBar() {
       component="main"
       sx={{
         flexGrow: 1,
-        height: "10vh",
+        height: "0vh",
         m: 0,
         // width: "100%",
         // maxWidth: "100vw",
@@ -345,8 +351,8 @@ export default function PrimarySearchAppBar() {
               disableRipple
               onClick={async () => {
                 navigate("/");
-                const response = await fetchProducts();
-                dispatch(response);
+                // const response = await fetchProducts();
+                // dispatch(response);
               }}
             >
               <img

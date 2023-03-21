@@ -37,6 +37,12 @@ import {
   fetchBodyLocations,
   selectAllBodyLocations,
 } from "./features/body_locations/bodyLocationsSlice";
+
+import {
+  fetchCompanies,
+  selectAllCompanies,
+} from "./features/compaines/companiesSlice";
+
 import {
   fetchReviews,
   selectAllReviews,
@@ -81,6 +87,8 @@ function App() {
     (state) => state.body_locations.status
   );
   const body_locations = useSelector(selectAllBodyLocations);
+  const companiesStatus = useSelector((state) => state.companies.status);
+
   const reviews = useSelector(selectAllReviews);
   const reviewsStatus = useSelector((state) => state.reviews.status);
   const carts = useSelector(selectAllCarts);
@@ -131,23 +139,6 @@ function App() {
     fetchLoginCustomerData();
   }, []);
 
-  // React.useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       // if (productsStatus === "idle") {
-  //       const response = await fetchProducts();
-  //       dispatch(response);
-  //       // }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   fetchData();
-  // }, [
-  //   dispatch,
-  //   // productsStatus
-  // ]);
-
   React.useEffect(() => {
     async function fetchCateData() {
       try {
@@ -188,6 +179,19 @@ function App() {
     }
     fetchBodyData();
   }, [dispatch, bodyLocationsStatus]);
+  React.useEffect(() => {
+    async function fetchCompaniesData() {
+      try {
+        if (companiesStatus === "idle") {
+          const response = await fetchCompanies();
+          dispatch(response);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchCompaniesData();
+  }, [dispatch, companiesStatus]);
 
   React.useEffect(() => {
     async function fetchCartsData() {
@@ -218,11 +222,11 @@ function App() {
       }}
     >
       <Router>
-        <PrimarySearchAppBar />
-        {(productsStatus === "loading" ||
-          cartsStatus === "loading" ||
-          reviewsStatus === "loading") && <Spinner />}
         <Scrollbar>
+          <PrimarySearchAppBar />
+          {(productsStatus === "loading" ||
+            cartsStatus === "loading" ||
+            reviewsStatus === "loading") && <Spinner />}
           <Routes>
             <Route
               path="/"

@@ -10,7 +10,7 @@ import {
   CssBaseline,
 } from "@mui/material";
 import ProductsPage from "../products/ProductsPage";
-
+import { useNavigate } from "react-router-dom";
 const bkImage_horizontal =
   "https://www.fitbit.com/global/content/dam/fitbit/global/marketing-pages/home/tablet/home-quiz-compare-banner-tablet.jpg";
 
@@ -18,29 +18,9 @@ const bkImage_vertical =
   "https://images.unsplash.com/photo-1522273500616-6b4757e4c184?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3387&q=80";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   return (
-    <Grid
-      container
-      component="main"
-      sx={{
-        // width: "100%",
-        // maxWidth: "100vw",
-        // boxSizing: "border-box",
-        height: "fit-content",
-        minHeight: "90vh",
-        // // border: "1px solid red",
-        // // backgroundImage: {
-        // //   xs: `url(${bkImage_vertical})`,
-        // //   sm: `url(${bkImage_horizontal})`,
-        // // },
-        // // backgroundSize: "cover",
-        // // backgroundPosition: "center left",
-        // border: "none",
-        // p: 0,
-        // m: 0,
-        overflow: "overlay",
-      }}
-    >
+    <Grid container component="main">
       <CssBaseline />
 
       <Grid item xs={12}>
@@ -123,6 +103,7 @@ const LandingPage = () => {
               off Today!
             </Typography>
             <Button
+              onClick={() => navigate("/page/1")}
               variant={"contained"}
               sx={{
                 // ml: { sx: 0, sm: "70%", md: "70%" },
@@ -135,9 +116,9 @@ const LandingPage = () => {
           </Stack>
         </Paper>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <ProductsPage />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };
