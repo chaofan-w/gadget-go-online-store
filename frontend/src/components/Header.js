@@ -23,6 +23,7 @@ import {
 } from "@mui/icons-material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logoImg from "../assets/img/logo/gadget-go-icon-white.png";
+import logoImgColor from "../assets/img/logo/gadget-go-icon.png";
 import { useDispatch, useSelector } from "react-redux";
 import { cartCleared, selectAllCarts } from "../features/carts/cartsSlice";
 import { Grid } from "@mui/material";
@@ -359,7 +360,7 @@ export default function PrimarySearchAppBar() {
               }}
             >
               <img
-                src={logoImg}
+                src={logoImgColor}
                 alt="Gadget Go Logo"
                 style={{ width: 35, height: 30 }}
               />
@@ -367,7 +368,8 @@ export default function PrimarySearchAppBar() {
                 variant="h6"
                 sx={{
                   ml: 1,
-                  color: "white",
+                  // color: "white",
+                  color: "primary.main",
                   display: { xs: "none", sm: "block" },
                 }}
               >
