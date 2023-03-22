@@ -340,6 +340,7 @@ export default function PrimarySearchAppBar() {
             justfiyContent: "center",
             bgcolor: "primary.main",
             zIndex: 200,
+            backgroundAttachment: "scroll",
           }}
         >
           <Toolbar sx={{ height: "100%" }}>
