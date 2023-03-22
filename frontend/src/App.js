@@ -236,7 +236,8 @@ function App() {
               </React.Fragment>
             }
           />
-          <Route path="/page/:currPage" element={<ProductsPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          {/* <Route path="/page/:currPage" element={<ProductsPage />} /> */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/checkout" element={<CheckoutNavBar />} />

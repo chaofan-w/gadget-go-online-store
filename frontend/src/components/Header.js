@@ -38,6 +38,8 @@ import {
   selectAllProducts,
 } from "../features/products/productsSlice";
 
+import { filterReset } from "../features/productsFilter/productsFilterSlice";
+
 export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -113,7 +115,7 @@ export default function PrimarySearchAppBar() {
             await dispatch(cartCleared());
             await localStorage.clear();
             await dispatch(customerLogout());
-            navigate("/");
+            navigate("/products");
             handleMenuClose();
           }}
         >
@@ -348,7 +350,8 @@ export default function PrimarySearchAppBar() {
               disableRipple
               onClick={async () => {
                 // navigate("/");
-                navigate("/page/1");
+                await dispatch(filterReset());
+                navigate("/products");
               }}
             >
               <img

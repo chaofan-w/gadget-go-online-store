@@ -103,7 +103,7 @@ const LandingPage = () => {
               off Today!
             </Typography>
             <Button
-              onClick={() => navigate("/page/1")}
+              onClick={() => navigate("/products")}
               variant={"contained"}
               sx={{
                 // ml: { sx: 0, sm: "70%", md: "70%" },

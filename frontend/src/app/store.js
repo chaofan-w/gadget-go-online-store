@@ -9,6 +9,7 @@ import loginCustomerReducer from "../features/loginCustomer/loginCustomerSlice";
 import notificationsReducer from "../features/notifications/notificationsSlice";
 import ordersReducer from "../features/orders/ordersSlice";
 import companiesReducer from "../features/compaines/companiesSlice";
+import productsFilterReducer from "../features/productsFilter/productsFilterSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,5 +22,6 @@ export const store = configureStore({
     notifications: notificationsReducer,
     orders: ordersReducer,
     companies: companiesReducer,
+    productsFilter: productsFilterReducer,
   },
 });
