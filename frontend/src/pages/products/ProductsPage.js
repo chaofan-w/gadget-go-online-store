@@ -27,6 +27,11 @@ import { useParams } from "react-router-dom";
 import PaginationCompo from "../../components/PaginationCompo";
 import FilterDrawer from "../../components/FilterDrawer";
 import { selectAllCompanies } from "../../features/compaines/companiesSlice";
+import {
+  filterUpdated,
+  filterReset,
+  selectAllProductsFilter,
+} from "../../features/productsFilter/productsFilterSlice";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -38,20 +43,21 @@ const ProductsPage = () => {
   const reviews = useSelector(selectAllReviews);
   const carts = useSelector(selectAllCarts);
   const companies = useSelector(selectAllCompanies);
-  const [filter, setFilter] = React.useState({ all: "all" });
+  const filter = useSelector(selectAllProductsFilter);
+  // const [filter, setFilter] = React.useState({ all: "all" });
 
   const { currPage } = useParams();
 
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const filterKey = filter && Object.keys(filter)[0];
-        const filterValue = filter && filter[filterKey];
-        const response = await fetchProducts({
-          filterKey: filterKey,
-          filterValue: filterValue,
-          currPage: currPage,
-        });
+        // await dispatch(
+        //   filterUpdated({
+        //     ...filter,
+        //     currPage: currPage,
+        //   })
+        // );
+        const response = await fetchProducts(filter);
         dispatch(response);
         // }
       } catch (err) {
@@ -59,7 +65,25 @@ const ProductsPage = () => {
       }
     }
     fetchData();
-  }, [dispatch, currPage, filter]);
+  }, [filter, dispatch]);
+  // React.useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const filterKey = filter && Object.keys(filter)[0];
+  //       const filterValue = filter && filter[filterKey];
+  //       const response = await fetchProducts({
+  //         filterKey: filterKey,
+  //         filterValue: filterValue,
+  //         currPage: currPage,
+  //       });
+  //       dispatch(response);
+  //       // }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   fetchData();
+  // }, [dispatch, currPage, filter]);
 
   let content;
   if (productsStatus === "loading") {
@@ -125,10 +149,9 @@ const ProductsPage = () => {
     setFilterDrawerState({ ...filterDrawerState, [anchor]: open });
   };
 
-  console.log(filter);
-
-  const handleCloseFilter = async () => {
-    await setFilter({ all: "all" });
+  const handleCloseFilter = () => {
+    // await setFilter({ all: "all" });
+    dispatch(filterReset());
   };
 
   return (
@@ -149,7 +172,7 @@ const ProductsPage = () => {
     >
       <CssBaseline />
       <Grid item xs={12} sx={{ position: "relative", textAlign: "right" }}>
-        {Object.keys(filter)[0] === "all" ? (
+        {filter.filterKey === "all" ? (
           <IconButton
             size="large"
             sx={{ color: "primary.main" }}
@@ -188,7 +211,7 @@ const ProductsPage = () => {
           <FilterDrawer
             filterDrawerState={filterDrawerState}
             setFilterDrawerState={setFilterDrawerState}
-            setFilter={setFilter}
+            // setFilter={setFilter}
             filterSource={categories}
             filterName={"Categories"}
             filterKey={"category"}
@@ -196,7 +219,7 @@ const ProductsPage = () => {
           <FilterDrawer
             filterDrawerState={filterDrawerState}
             setFilterDrawerState={setFilterDrawerState}
-            setFilter={setFilter}
+            // setFilter={setFilter}
             filterSource={body_locations}
             filterName={"Body Locations"}
             filterKey={"body_location"}
@@ -204,7 +227,7 @@ const ProductsPage = () => {
           <FilterDrawer
             filterDrawerState={filterDrawerState}
             setFilterDrawerState={setFilterDrawerState}
-            setFilter={setFilter}
+            // setFilter={setFilter}
             filterSource={companies}
             filterName={"Companies"}
             filterKey={"companyId"}

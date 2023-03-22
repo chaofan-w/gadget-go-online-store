@@ -1,4 +1,11 @@
 import * as React from "react";
+import {
+  filterUpdated,
+  filterReset,
+  selectAllProductsFilter,
+} from "../features/productsFilter/productsFilterSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../features/products/productsSlice";
 
 import {
   Grid,
@@ -17,6 +24,9 @@ export default function FilterDrawer({
   filterName,
   filterKey,
 }) {
+  const dispatch = useDispatch();
+  const filter = useSelector(selectAllProductsFilter);
+
   return (
     <Grid container component="main" sx={{ my: 3 }}>
       <CssBaseline />
@@ -28,10 +38,10 @@ export default function FilterDrawer({
         </Grid>
         <Grid item xs={12} sm={10} container>
           {filterSource &&
-            filterSource.map((filter) => (
-              <Grid key={filter._id} item xs={4} sm={3} md={2} lg={1}>
+            filterSource.map((instance) => (
+              <Grid key={instance._id} item xs={4} sm={3} md={2} lg={1}>
                 <Button
-                  value={filter._id}
+                  value={instance._id}
                   sx={{
                     width: "100%",
                     height: 20,
@@ -46,7 +56,13 @@ export default function FilterDrawer({
                   }}
                   onClick={async (e) => {
                     // console.log(e.currentTarget.value);
-                    await setFilter({ [filterKey]: e.currentTarget.value });
+                    await dispatch(
+                      filterUpdated({
+                        filterKey: filterKey,
+                        filterValue: e.currentTarget.value,
+                        currPage: 1,
+                      })
+                    );
                     setFilterDrawerState({ ...filterDrawerState, top: false });
                   }}
                 >
@@ -65,8 +81,8 @@ export default function FilterDrawer({
                     }}
                   >
                     {filterKey === "companyId"
-                      ? filter.name
-                      : filter[filterKey]}
+                      ? instance.name
+                      : instance[filterKey]}
                   </Typography>
                 </Button>
               </Grid>
