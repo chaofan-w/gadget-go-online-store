@@ -140,9 +140,9 @@ const ProductsPage = () => {
         // maxWidth: "100vw",
         // boxSizing: "border-box",
         m: 0,
-        minHeight: "90vh",
+        minHeight: "100vh",
         px: 5,
-        pt: "2vh",
+        pt: "12vh",
         pb: "2vh",
         bgcolor: "primary.light",
       }}

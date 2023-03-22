@@ -4,7 +4,9 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgb(254, 254, 254, 0.5);
+  position: absolute;
+  top: 10vh;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -14,8 +16,7 @@
 
 /* Hide the scrollbar when not in use */
 ::-webkit-scrollbar-thumb:hover {
-  /* background-color: rgba(103, 88, 170, 0.8); */
-  background-color: none;
+  background-color: rgba(103, 88, 170, 1);
 }
 
 /* Style the overlay */

@@ -30,7 +30,7 @@ const LandingPage = () => {
           sx={{
             // width: "100vw",
             // maxWidth: "100vw",
-            minHeight: "90vh",
+            minHeight: "100vh",
             backgroundImage: {
               xs: `url(${bkImage_vertical})`,
               sm: `url(${bkImage_horizontal})`,

@@ -347,7 +347,8 @@ export default function PrimarySearchAppBar() {
             <IconButton
               disableRipple
               onClick={async () => {
-                navigate("/");
+                // navigate("/");
+                navigate("/page/1");
               }}
             >
               <img

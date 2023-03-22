@@ -87,7 +87,8 @@ export default function SingleProductPage({ loginCustomer }) {
             // minWidth: "100vw",
             // minHeight: "100vh",
             height: "fit-content",
-            pt: "2vh",
+            minHeight: "100vh",
+            pt: "12vh",
             pb: "2vh",
             bgcolor: "primary.light",
           }}

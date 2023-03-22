@@ -380,8 +380,8 @@ export default function OrdersPage() {
             width: "100%",
             px: 5,
             bgcolor: "primary.light",
-            minHeight: "90vh",
-            pt: "2vh",
+            minHeight: "100vh",
+            pt: "12vh",
             pb: "2vh",
           }}
         >
