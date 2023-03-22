@@ -222,31 +222,31 @@ function App() {
       }}
     >
       <Router>
-        <Scrollbar>
-          <PrimarySearchAppBar />
-          {(productsStatus === "loading" ||
-            cartsStatus === "loading" ||
-            reviewsStatus === "loading") && <Spinner />}
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <React.Fragment>
-                  <LandingPage />
-                </React.Fragment>
-              }
-            />
-            <Route path="/page/:currPage" element={<ProductsPage />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/signup" element={<SignupForm />} />
-            <Route path="/checkout" element={<CheckoutNavBar />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route
-              path="/products/:productId"
-              element={<SingleProductPage loginCustomer={loginCustomer} />}
-            />
-          </Routes>
-        </Scrollbar>
+        {/* <Scrollbar> */}
+        <PrimarySearchAppBar />
+        {(productsStatus === "loading" ||
+          cartsStatus === "loading" ||
+          reviewsStatus === "loading") && <Spinner />}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <React.Fragment>
+                <LandingPage />
+              </React.Fragment>
+            }
+          />
+          <Route path="/page/:currPage" element={<ProductsPage />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/checkout" element={<CheckoutNavBar />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route
+            path="/products/:productId"
+            element={<SingleProductPage loginCustomer={loginCustomer} />}
+          />
+        </Routes>
+        {/* </Scrollbar> */}
         {notification && notification.text && (
           <Snackbar
             open={notification.text.length > 0}
