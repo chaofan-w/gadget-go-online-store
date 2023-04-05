@@ -247,7 +247,7 @@ const CheckoutNavBar = () => {
           flexDirection: { xs: "row", sm: "column" },
           //min-height is set to 150vh, which will ensure that the background color covers a length greater than 100vh.
           // minHeight: "150vh",
-          pt: 5,
+          pt: "15vh",
           minWidth: 50,
           minHeight: "90vh",
           m: 0,

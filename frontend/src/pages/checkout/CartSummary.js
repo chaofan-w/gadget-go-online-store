@@ -101,7 +101,7 @@ const CartSummary = ({
   }, [discount, cart]);
 
   return (
-    <Grid container sx={{ width: "100%", minWidth: 360 }}>
+    <Grid container sx={{ width: "100%", minWidth: 360, minHeight: "100vh" }}>
       <Grid item xs={12} md={8}>
         {productsInCart &&
           productsInCart.map((product) => (
