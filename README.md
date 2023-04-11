@@ -1,24 +1,8 @@
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-<!-- [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url] -->
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/chaofan-w/gadget-go-online-store">
-    <img src="./src/assets/img/logo/gadget-go-logo-white.png" alt="Logo" width="150" height="120">
+    <img src="./frontend/src/assets/img/logo/gadget-go-logo.png" alt="Logo" width="150" height="120">
   </a>
 
   <h3 align="center">  
@@ -46,6 +30,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#data-structure">Data Structure</a></li>
       </ul>
     </li>
     <li>
@@ -55,12 +40,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -106,7 +88,7 @@ Features:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Database
+### Data Structure
 
 - carts:
 
@@ -295,7 +277,7 @@ liveDemo Link: https://gadget-go-go.netlify.app/
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/chaofanwu/
-[product-screenshot]: ./src/assets/listingPage.png
+[product-screenshot]: ./frontend/src/assets/listingPage.png
 [mongodb.js]: https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
 [mongodb-url]: https://www.mongodb.com/
 [react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
