@@ -72,7 +72,7 @@ Features:
   - rating/commenting product bought
   - filter full order list by date/quantity/discount/total price/status
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 ### Built With
 
@@ -86,7 +86,7 @@ Features:
 - [![netlify][netlify.js]][netlify-url]
 - [![heroku][heroku.js]][heroku-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 ### Data Structure
 
@@ -233,7 +233,7 @@ To install this application, please follow these steps:
    MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 
@@ -250,7 +250,7 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 <!-- LICENSE -->
 
@@ -258,7 +258,7 @@ Don't forget to give the project a star! Thanks again!
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 <!-- CONTACT -->
 
@@ -273,7 +273,7 @@ Project Link: [https://github.com/chaofan-w/gadget-go-online-store](https://gith
 
 liveDemo Link: https://gadget-go-go.netlify.app/
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#about-the-project">back to top</a>)</p>
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/chaofanwu/
